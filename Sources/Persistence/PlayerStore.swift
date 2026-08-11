@@ -34,7 +34,7 @@ final class PlayerStore: ObservableObject {
 
     private func load() {
         guard let data = try? Data(contentsOf: fileURL) else { return }
-        if let decoded = try? JSONDecoder().decode([Player].self, from: data) {
+        if let decoded = try? JSONDecoder().decodeResilientArray(Player.self, from: data) {
             players = decoded
         }
     }

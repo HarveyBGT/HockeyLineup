@@ -61,6 +61,32 @@ struct LineupCard: Identifiable, Codable, Equatable {
         self.playerIDs = Array(repeating: nil, count: formation.positions.count)
     }
 
+    // Manual Decodable: every field this card has gained across redesigns
+    // (kit colours, bench, coach, umpires...) falls back to its default
+    // rather than failing the decode and resetting every saved lineup —
+    // this struct has changed shape more than any other model in the app.
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+        clubName = try container.decodeIfPresent(String.self, forKey: .clubName) ?? MyTeam.name
+        opposition = try container.decodeIfPresent(String.self, forKey: .opposition) ?? ""
+        matchDate = try container.decodeIfPresent(Date.self, forKey: .matchDate)
+        isHome = try container.decodeIfPresent(Bool.self, forKey: .isHome) ?? true
+        linkedFixtureID = try container.decodeIfPresent(String.self, forKey: .linkedFixtureID)
+        formationID = try container.decodeIfPresent(String.self, forKey: .formationID) ?? Formation.presets[0].id
+        playerIDs = try container.decodeIfPresent([UUID?].self, forKey: .playerIDs)
+            ?? Array(repeating: nil, count: Formation.preset(id: formationID).positions.count)
+        homeColorHex = try container.decodeIfPresent(String.self, forKey: .homeColorHex) ?? "#1C63A8"
+        awayColorHex = try container.decodeIfPresent(String.self, forKey: .awayColorHex) ?? "#FFFFFF"
+        pitchVenueID = try container.decodeIfPresent(String.self, forKey: .pitchVenueID) ?? MyTeam.pitchVenueID
+        benchPlayerIDs = try container.decodeIfPresent([UUID?].self, forKey: .benchPlayerIDs) ?? Array(repeating: nil, count: 5)
+        coachName = try container.decodeIfPresent(String.self, forKey: .coachName) ?? ""
+        umpireOneName = try container.decodeIfPresent(String.self, forKey: .umpireOneName) ?? ""
+        umpireTwoName = try container.decodeIfPresent(String.self, forKey: .umpireTwoName) ?? ""
+        createdAt = try container.decodeIfPresent(Date.self, forKey: .createdAt) ?? Date()
+        updatedAt = try container.decodeIfPresent(Date.self, forKey: .updatedAt) ?? Date()
+    }
+
     /// Keeps playerIDs aligned with the current formation's position count.
     mutating func conformPlayerIDsToFormation() {
         let count = formation.positions.count

@@ -1,8 +1,8 @@
 import SwiftUI
 
 /// Prefills a lineup's opposition/date/home-or-away from a real scraped
-/// league fixture instead of typing it by hand. Currently seeded with just
-/// Barnes M3's division — see `LeagueData`.
+/// league fixture instead of typing it by hand. Seeded with Barnes M3's full
+/// 22-round 2026-2027 season — see `LeagueData`.
 struct FixturePickerView: View {
     var onSelect: (Fixture) -> Void
 
@@ -19,7 +19,7 @@ struct FixturePickerView: View {
                     ContentUnavailableView(
                         "No Fixtures Yet",
                         systemImage: "calendar.badge.exclamationmark",
-                        description: Text("The fixture database only covers a few rounds so far.")
+                        description: Text("No known fixtures for this team yet.")
                     )
                 } else {
                     List {

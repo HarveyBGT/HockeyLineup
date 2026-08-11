@@ -37,7 +37,7 @@ final class LineupStore: ObservableObject {
         guard let data = try? Data(contentsOf: fileURL) else { return }
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-        if let decoded = try? decoder.decode([LineupCard].self, from: data) {
+        if let decoded = try? decoder.decodeResilientArray(LineupCard.self, from: data) {
             cards = decoded
         }
     }

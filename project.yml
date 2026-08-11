@@ -37,11 +37,27 @@ targets:
         CURRENT_PROJECT_VERSION: "1"
         GENERATE_INFOPLIST_FILE: true
 
+  HockeyLineupTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: Tests/HockeyLineupTests
+    dependencies:
+      - target: HockeyLineup
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: true
+
 schemes:
   HockeyLineup:
     build:
       targets:
         HockeyLineup: all
+        HockeyLineupTests: [test]
+    test:
+      config: Debug
+      targets:
+        - HockeyLineupTests
     run:
       config: Debug
     archive:

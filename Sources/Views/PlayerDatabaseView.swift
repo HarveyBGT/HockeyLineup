@@ -18,12 +18,13 @@ struct PlayerDatabaseView: View {
             Group {
                 if playerStore.players.isEmpty {
                     ContentUnavailableView {
-                        Label("No Players Yet", systemImage: "person.3")
+                        Label("No Players Yet", systemImage: "person.3.fill")
                     } description: {
                         Text("Add players to your squad database to reuse them across lineups.")
                     } actions: {
                         Button("Add Player") { showNewPlayerForm = true }
                             .modifier(ProminentGlassButtonModifier())
+                            .tint(Theme.fortressBlue)
                     }
                 } else {
                     List {
@@ -49,7 +50,9 @@ struct PlayerDatabaseView: View {
                     Button {
                         showNewPlayerForm = true
                     } label: {
-                        Image(systemName: "plus")
+                        Image(systemName: "plus.circle.fill")
+                            .font(.system(size: 20))
+                            .symbolRenderingMode(.hierarchical)
                     }
                 }
             }
