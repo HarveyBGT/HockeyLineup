@@ -266,7 +266,11 @@ struct LineupEditorView: View {
                 card.matchDate = fixture.date
                 card.isHome = fixture.isHome(for: MyTeam.teamID)
                 card.linkedFixtureID = fixture.id
-                card.pitchVenueID = card.isHome ? MyTeam.pitchVenueID : card.pitchVenueID
+                // Away fixtures clear the venue rather than leaving Barnes'
+                // own ground set — we don't have real pitch data for most
+                // opponents yet, so `venueText` falls back to naming them
+                // instead of showing the wrong specific ground.
+                card.pitchVenueID = card.isHome ? MyTeam.pitchVenueID : nil
             }
         }
         .sheet(isPresented: Binding(

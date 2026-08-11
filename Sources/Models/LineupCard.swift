@@ -82,6 +82,36 @@ struct LineupCard: Identifiable, Codable, Equatable {
         return oppositionText.isEmpty ? trailingText : "\(oppositionText) — \(trailingText)"
     }
 
+    /// Match date only, e.g. "Sat 19 Sep". Empty if not set.
+    var matchDateText: String {
+        guard let matchDate else { return "" }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE d MMM"
+        return formatter.string(from: matchDate)
+    }
+
+    /// Kick-off time only, e.g. "14:00". Empty if not set.
+    var kickoffTimeText: String {
+        guard let matchDate else { return "" }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter.string(from: matchDate)
+    }
+
+    /// Where the match is being played — ground name and location for home
+    /// fixtures (we know Barnes' own grounds); a plain fallback naming the
+    /// opposition for away fixtures, since most opponents' grounds aren't in
+    /// the curated pitch catalog yet. Empty if there's nothing to say.
+    var venueText: String {
+        if isHome {
+            let venue = pitchVenue
+            guard venue.id != PitchVenue.classicGreen.id else { return "" }
+            return "\(venue.groundName), \(venue.location)"
+        } else {
+            return opposition.isEmpty ? "" : "\(opposition)'s ground"
+        }
+    }
+
     init(formation: Formation) {
         self.formationID = formation.id
         self.playerIDs = Array(repeating: nil, count: formation.positions.count)

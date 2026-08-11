@@ -28,31 +28,79 @@ struct ExportCardView: View {
 
     private var hasBenchOrOfficials: Bool { !benchPlayers.isEmpty || !officialsLines.isEmpty }
 
+    private var hasMatchDetails: Bool {
+        !card.matchDateText.isEmpty || !card.kickoffTimeText.isEmpty || !card.venueText.isEmpty
+    }
+
+    private func matchDetail(icon: String, text: String) -> some View {
+        HStack(spacing: 4) {
+            Image(systemName: icon)
+                .font(.system(size: 10, weight: .semibold))
+            Text(text)
+                .font(.system(size: 12, weight: .semibold))
+                .lineLimit(1)
+        }
+        .foregroundColor(.white.opacity(0.85))
+    }
+
+    private var kitDetail: some View {
+        HStack(spacing: 4) {
+            Circle()
+                .fill(color)
+                .frame(width: 10, height: 10)
+                .overlay(Circle().stroke(.white.opacity(0.6), lineWidth: 1))
+            Text("Kit")
+                .font(.system(size: 12, weight: .semibold))
+        }
+        .foregroundColor(.white.opacity(0.85))
+    }
+
     var body: some View {
         VStack(spacing: 18) {
             VStack(spacing: 0) {
-                HStack(spacing: 12) {
-                    ClubCrestView(crest: card.myCrest, size: 40)
+                VStack(alignment: .leading, spacing: 14) {
+                    HStack(spacing: 12) {
+                        ClubCrestView(crest: card.myCrest, size: 40)
 
-                    VStack(alignment: .leading, spacing: 3) {
-                        Text(card.clubName.isEmpty ? "Hockey Club" : card.clubName)
-                            .font(.system(size: 21, weight: .bold, design: .rounded))
-                            .foregroundColor(.white)
-                        if !card.matchSummaryText.isEmpty {
-                            Text(card.matchSummaryText)
-                                .font(.system(size: 13, weight: .medium))
-                                .foregroundColor(.white.opacity(0.82))
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text(card.clubName.isEmpty ? "Hockey Club" : card.clubName)
+                                .font(.system(size: 21, weight: .bold, design: .rounded))
+                                .foregroundColor(.white)
+                            if !card.opposition.isEmpty {
+                                Text("vs \(card.opposition)")
+                                    .font(.system(size: 15, weight: .semibold))
+                                    .foregroundColor(.white.opacity(0.9))
+                            }
                         }
-                    }
-                    Spacer()
+                        Spacer()
 
-                    Text(card.formation.name)
-                        .font(.system(size: 13, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 11)
-                        .padding(.vertical, 6)
-                        .background(.white.opacity(0.18), in: Capsule())
-                        .overlay(Capsule().stroke(.white.opacity(0.3), lineWidth: 1))
+                        Text(card.formation.name)
+                            .font(.system(size: 13, weight: .bold, design: .rounded))
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 11)
+                            .padding(.vertical, 6)
+                            .background(.white.opacity(0.18), in: Capsule())
+                            .overlay(Capsule().stroke(.white.opacity(0.3), lineWidth: 1))
+                    }
+
+                    if hasMatchDetails {
+                        VStack(alignment: .leading, spacing: 6) {
+                            HStack(spacing: 14) {
+                                if !card.matchDateText.isEmpty {
+                                    matchDetail(icon: "calendar", text: card.matchDateText)
+                                }
+                                if !card.kickoffTimeText.isEmpty {
+                                    matchDetail(icon: "clock.fill", text: card.kickoffTimeText)
+                                }
+                                matchDetail(icon: card.isHome ? "house.fill" : "figure.walk", text: card.isHome ? "Home" : "Away")
+                                kitDetail
+                            }
+                            if !card.venueText.isEmpty {
+                                matchDetail(icon: "mappin.and.ellipse", text: card.venueText)
+                            }
+                        }
+                        .padding(.top, 2)
+                    }
                 }
                 .padding(18)
                 .background(Theme.accentGradient(color))

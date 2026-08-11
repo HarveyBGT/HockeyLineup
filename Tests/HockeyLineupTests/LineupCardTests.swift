@@ -42,6 +42,57 @@ struct LineupCardTests {
         #expect(card.matchSummaryText == "vs Old Tonbridgians M1 — Home")
     }
 
+    // MARK: - Match detail text for the shareable card
+
+    @Test func dateAndKickoffTimeTextsAreEmptyWithNoDateSet() {
+        let card = LineupCard(formation: Formation.presets[0])
+        #expect(card.matchDateText.isEmpty)
+        #expect(card.kickoffTimeText.isEmpty)
+    }
+
+    @Test func dateAndKickoffTimeTextsFormatSeparately() {
+        var card = LineupCard(formation: Formation.presets[0])
+        var components = DateComponents()
+        components.year = 2026
+        components.month = 9
+        components.day = 19
+        components.hour = 14
+        components.minute = 30
+        card.matchDate = Calendar.current.date(from: components)
+
+        #expect(card.matchDateText.contains("19"))
+        #expect(card.kickoffTimeText == "14:30")
+    }
+
+    @Test func venueTextUsesBarnesGroundWhenHome() {
+        var card = LineupCard(formation: Formation.presets[0])
+        card.isHome = true
+        card.pitchVenueID = "barnes"
+        #expect(card.venueText == "Dukes Meadow, Chiswick, W4")
+    }
+
+    @Test func venueTextIsEmptyForClassicGreenPitch() {
+        var card = LineupCard(formation: Formation.presets[0])
+        card.isHome = true
+        card.pitchVenueID = PitchVenue.classicGreen.id
+        #expect(card.venueText.isEmpty)
+    }
+
+    @Test func venueTextFallsBackToOpponentNameWhenAway() {
+        var card = LineupCard(formation: Formation.presets[0])
+        card.isHome = false
+        card.opposition = "Cheam M1"
+        card.pitchVenueID = "barnes" // stale value from a previous home game
+        #expect(card.venueText == "Cheam M1's ground")
+    }
+
+    @Test func venueTextIsEmptyWhenAwayWithNoOpponentSet() {
+        var card = LineupCard(formation: Formation.presets[0])
+        card.isHome = false
+        card.opposition = ""
+        #expect(card.venueText.isEmpty)
+    }
+
     /// The exact scenario that has bitten this app repeatedly: a lineup saved
     /// before `benchPlayerIDs`/`coachName`/umpire fields existed must still
     /// decode successfully, falling back to defaults instead of wiping data.
