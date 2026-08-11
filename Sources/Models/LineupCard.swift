@@ -6,6 +6,24 @@ import Foundation
 enum PlayerSlot: Equatable {
     case pitch(Int)
     case bench(Int)
+
+    /// A compact string encoding for drag-and-drop payloads (e.g. "pitch:3").
+    var dragPayload: String {
+        switch self {
+        case .pitch(let index): return "pitch:\(index)"
+        case .bench(let index): return "bench:\(index)"
+        }
+    }
+
+    init?(dragPayload: String) {
+        let parts = dragPayload.split(separator: ":")
+        guard parts.count == 2, let index = Int(parts[1]) else { return nil }
+        switch parts[0] {
+        case "pitch": self = .pitch(index)
+        case "bench": self = .bench(index)
+        default: return nil
+        }
+    }
 }
 
 struct LineupCard: Identifiable, Codable, Equatable {
@@ -127,6 +145,29 @@ struct LineupCard: Identifiable, Codable, Equatable {
             place(nil, at: currentSlot)
         }
         place(playerID, at: slot)
+    }
+
+    /// The player currently occupying `slot`, if any.
+    func player(at slot: PlayerSlot) -> UUID? {
+        switch slot {
+        case .pitch(let index):
+            return playerIDs.indices.contains(index) ? playerIDs[index] : nil
+        case .bench(let index):
+            return benchPlayerIDs.indices.contains(index) ? benchPlayerIDs[index] : nil
+        }
+    }
+
+    /// Exchanges whatever is in `source` and `destination` — used for
+    /// drag-and-drop. If one side is empty this reads as a plain move; if
+    /// both are occupied the two players trade places. Either way no
+    /// duplication is possible, since it's just swapping the contents of
+    /// exactly two slots.
+    mutating func swapOrMove(from source: PlayerSlot, to destination: PlayerSlot) {
+        guard source != destination else { return }
+        let sourcePlayer = player(at: source)
+        let destinationPlayer = player(at: destination)
+        place(destinationPlayer, at: source)
+        place(sourcePlayer, at: destination)
     }
 
     private mutating func place(_ playerID: UUID?, at slot: PlayerSlot) {

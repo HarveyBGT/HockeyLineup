@@ -155,4 +155,59 @@ struct LineupCardTests {
         let card = LineupCard(formation: Formation.presets[0])
         #expect(card.slot(of: UUID()) == nil)
     }
+
+    // MARK: - swapOrMove(from:to:) — drag-and-drop
+
+    @Test func swapOrMoveExchangesTwoOccupiedSlots() {
+        var card = LineupCard(formation: Formation.presets[0])
+        let playerA = UUID()
+        let playerB = UUID()
+        card.assign(playerA, to: .pitch(0))
+        card.assign(playerB, to: .pitch(1))
+
+        card.swapOrMove(from: .pitch(0), to: .pitch(1))
+
+        #expect(card.playerIDs[0] == playerB)
+        #expect(card.playerIDs[1] == playerA)
+        #expect(card.allAssignedPlayerIDs == [playerA, playerB])
+    }
+
+    @Test func swapOrMoveIntoAnEmptySlotJustMovesThePlayer() {
+        var card = LineupCard(formation: Formation.presets[0])
+        let player = UUID()
+        card.assign(player, to: .pitch(0))
+
+        card.swapOrMove(from: .pitch(0), to: .bench(2))
+
+        #expect(card.playerIDs[0] == nil)
+        #expect(card.benchPlayerIDs[2] == player)
+    }
+
+    @Test func swapOrMoveBetweenPitchAndBenchTradesPlaces() {
+        var card = LineupCard(formation: Formation.presets[0])
+        let pitchPlayer = UUID()
+        let benchPlayer = UUID()
+        card.assign(pitchPlayer, to: .pitch(4))
+        card.assign(benchPlayer, to: .bench(1))
+
+        card.swapOrMove(from: .bench(1), to: .pitch(4))
+
+        #expect(card.playerIDs[4] == benchPlayer)
+        #expect(card.benchPlayerIDs[1] == pitchPlayer)
+    }
+
+    @Test func swapOrMoveToItselfIsANoOp() {
+        var card = LineupCard(formation: Formation.presets[0])
+        let player = UUID()
+        card.assign(player, to: .pitch(3))
+        card.swapOrMove(from: .pitch(3), to: .pitch(3))
+        #expect(card.playerIDs[3] == player)
+    }
+
+    @Test func slotDragPayloadRoundTrips() {
+        #expect(PlayerSlot(dragPayload: PlayerSlot.pitch(7).dragPayload) == .pitch(7))
+        #expect(PlayerSlot(dragPayload: PlayerSlot.bench(2).dragPayload) == .bench(2))
+        #expect(PlayerSlot(dragPayload: "garbage") == nil)
+        #expect(PlayerSlot(dragPayload: "pitch:notanumber") == nil)
+    }
 }

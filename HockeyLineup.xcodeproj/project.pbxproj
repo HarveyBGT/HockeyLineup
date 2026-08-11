@@ -15,6 +15,7 @@
 		5DFE5A5FE7A6827D5CF7C2A4 /* HockeyLineupApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B671813812B22F14A97AE /* HockeyLineupApp.swift */; };
 		5E030DE13C0F1E8823D30B50 /* LineupCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53087EA0843DBBF6EF9CC8F /* LineupCard.swift */; };
 		68942BBDC8004FA1D3DC6D78 /* ViewRendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBC900ECD8AC0182EEBAA96 /* ViewRendering.swift */; };
+		6A3860CF3247A027CFF76B4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7271BD4E9C3CD09BD325D912 /* Assets.xcassets */; };
 		6F072F2639BBC75DDFF3A3C7 /* PlayerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19DB37D13DA8C5C79F05D57 /* PlayerPickerView.swift */; };
 		776DD742C5A664333430C294 /* LineupStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8815ABBD13D128087DC4BA95 /* LineupStore.swift */; };
 		782A2070838D3DB1EE001701 /* PitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17B1BD609B5B6E04D61C970 /* PitchView.swift */; };
@@ -34,7 +35,6 @@
 		C985C33D398C132A2CC0D3AC /* ClubCrestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55613E1E0B8C6347004C5F9C /* ClubCrestView.swift */; };
 		D0E4E6DE2122AED22D47166F /* FormationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BCBE64EB37D44883D495A7 /* FormationTests.swift */; };
 		E183164DB4F749EDED9831AB /* PlayerAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCC0A6C36B827FD76D7F361 /* PlayerAvatarView.swift */; };
-		E1EAFF834562BC24F61208E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB617839BF0993B20E0B35A8 /* Assets.xcassets */; };
 		EEBD2955EDF1AC0D65A31C55 /* PlayerDatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F57511A7F869E8DF9CD612 /* PlayerDatabaseView.swift */; };
 		F1487FF75CF0452BA3ECCF40 /* PlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF74ACB214F32AB105244A63 /* PlayerTests.swift */; };
 		F3FC4ED9AF6A2B8DE5D577CD /* LineupEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C377D6339B9C0A238D757191 /* LineupEditorView.swift */; };
@@ -71,6 +71,7 @@
 		55613E1E0B8C6347004C5F9C /* ClubCrestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubCrestView.swift; sourceTree = "<group>"; };
 		600B207EE597571E0ECD2F0F /* HockeyLineup.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HockeyLineup.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		64C0D653869A92EC827D58D6 /* FixturePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixturePickerView.swift; sourceTree = "<group>"; };
+		7271BD4E9C3CD09BD325D912 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		7343DB091FAE6384DBB58B2C /* FormationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormationPickerView.swift; sourceTree = "<group>"; };
 		7C7B671813812B22F14A97AE /* HockeyLineupApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HockeyLineupApp.swift; sourceTree = "<group>"; };
 		81CE3FA1C04A261DACD560AE /* PitchVenue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchVenue.swift; sourceTree = "<group>"; };
@@ -80,7 +81,6 @@
 		9AC2F81519F1FED52D30DCAB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9EBC900ECD8AC0182EEBAA96 /* ViewRendering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRendering.swift; sourceTree = "<group>"; };
 		B53087EA0843DBBF6EF9CC8F /* LineupCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineupCard.swift; sourceTree = "<group>"; };
-		BB617839BF0993B20E0B35A8 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		C17B1BD609B5B6E04D61C970 /* PitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchView.swift; sourceTree = "<group>"; };
 		C19DB37D13DA8C5C79F05D57 /* PlayerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerPickerView.swift; sourceTree = "<group>"; };
 		C377D6339B9C0A238D757191 /* LineupEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineupEditorView.swift; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 				A98D39C81218250261211749 /* Sources */,
 				BAFE38B3E25A316D47F2B325 /* Tests */,
 				41387F83DB554187EE138F60 /* Products */,
-				BB617839BF0993B20E0B35A8 /* Assets.xcassets */,
+				7271BD4E9C3CD09BD325D912 /* Assets.xcassets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -204,7 +204,7 @@
 			buildConfigurationList = CE071C655BED44B5DFD512C1 /* Build configuration list for PBXNativeTarget "HockeyLineup" */;
 			buildPhases = (
 				978BDE4E4FB1E5BC09F27B81 /* Sources */,
-				63EDADC9BA4397F0121A375A /* Resources */,
+				CD16130B63163010E9F254BF /* Resources */,
 			);
 			buildRules = (
 			);
@@ -263,11 +263,11 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		63EDADC9BA4397F0121A375A /* Resources */ = {
+		CD16130B63163010E9F254BF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1EAFF834562BC24F61208E0 /* Assets.xcassets in Resources */,
+				6A3860CF3247A027CFF76B4F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,4 @@
 import SwiftUI
-import UniformTypeIdentifiers
 
 struct PitchView: View {
     var formation: Formation
@@ -16,8 +15,12 @@ struct PitchView: View {
     /// through `LineupCard.assign` so the player is vacated from wherever
     /// else they were placed instead of appearing in two spots.
     var onAssign: (Int, UUID?) -> Void = { _, _ in }
+    /// Called when a position is dragged onto another (pitch or bench) —
+    /// routes through `LineupCard.swapOrMove` so the two slots trade places.
+    var onSwap: (PlayerSlot, PlayerSlot) -> Void = { _, _ in }
 
     @State private var editingIndex: Int? = nil
+    @State private var dragTargetIndex: Int? = nil
 
     var body: some View {
         GeometryReader { geo in
@@ -34,7 +37,8 @@ struct PitchView: View {
                     PositionDotView(
                         role: position.role,
                         player: player,
-                        accentColor: accentColor
+                        accentColor: accentColor,
+                        isDropTarget: dragTargetIndex == position.id
                     )
                     .position(point)
                     .onTapGesture {
@@ -42,17 +46,16 @@ struct PitchView: View {
                         editingIndex = position.id
                     }
                     .onDrag {
-                        NSItemProvider(object: NSString(string: "\(position.id)"))
+                        NSItemProvider(object: NSString(string: PlayerSlot.pitch(position.id).dragPayload))
                     }
-                    .onDrop(of: [.text], isTargeted: nil) { providers in
-                        guard interactive, let provider = providers.first else { return false }
-                        _ = provider.loadObject(ofClass: NSString.self) { reading, _ in
-                            guard let sourceString = reading as? NSString, let sourceIndex = Int(sourceString as String) else { return }
-                            DispatchQueue.main.async {
-                                swap(sourceIndex: sourceIndex, targetIndex: position.id)
-                            }
-                        }
+                    .dropDestination(for: String.self) { items, _ in
+                        dragTargetIndex = nil
+                        guard interactive, let payload = items.first,
+                              let sourceSlot = PlayerSlot(dragPayload: payload) else { return false }
+                        onSwap(sourceSlot, .pitch(position.id))
                         return true
+                    } isTargeted: { targeted in
+                        dragTargetIndex = targeted ? position.id : nil
                     }
                 }
             }
@@ -73,19 +76,13 @@ struct PitchView: View {
             }
         }
     }
-
-    private func swap(sourceIndex: Int, targetIndex: Int) {
-        guard sourceIndex != targetIndex,
-              playerIDs.indices.contains(sourceIndex),
-              playerIDs.indices.contains(targetIndex) else { return }
-        playerIDs.swapAt(sourceIndex, targetIndex)
-    }
 }
 
 private struct PositionDotView: View {
     var role: PositionRole
     var player: Player?
     var accentColor: Color
+    var isDropTarget: Bool = false
 
     // Head sits at the top of the frame; the shoulders (kit colour) are a
     // capsule that starts partway up the head so they read as "worn" rather
@@ -118,6 +115,14 @@ private struct PositionDotView: View {
                         }
                     }
                     .overlay(Circle().stroke(Color.white.opacity(player == nil ? 0.6 : 0.95), lineWidth: 2))
+                    .overlay(
+                        Circle()
+                            .stroke(Theme.fortressGold, lineWidth: 3)
+                            .padding(-4)
+                            .opacity(isDropTarget ? 1 : 0)
+                    )
+                    .scaleEffect(isDropTarget ? 1.12 : 1)
+                    .animation(.spring(response: 0.25, dampingFraction: 0.7), value: isDropTarget)
 
                 if let number = player?.squadNumber {
                     badge(text: "\(number)", color: .black.opacity(0.75))

@@ -15,6 +15,7 @@ struct LineupEditorView: View {
     @State private var showPitchPicker = false
     @State private var showFixturePicker = false
     @State private var editingBenchIndex: Int?
+    @State private var benchDragTargetIndex: Int?
     @State private var loaded = false
 
     /// The kit colour actually in effect right now, given home/away.
@@ -37,7 +38,8 @@ struct LineupEditorView: View {
                     accentColor: color,
                     pitchColor: Color(hex: card.pitchVenue.colorHex),
                     slotLabel: { index, playerID in slotLabel(for: playerID, excluding: .pitch(index)) },
-                    onAssign: { index, newID in card.assign(newID, to: .pitch(index)) }
+                    onAssign: { index, newID in card.assign(newID, to: .pitch(index)) },
+                    onSwap: { source, destination in card.swapOrMove(from: source, to: destination) }
                 )
                     .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadiusLarge, style: .continuous))
                     .elevatedShadow()
@@ -154,9 +156,21 @@ struct LineupEditorView: View {
                         ForEach(card.benchPlayerIDs.indices, id: \.self) { index in
                             BenchSlotView(
                                 player: playerStore.player(id: card.benchPlayerIDs[index]),
-                                accentColor: color
+                                accentColor: color,
+                                isDropTarget: benchDragTargetIndex == index
                             )
                             .onTapGesture { editingBenchIndex = index }
+                            .onDrag {
+                                NSItemProvider(object: NSString(string: PlayerSlot.bench(index).dragPayload))
+                            }
+                            .dropDestination(for: String.self) { items, _ in
+                                benchDragTargetIndex = nil
+                                guard let payload = items.first, let sourceSlot = PlayerSlot(dragPayload: payload) else { return false }
+                                card.swapOrMove(from: sourceSlot, to: .bench(index))
+                                return true
+                            } isTargeted: { targeted in
+                                benchDragTargetIndex = targeted ? index : nil
+                            }
                         }
                     }
 
@@ -332,6 +346,7 @@ struct LineupEditorView: View {
 private struct BenchSlotView: View {
     var player: Player?
     var accentColor: Color
+    var isDropTarget: Bool = false
 
     var body: some View {
         VStack(spacing: 4) {
@@ -348,6 +363,14 @@ private struct BenchSlotView: View {
                     }
                 }
                 .overlay(Circle().stroke(Color(.separator), lineWidth: 1))
+                .overlay(
+                    Circle()
+                        .stroke(Theme.fortressGold, lineWidth: 3)
+                        .padding(-4)
+                        .opacity(isDropTarget ? 1 : 0)
+                )
+                .scaleEffect(isDropTarget ? 1.12 : 1)
+                .animation(.spring(response: 0.25, dampingFraction: 0.7), value: isDropTarget)
 
             Text(player?.lastName.isEmpty == false ? player!.lastName : "—")
                 .font(.system(size: 10, weight: .medium))
