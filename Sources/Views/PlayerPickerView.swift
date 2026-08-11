@@ -6,6 +6,10 @@ import SwiftUI
 struct PlayerPickerView: View {
     var positionRole: PositionRole
     var currentPlayerID: UUID?
+    /// Short label for a player already placed elsewhere in this lineup
+    /// (e.g. "On bench", "On pitch — DEF"), or nil if they're free. Picking
+    /// them anyway moves them here — this is how swapping/replacing works.
+    var slotLabel: (UUID) -> String? = { _ in nil }
     var onSelect: (UUID?) -> Void
 
     @EnvironmentObject private var playerStore: PlayerStore
@@ -50,7 +54,12 @@ struct PlayerPickerView: View {
                             onSelect(player.id)
                             dismiss()
                         } label: {
-                            PlayerRow(player: player, isSelected: player.id == currentPlayerID, suggested: positionRole == .goalkeeper && player.isGoalkeeper)
+                            PlayerRow(
+                                player: player,
+                                isSelected: player.id == currentPlayerID,
+                                suggested: positionRole == .goalkeeper && player.isGoalkeeper,
+                                elsewhereLabel: slotLabel(player.id)
+                            )
                         }
                         .buttonStyle(.plain)
                     }
@@ -79,10 +88,12 @@ private struct PlayerRow: View {
     var player: Player
     var isSelected: Bool
     var suggested: Bool
+    var elsewhereLabel: String?
 
     var body: some View {
         HStack(spacing: 12) {
             PlayerAvatarView(avatar: player.avatar, size: 32)
+                .opacity(elsewhereLabel != nil ? 0.55 : 1)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(player.fullName.isEmpty ? "Unnamed Player" : player.fullName)
@@ -105,7 +116,13 @@ private struct PlayerRow: View {
 
             Spacer()
 
-            if suggested {
+            if let elsewhereLabel {
+                // Picking this player anyway moves them here from wherever
+                // this label says they currently are.
+                Text(elsewhereLabel)
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(.orange)
+            } else if suggested {
                 Text("Suggested")
                     .font(.system(size: 11, weight: .semibold))
                     .foregroundStyle(.blue)

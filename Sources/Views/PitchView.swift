@@ -8,6 +8,14 @@ struct PitchView: View {
     var accentColor: Color
     var pitchColor: Color = Color(hex: "#1E7A46")
     var interactive: Bool = true
+    /// Short label ("On bench", "On pitch — DEF") for a player who's already
+    /// placed somewhere other than the pitch position currently being
+    /// edited, so the picker can show it and picking them anyway moves them.
+    var slotLabel: (Int, UUID) -> String? = { _, _ in nil }
+    /// Called when a player is picked for pitch position `index` — routes
+    /// through `LineupCard.assign` so the player is vacated from wherever
+    /// else they were placed instead of appearing in two spots.
+    var onAssign: (Int, UUID?) -> Void = { _, _ in }
 
     @State private var editingIndex: Int? = nil
 
@@ -57,11 +65,10 @@ struct PitchView: View {
             if let index = editingIndex {
                 PlayerPickerView(
                     positionRole: formation.positions.first(where: { $0.id == index })?.role ?? .midfield,
-                    currentPlayerID: playerIDs.indices.contains(index) ? playerIDs[index] : nil
+                    currentPlayerID: playerIDs.indices.contains(index) ? playerIDs[index] : nil,
+                    slotLabel: { playerID in slotLabel(index, playerID) }
                 ) { selectedID in
-                    if playerIDs.indices.contains(index) {
-                        playerIDs[index] = selectedID
-                    }
+                    onAssign(index, selectedID)
                 }
             }
         }

@@ -83,4 +83,76 @@ struct LineupCardTests {
         #expect(card.isHome == true)
         #expect(card.formationID == Formation.presets[0].id)
     }
+
+    // MARK: - assign(_:to:) / slot(of:)
+
+    @Test func assigningAPlayerToAnEmptySlotJustPlacesThem() {
+        var card = LineupCard(formation: Formation.presets[0])
+        let player = UUID()
+        card.assign(player, to: .pitch(0))
+        #expect(card.playerIDs[0] == player)
+        #expect(card.slot(of: player) == .pitch(0))
+    }
+
+    @Test func reassigningAPlayerToANewPitchSlotVacatesTheOldOne() {
+        var card = LineupCard(formation: Formation.presets[0])
+        let player = UUID()
+        card.assign(player, to: .pitch(0))
+        card.assign(player, to: .pitch(3))
+
+        #expect(card.playerIDs[0] == nil)
+        #expect(card.playerIDs[3] == player)
+        #expect(card.allAssignedPlayerIDs == [player])
+    }
+
+    @Test func movingAPlayerFromBenchToPitchClearsTheBenchSlot() {
+        var card = LineupCard(formation: Formation.presets[0])
+        let player = UUID()
+        card.assign(player, to: .bench(2))
+        card.assign(player, to: .pitch(5))
+
+        #expect(card.benchPlayerIDs[2] == nil)
+        #expect(card.playerIDs[5] == player)
+        #expect(card.slot(of: player) == .pitch(5))
+    }
+
+    @Test func assigningAPlayerAlreadyInTheTargetSlotIsANoOp() {
+        var card = LineupCard(formation: Formation.presets[0])
+        let player = UUID()
+        card.assign(player, to: .pitch(1))
+        card.assign(player, to: .pitch(1))
+        #expect(card.playerIDs[1] == player)
+        #expect(card.allAssignedPlayerIDs.count == 1)
+    }
+
+    /// The core invariant: no player should ever be placed in two slots.
+    /// Picking an already-placed player for a new slot is how swapping and
+    /// replacing works — it should never result in a duplicate.
+    @Test func aPlayerCanNeverOccupyTwoSlotsAtOnce() {
+        var card = LineupCard(formation: Formation.presets[0])
+        let playerA = UUID()
+        let playerB = UUID()
+
+        card.assign(playerA, to: .pitch(0))
+        card.assign(playerB, to: .pitch(1))
+        card.assign(playerA, to: .bench(0)) // move A to the bench
+
+        let allSlots = card.playerIDs + card.benchPlayerIDs
+        #expect(allSlots.compactMap { $0 }.filter { $0 == playerA }.count == 1)
+        #expect(card.allAssignedPlayerIDs == [playerA, playerB])
+    }
+
+    @Test func clearingASlotWithNilRemovesThePlayer() {
+        var card = LineupCard(formation: Formation.presets[0])
+        let player = UUID()
+        card.assign(player, to: .pitch(2))
+        card.assign(nil, to: .pitch(2))
+        #expect(card.playerIDs[2] == nil)
+        #expect(card.slot(of: player) == nil)
+    }
+
+    @Test func unplacedPlayerHasNoSlot() {
+        let card = LineupCard(formation: Formation.presets[0])
+        #expect(card.slot(of: UUID()) == nil)
+    }
 }

@@ -95,10 +95,21 @@ struct PlayerAvatarView: View {
                     .position(x: w * 0.5, y: h * 0.9)
 
             case .full:
-                Ellipse()
-                    .fill(hairColor)
-                    .frame(width: w * 0.74, height: h * 0.48)
-                    .position(x: w * 0.5, y: h * 0.88)
+                ZStack {
+                    // Sideburns/cheeks, connecting the hairline down to the jaw.
+                    RoundedRectangle(cornerRadius: w * 0.1)
+                        .frame(width: w * 0.24, height: h * 0.46)
+                        .position(x: w * 0.13, y: h * 0.72)
+                    RoundedRectangle(cornerRadius: w * 0.1)
+                        .frame(width: w * 0.24, height: h * 0.46)
+                        .position(x: w * 0.87, y: h * 0.72)
+                    // Jaw and chin, starting below the mouth so the beard
+                    // reads as full coverage without swallowing the face.
+                    Ellipse()
+                        .frame(width: w * 0.68, height: h * 0.46)
+                        .position(x: w * 0.5, y: h * 0.94)
+                }
+                .foregroundColor(hairColor)
             }
         }
     }

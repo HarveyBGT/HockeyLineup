@@ -30,7 +30,15 @@ struct LineupEditorView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 18) {
-                PitchView(formation: card.formation, playerIDs: $card.playerIDs, playerStore: playerStore, accentColor: color, pitchColor: Color(hex: card.pitchVenue.colorHex))
+                PitchView(
+                    formation: card.formation,
+                    playerIDs: $card.playerIDs,
+                    playerStore: playerStore,
+                    accentColor: color,
+                    pitchColor: Color(hex: card.pitchVenue.colorHex),
+                    slotLabel: { index, playerID in slotLabel(for: playerID, excluding: .pitch(index)) },
+                    onAssign: { index, newID in card.assign(newID, to: .pitch(index)) }
+                )
                     .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadiusLarge, style: .continuous))
                     .elevatedShadow()
                     .padding(.horizontal, 16)
@@ -254,13 +262,25 @@ struct LineupEditorView: View {
             if let index = editingBenchIndex {
                 PlayerPickerView(
                     positionRole: .midfield,
-                    currentPlayerID: card.benchPlayerIDs.indices.contains(index) ? card.benchPlayerIDs[index] : nil
+                    currentPlayerID: card.benchPlayerIDs.indices.contains(index) ? card.benchPlayerIDs[index] : nil,
+                    slotLabel: { playerID in slotLabel(for: playerID, excluding: .bench(index)) }
                 ) { selectedID in
-                    if card.benchPlayerIDs.indices.contains(index) {
-                        card.benchPlayerIDs[index] = selectedID
-                    }
+                    card.assign(selectedID, to: .bench(index))
                 }
             }
+        }
+    }
+
+    /// Short label for where `playerID` is currently placed, unless that's
+    /// `slot` itself (nothing to report — that's the position being edited).
+    private func slotLabel(for playerID: UUID, excluding slot: PlayerSlot) -> String? {
+        guard let currentSlot = card.slot(of: playerID), currentSlot != slot else { return nil }
+        switch currentSlot {
+        case .pitch(let index):
+            let role = card.formation.positions.first(where: { $0.id == index })?.role
+            return role.map { "On pitch — \($0.rawValue)" } ?? "On pitch"
+        case .bench:
+            return "On bench"
         }
     }
 

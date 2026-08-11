@@ -1,5 +1,13 @@
 import Foundation
 
+/// A single spot a player can occupy in a lineup: a pitch position (by
+/// formation index) or a bench slot (by index). Used to guarantee a player
+/// never occupies two spots at once.
+enum PlayerSlot: Equatable {
+    case pitch(Int)
+    case bench(Int)
+}
+
 struct LineupCard: Identifiable, Codable, Equatable {
     var id: UUID = UUID()
     var clubName: String = MyTeam.name
@@ -94,6 +102,41 @@ struct LineupCard: Identifiable, Codable, Equatable {
             playerIDs.append(contentsOf: Array(repeating: nil, count: count - playerIDs.count))
         } else if playerIDs.count > count {
             playerIDs = Array(playerIDs.prefix(count))
+        }
+    }
+
+    /// Every player currently placed somewhere in this lineup — pitch or bench.
+    var allAssignedPlayerIDs: Set<UUID> {
+        Set((playerIDs + benchPlayerIDs).compactMap { $0 })
+    }
+
+    /// Where a player is currently placed, if anywhere.
+    func slot(of playerID: UUID) -> PlayerSlot? {
+        if let index = playerIDs.firstIndex(of: playerID) { return .pitch(index) }
+        if let index = benchPlayerIDs.firstIndex(of: playerID) { return .bench(index) }
+        return nil
+    }
+
+    /// Assigns `playerID` to `slot`, first vacating wherever else that player
+    /// is currently placed. This is the only way slots should be mutated —
+    /// it guarantees a player can never occupy two spots (two pitch
+    /// positions, or a pitch position and the bench) at once. Assigning
+    /// `nil` just clears `slot`.
+    mutating func assign(_ playerID: UUID?, to slot: PlayerSlot) {
+        if let playerID, let currentSlot = self.slot(of: playerID), currentSlot != slot {
+            place(nil, at: currentSlot)
+        }
+        place(playerID, at: slot)
+    }
+
+    private mutating func place(_ playerID: UUID?, at slot: PlayerSlot) {
+        switch slot {
+        case .pitch(let index):
+            guard playerIDs.indices.contains(index) else { return }
+            playerIDs[index] = playerID
+        case .bench(let index):
+            guard benchPlayerIDs.indices.contains(index) else { return }
+            benchPlayerIDs[index] = playerID
         }
     }
 }
