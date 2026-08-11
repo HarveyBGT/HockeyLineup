@@ -29,6 +29,7 @@ targets:
           - UIInterfaceOrientationPortrait
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
+        CFBundleDisplayName: Fortress
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.hockeylineup

@@ -13,10 +13,14 @@ struct PitchVenuePickerView: View {
                     onSelect(venue)
                 } label: {
                     HStack(spacing: 14) {
-                        Circle()
-                            .fill(Color(hex: venue.colorHex))
-                            .frame(width: 30, height: 30)
-                            .overlay(Circle().stroke(.white.opacity(0.4), lineWidth: 1))
+                        if venue.id == PitchVenue.classicGreen.id {
+                            Circle()
+                                .fill(Color(hex: venue.colorHex))
+                                .frame(width: 34, height: 34)
+                                .overlay(Circle().stroke(.white.opacity(0.4), lineWidth: 1))
+                        } else {
+                            ClubCrestView(crest: venue.crest, size: 30)
+                        }
 
                         VStack(alignment: .leading, spacing: 2) {
                             Text(venue.clubName)

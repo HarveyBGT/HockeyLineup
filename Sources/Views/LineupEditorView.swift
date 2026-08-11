@@ -1,6 +1,4 @@
 import SwiftUI
-import PhotosUI
-import UIKit
 
 struct LineupEditorView: View {
     let cardID: UUID
@@ -10,12 +8,24 @@ struct LineupEditorView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var card: LineupCard = LineupCard(formation: Formation.presets[0])
-    @State private var color: Color = .init(hex: "#1E6B45")
-    @State private var logoItem: PhotosPickerItem?
+    @State private var homeColor: Color = .init(hex: "#1C63A8")
+    @State private var awayColor: Color = .init(hex: "#FFFFFF")
     @State private var shareURL: URL?
     @State private var showShareSheet = false
     @State private var showPitchPicker = false
+    @State private var showFixturePicker = false
+    @State private var editingBenchIndex: Int?
     @State private var loaded = false
+
+    /// The kit colour actually in effect right now, given home/away.
+    private var color: Color { card.isHome ? homeColor : awayColor }
+
+    private var matchDateBinding: Binding<Date> {
+        Binding(
+            get: { card.matchDate ?? Date() },
+            set: { card.matchDate = $0 }
+        )
+    }
 
     var body: some View {
         ScrollView {
@@ -26,45 +36,58 @@ struct LineupEditorView: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
 
+                Button {
+                    showFixturePicker = true
+                } label: {
+                    Label("Use a Fixture", systemImage: "calendar.badge.checkmark")
+                        .font(.system(size: 15, weight: .semibold, design: .rounded))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                }
+                .modifier(ProminentGlassButtonModifier())
+                .padding(.horizontal, 16)
+
                 VStack(spacing: 12) {
-                    TextField("Club name", text: $card.clubName)
+                    TextField("Opposition", text: $card.opposition)
                         .textFieldStyle(.plain)
-                        .font(.system(size: 16, weight: .medium))
+                        .font(.system(size: 16))
 
                     Divider()
 
-                    TextField("vs Opponent — Sat 15 Nov, Home", text: $card.matchSubtitle)
-                        .textFieldStyle(.plain)
-                        .font(.system(size: 16))
+                    DatePicker("Date & Time", selection: matchDateBinding, displayedComponents: [.date, .hourAndMinute])
+                        .font(.system(size: 15, weight: .medium))
+
+                    Divider()
+
+                    HStack {
+                        Text("Venue")
+                            .font(.system(size: 15, weight: .medium))
+                        Spacer()
+                        homeAwayToggle
+                    }
                 }
                 .groupedCard()
                 .padding(.horizontal, 16)
 
                 VStack(spacing: 12) {
                     HStack {
-                        Label("Team Colour", systemImage: "paintpalette.fill")
+                        Label("Home Kit", systemImage: "paintpalette.fill")
                             .font(.system(size: 15, weight: .medium))
                             .foregroundStyle(.primary)
                         Spacer()
-                        ColorPicker("", selection: $color, supportsOpacity: false)
+                        ColorPicker("", selection: $homeColor, supportsOpacity: false)
                             .labelsHidden()
                     }
 
                     Divider()
 
                     HStack {
-                        PhotosPicker(selection: $logoItem, matching: .images) {
-                            Label(card.logoImageData == nil ? "Add Club Logo" : "Change Club Logo", systemImage: "photo.fill")
-                                .font(.system(size: 15, weight: .medium))
-                        }
+                        Label("Away Kit", systemImage: "paintpalette")
+                            .font(.system(size: 15, weight: .medium))
+                            .foregroundStyle(.primary)
                         Spacer()
-                        if let data = card.logoImageData, let uiImage = UIImage(data: data) {
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 30, height: 30)
-                                .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
-                        }
+                        ColorPicker("", selection: $awayColor, supportsOpacity: false)
+                            .labelsHidden()
                     }
 
                     Divider()
@@ -100,6 +123,9 @@ struct LineupEditorView: View {
                                 .font(.system(size: 15, weight: .medium))
                                 .foregroundStyle(.primary)
                             Spacer()
+                            if card.pitchVenue.id != PitchVenue.classicGreen.id {
+                                ClubCrestView(crest: card.pitchVenue.crest, size: 20)
+                            }
                             Text(card.pitchVenue.clubName)
                                 .foregroundStyle(.secondary)
                             Image(systemName: "chevron.up.chevron.down")
@@ -112,6 +138,56 @@ struct LineupEditorView: View {
                 .groupedCard()
                 .padding(.horizontal, 16)
 
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Bench")
+                        .font(.system(size: 15, weight: .medium))
+
+                    HStack(spacing: 10) {
+                        ForEach(card.benchPlayerIDs.indices, id: \.self) { index in
+                            BenchSlotView(
+                                player: playerStore.player(id: card.benchPlayerIDs[index]),
+                                accentColor: color
+                            )
+                            .onTapGesture { editingBenchIndex = index }
+                        }
+                    }
+
+                    Divider()
+
+                    HStack {
+                        Label("Coach", systemImage: "person.fill.checkmark")
+                            .font(.system(size: 15, weight: .medium))
+                            .foregroundStyle(.primary)
+                        Spacer()
+                        TextField("Name", text: $card.coachName)
+                            .multilineTextAlignment(.trailing)
+                    }
+
+                    Divider()
+
+                    HStack {
+                        Label("Umpire 1", systemImage: "flag.checkered")
+                            .font(.system(size: 15, weight: .medium))
+                            .foregroundStyle(.primary)
+                        Spacer()
+                        TextField("Name", text: $card.umpireOneName)
+                            .multilineTextAlignment(.trailing)
+                    }
+
+                    Divider()
+
+                    HStack {
+                        Label("Umpire 2", systemImage: "flag.checkered")
+                            .font(.system(size: 15, weight: .medium))
+                            .foregroundStyle(.primary)
+                        Spacer()
+                        TextField("Name", text: $card.umpireTwoName)
+                            .multilineTextAlignment(.trailing)
+                    }
+                }
+                .groupedCard()
+                .padding(.horizontal, 16)
+
                 Button {
                     exportAndShare()
                 } label: {
@@ -120,10 +196,8 @@ struct LineupEditorView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
                 }
-                .buttonStyle(.plain)
-                .foregroundColor(.white)
-                .background(Theme.accentGradient(color), in: RoundedRectangle(cornerRadius: Theme.cornerRadiusMedium, style: .continuous))
-                .shadow(color: color.opacity(0.4), radius: 12, x: 0, y: 6)
+                .modifier(ProminentGlassButtonModifier())
+                .tint(color)
                 .padding(.horizontal, 16)
                 .padding(.bottom, 8)
             }
@@ -136,7 +210,8 @@ struct LineupEditorView: View {
             guard !loaded else { return }
             if let existing = store.card(id: cardID) {
                 card = existing
-                color = Color(hex: existing.colorHex)
+                homeColor = Color(hex: existing.homeColorHex)
+                awayColor = Color(hex: existing.awayColorHex)
             } else {
                 card.id = cardID
             }
@@ -145,15 +220,11 @@ struct LineupEditorView: View {
         .onChange(of: card) { _, newValue in
             store.upsert(newValue)
         }
-        .onChange(of: color) { _, newValue in
-            card.colorHex = newValue.hexString
+        .onChange(of: homeColor) { _, newValue in
+            card.homeColorHex = newValue.hexString
         }
-        .onChange(of: logoItem) { _, newItem in
-            Task {
-                if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                    card.logoImageData = data
-                }
-            }
+        .onChange(of: awayColor) { _, newValue in
+            card.awayColorHex = newValue.hexString
         }
         .sheet(isPresented: $showShareSheet) {
             if let shareURL {
@@ -166,18 +237,61 @@ struct LineupEditorView: View {
                 showPitchPicker = false
             }
         }
+        .sheet(isPresented: $showFixturePicker) {
+            FixturePickerView { fixture in
+                card.clubName = MyTeam.name
+                card.opposition = LeagueData.team(id: fixture.opponentID(for: MyTeam.teamID))?.name ?? card.opposition
+                card.matchDate = fixture.date
+                card.isHome = fixture.isHome(for: MyTeam.teamID)
+                card.linkedFixtureID = fixture.id
+                card.pitchVenueID = card.isHome ? MyTeam.pitchVenueID : card.pitchVenueID
+            }
+        }
+        .sheet(isPresented: Binding(
+            get: { editingBenchIndex != nil },
+            set: { if !$0 { editingBenchIndex = nil } }
+        )) {
+            if let index = editingBenchIndex {
+                PlayerPickerView(
+                    positionRole: .midfield,
+                    currentPlayerID: card.benchPlayerIDs.indices.contains(index) ? card.benchPlayerIDs[index] : nil
+                ) { selectedID in
+                    if card.benchPlayerIDs.indices.contains(index) {
+                        card.benchPlayerIDs[index] = selectedID
+                    }
+                }
+            }
+        }
+    }
+
+    private var homeAwayToggle: some View {
+        HStack(spacing: 8) {
+            homeAwayPill(title: "Home", isSelected: card.isHome) { card.isHome = true }
+            homeAwayPill(title: "Away", isSelected: !card.isHome) { card.isHome = false }
+        }
+    }
+
+    private func homeAwayPill(title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(title)
+                .font(.system(size: 13, weight: .semibold, design: .rounded))
+                .foregroundStyle(isSelected ? .white : .primary)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 7)
+                .modifier(GlassTogglePillBackground(isSelected: isSelected, tint: color))
+        }
+        .buttonStyle(.plain)
     }
 
     @MainActor
     private func exportAndShare() {
         let exportView = ExportCardView(card: card, playerStore: playerStore)
-        let renderer = ImageRenderer(content: exportView)
-        renderer.scale = 3
 
         // JPEG, not PNG: smaller and faster to send in chat apps like WhatsApp,
         // which re-encode shared images anyway. Safe here since the card has an
         // opaque background — no transparency to lose.
-        guard let uiImage = renderer.uiImage, let jpegData = uiImage.jpegData(compressionQuality: 0.92) else { return }
+        guard let uiImage = exportView.renderedToImage(width: 400),
+              let jpegData = uiImage.jpegData(compressionQuality: 0.92) else { return }
 
         let tempURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("Lineup-\(card.id.uuidString)")
@@ -190,5 +304,36 @@ struct LineupEditorView: View {
         } catch {
             // Nothing sensible to recover to here; sharing simply won't happen.
         }
+    }
+}
+
+/// A single optional bench-squad slot: empty state invites a tap, filled
+/// state shows the player's avatar and surname.
+private struct BenchSlotView: View {
+    var player: Player?
+    var accentColor: Color
+
+    var body: some View {
+        VStack(spacing: 4) {
+            Circle()
+                .fill(player == nil ? AnyShapeStyle(.ultraThinMaterial) : AnyShapeStyle(Theme.accentGradient(accentColor)))
+                .frame(width: 40, height: 40)
+                .overlay {
+                    if let player {
+                        PlayerAvatarView(avatar: player.avatar, size: 32)
+                    } else {
+                        Image(systemName: "plus")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                .overlay(Circle().stroke(Color(.separator), lineWidth: 1))
+
+            Text(player?.lastName.isEmpty == false ? player!.lastName : "—")
+                .font(.system(size: 10, weight: .medium))
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+        }
+        .frame(maxWidth: .infinity)
     }
 }

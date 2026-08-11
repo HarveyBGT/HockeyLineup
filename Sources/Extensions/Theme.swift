@@ -1,9 +1,20 @@
 import SwiftUI
 
+/// The Fortress design language: named after Dukes Meadow's nickname among
+/// Barnes HC players and supporters. Barnes blue as the primary identity
+/// colour (their real kit/pitch colour), a bronze/gold heraldic accent for
+/// premium touches (captaincy, crest trim), and stone neutrals for chrome.
 enum Theme {
     static let cornerRadiusLarge: CGFloat = 24
     static let cornerRadiusMedium: CGFloat = 16
     static let cornerRadiusSmall: CGFloat = 12
+
+    /// Barnes' confirmed real kit/pitch colour — the app's primary identity.
+    static let fortressBlue = Color(hex: "#1C63A8")
+    /// Heraldic bronze/gold accent for premium touches: captaincy, crest trim.
+    static let fortressGold = Color(hex: "#C9962C")
+    /// Deep stone-navy, used for dark chrome (crest shields, export backdrops).
+    static let stoneDark = Color(hex: "#0B2545")
 
     static func pitchGradient(base: Color) -> LinearGradient {
         LinearGradient(
@@ -82,6 +93,25 @@ struct ProminentGlassButtonModifier: ViewModifier {
             content.buttonStyle(.glassProminent)
         } else {
             content.buttonStyle(.borderedProminent)
+        }
+    }
+}
+
+/// A single pill in a hand-rolled two-option glass toggle (e.g. Home/Away):
+/// tinted glass when selected, plain glass otherwise, on iOS 26; a solid
+/// fill/fill-less fallback below that.
+struct GlassTogglePillBackground: ViewModifier {
+    var isSelected: Bool
+    var tint: Color
+
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content.glassEffect(isSelected ? .regular.tint(tint) : .regular, in: .capsule)
+        } else {
+            content.background(
+                isSelected ? AnyShapeStyle(tint) : AnyShapeStyle(Color(.tertiarySystemFill)),
+                in: Capsule()
+            )
         }
     }
 }

@@ -80,33 +80,48 @@ private struct PositionDotView: View {
     var player: Player?
     var accentColor: Color
 
+    // Head sits at the top of the frame; the shoulders (kit colour) are a
+    // capsule that starts partway up the head so they read as "worn" rather
+    // than floating separately.
+    private let headSize: CGFloat = 34
+    private let shoulderWidth: CGFloat = 40
+    private let shoulderHeight: CGFloat = 18
+    private let shoulderTopOffset: CGFloat = 24
+
     var body: some View {
         VStack(spacing: 5) {
-            ZStack {
-                Circle()
-                    .fill(player == nil ? AnyShapeStyle(.ultraThinMaterial) : AnyShapeStyle(Theme.accentGradient(accentColor)))
-
-                if let player {
-                    PlayerAvatarView(avatar: player.avatar, size: 30)
-                } else {
-                    Text(role.rawValue)
-                        .font(.system(size: 12, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
+            ZStack(alignment: .top) {
+                if player != nil {
+                    Capsule()
+                        .fill(Theme.accentGradient(accentColor))
+                        .frame(width: shoulderWidth, height: shoulderHeight)
+                        .offset(y: shoulderTopOffset)
                 }
 
                 Circle()
-                    .stroke(Color.white.opacity(player == nil ? 0.6 : 0.95), lineWidth: 2)
+                    .fill(player == nil ? AnyShapeStyle(.ultraThinMaterial) : AnyShapeStyle(Theme.accentGradient(accentColor)))
+                    .frame(width: headSize, height: headSize)
+                    .overlay {
+                        if let player {
+                            PlayerAvatarView(avatar: player.avatar, size: headSize * 0.82)
+                        } else {
+                            Text(role.rawValue)
+                                .font(.system(size: 12, weight: .bold, design: .rounded))
+                                .foregroundColor(.white)
+                        }
+                    }
+                    .overlay(Circle().stroke(Color.white.opacity(player == nil ? 0.6 : 0.95), lineWidth: 2))
 
                 if let number = player?.squadNumber {
                     badge(text: "\(number)", color: .black.opacity(0.75))
-                        .offset(x: -16, y: -16)
+                        .offset(x: -15, y: -1)
                 }
                 if let captaincyBadge = player?.captaincyBadge {
-                    badge(text: captaincyBadge, color: Color(hex: "#C9962C"))
-                        .offset(x: 16, y: -16)
+                    badge(text: captaincyBadge, color: Theme.fortressGold)
+                        .offset(x: 15, y: -1)
                 }
             }
-            .frame(width: 36, height: 36)
+            .frame(width: shoulderWidth, height: shoulderTopOffset + shoulderHeight, alignment: .top)
             .shadow(color: .black.opacity(0.28), radius: 4, x: 0, y: 2)
 
             if let player, !player.fullName.isEmpty {

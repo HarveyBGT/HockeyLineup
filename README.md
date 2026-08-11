@@ -1,10 +1,11 @@
-# Hockey Lineup
+# Fortress
 
-A native iPhone app for building and sharing field-hockey lineup graphics — pick a formation,
-build your squad, place players on the pitch, add your club colours/logo and home pitch, and
-share the finished graphic anywhere (WhatsApp, Instagram, AirDrop, Photos...).
+A native iPhone app for building and sharing field-hockey lineup graphics — pick a fixture or
+formation, build your squad, place players on the pitch, toggle home/away kit colours, and share
+the finished graphic anywhere (WhatsApp, Instagram, AirDrop, Photos...).
 
-Built for clubs like Barnes Hockey Club, but works for any club — nothing is hardcoded to one team.
+Named after Dukes Meadow, Barnes Hockey Club's home pitch — known to players and supporters as
+"the Fortress." Built for Barnes HC, but works for any club — nothing is hardcoded to one team.
 
 ## What's here
 
@@ -26,9 +27,13 @@ Built for clubs like Barnes Hockey Club, but works for any club — nothing is h
   and a procedurally-generated avatar (skin tone, hair style/colour, glasses) — no photo upload
   needed. Create players inline while building a lineup, or manage the whole squad (edit/delete)
   from the Squad screen.
+- **Fixtures**: pick a known Barnes M3 fixture to auto-fill opposition, date/time, home/away, and
+  pitch — or fill those in by hand for any other match.
+- **Home/away kit toggle**: set separate home and away kit colours per lineup; the player icons'
+  shoulders re-colour to match whichever is active.
 - **Real pitch venues**: pick from 20 real London & South-East England hockey clubs' home pitches
   (Barnes HC's Dukes Meadow, Surbiton, Southgate, and more) or a generic classic-green pitch, each
-  styling the pitch background colour.
+  with a stylised flat crest and its own pitch background colour.
 - Drag players between positions, tap an empty slot to assign someone.
 
 ## Getting started
@@ -46,21 +51,24 @@ Built for clubs like Barnes Hockey Club, but works for any club — nothing is h
 - **Signing team**: in Xcode → target → Signing & Capabilities, select your Apple Developer team.
   You'll need an Apple Developer Program membership ($99/yr) to submit to the App Store (a free
   personal-team signing is enough to run on your own device for testing).
-- **App icon**: `Resources/Assets.xcassets/AppIcon.appiconset/icon-1024.png` is a placeholder
-  (a simple green pitch-circle-and-ball mark) generated for this scaffold — swap it for your own
-  1024×1024 design before shipping.
-- **App name / display name**: currently "HockeyLineup" — change `PRODUCT_NAME` or add
-  `INFOPLIST_KEY_CFBundleDisplayName` under `targets.HockeyLineup.settings.base` in `project.yml`
-  if you want a different name on the home screen.
+- **App icon**: `Resources/Assets.xcassets/AppIcon.appiconset/icon-1024.png` is a flat navy/gold
+  crenellated shield mark (the "Fortress" crest) — swap it for your own 1024×1024 design if you
+  fork this for another club.
+- **App name / display name**: the home-screen name ("Fortress") is set via `CFBundleDisplayName`
+  under `targets.HockeyLineup.info.properties` in `project.yml`; the Xcode project/scheme name and
+  bundle identifier are unchanged (`HockeyLineup` / `com.example.hockeylineup`).
 
 ## How it works
 
 - `Sources/Models/Formation.swift` — formation presets, each a list of normalized (0...1) pitch
   positions tagged GK/DEF/MID/FWD.
-- `Sources/Models/LineupCard.swift` — one saved lineup: club name, match subtitle, formation,
-  assigned player IDs, team colour, pitch venue, optional club logo.
+- `Sources/Models/LineupCard.swift` — one saved lineup: opposition, match date/time, home/away
+  flag and kit colours, formation, assigned player IDs, and pitch venue (auto-filled from a
+  fixture, or set by hand).
 - `Sources/Models/Player.swift` / `PlayerAvatar.swift` — a squad member and their avatar traits.
-- `Sources/Models/PitchVenue.swift` — the catalogue of real club home pitches.
+- `Sources/Models/PitchVenue.swift` — the catalogue of real club home pitches, each with a
+  stylised `ClubCrest`.
+- `Sources/Models/LeagueData.swift` — seeded team/fixture data for Barnes M3's division.
 - `Sources/Persistence/LineupStore.swift` / `PlayerStore.swift` — load/save lineups and the squad
   as JSON in the app's Documents folder.
 - `Sources/Views/PitchMarkingsView.swift` — draws the pitch (boundary, halfway line, 23m lines,

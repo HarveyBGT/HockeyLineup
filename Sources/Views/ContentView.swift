@@ -15,13 +15,13 @@ struct ContentView: View {
             Group {
                 if store.cards.isEmpty {
                     ContentUnavailableView {
-                        Label("No Lineups Yet", systemImage: "sportscourt")
+                        Label("No Lineups Yet", systemImage: "shield.lefthalf.filled")
                     } description: {
-                        Text("Tap + to build your first hockey lineup graphic.")
+                        Text("Tap + to build your first Fortress XI.")
                     } actions: {
                         Button("New Lineup") { showFormationPicker = true }
-                            .buttonStyle(.borderedProminent)
-                            .tint(Color(hex: "#1E7A46"))
+                            .modifier(ProminentGlassButtonModifier())
+                            .tint(Theme.fortressBlue)
                     }
                 } else {
                     ScrollView {
@@ -47,7 +47,7 @@ struct ContentView: View {
                     .background(Color(.systemGroupedBackground))
                 }
             }
-            .navigationTitle("My Lineups")
+            .navigationTitle("Fortress")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -90,7 +90,7 @@ struct ContentView: View {
 private struct LineupRow: View {
     var card: LineupCard
 
-    private var color: Color { Color(hex: card.colorHex) }
+    private var color: Color { Color(hex: card.activeColorHex) }
 
     var body: some View {
         HStack(spacing: 14) {
@@ -108,8 +108,8 @@ private struct LineupRow: View {
                 Text(card.clubName.isEmpty ? "Untitled Lineup" : card.clubName)
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundStyle(.primary)
-                if !card.matchSubtitle.isEmpty {
-                    Text(card.matchSubtitle)
+                if !card.matchSummaryText.isEmpty {
+                    Text(card.matchSummaryText)
                         .font(.system(size: 13))
                         .foregroundStyle(.secondary)
                         .lineLimit(1)

@@ -21,6 +21,7 @@ struct PlayerAvatarView: View {
                 .fill(skinColor)
                 .frame(width: size, height: size)
                 .overlay(face)
+                .overlay(beardOverlay.clipShape(Circle()))
                 .overlay(hairOverlay.clipShape(Circle()))
         }
         .frame(width: size * 1.2, height: size * 1.2)
@@ -45,14 +46,59 @@ struct PlayerAvatarView: View {
                     .position(x: w * 0.5, y: h * 0.68)
 
                 if avatar.wearsGlasses {
-                    HStack(spacing: w * 0.06) {
-                        RoundedRectangle(cornerRadius: 4).stroke(Color.black.opacity(0.75), lineWidth: 1.6)
-                            .frame(width: w * 0.2, height: w * 0.15)
-                        RoundedRectangle(cornerRadius: 4).stroke(Color.black.opacity(0.75), lineWidth: 1.6)
-                            .frame(width: w * 0.2, height: w * 0.15)
+                    ZStack {
+                        Rectangle()
+                            .fill(Color.black.opacity(0.8))
+                            .frame(width: w * 0.09, height: max(w * 0.026, 1.6))
+
+                        HStack(spacing: w * 0.09) {
+                            lens(w: w)
+                            lens(w: w)
+                        }
                     }
                     .position(x: w * 0.5, y: h * 0.52)
                 }
+            }
+        }
+    }
+
+    private func lens(w: CGFloat) -> some View {
+        RoundedRectangle(cornerRadius: w * 0.045, style: .continuous)
+            .fill(Color.white.opacity(0.16))
+            .frame(width: w * 0.25, height: w * 0.19)
+            .overlay(
+                RoundedRectangle(cornerRadius: w * 0.045, style: .continuous)
+                    .stroke(Color.black.opacity(0.82), lineWidth: max(w * 0.026, 1.6))
+            )
+    }
+
+    @ViewBuilder
+    private var beardOverlay: some View {
+        GeometryReader { geo in
+            let w = geo.size.width
+            let h = geo.size.height
+
+            switch avatar.beardStyle {
+            case .none:
+                EmptyView()
+
+            case .stubble:
+                Ellipse()
+                    .fill(hairColor.opacity(0.4))
+                    .frame(width: w * 0.62, height: h * 0.36)
+                    .position(x: w * 0.5, y: h * 0.84)
+
+            case .goatee:
+                RoundedRectangle(cornerRadius: w * 0.09)
+                    .fill(hairColor)
+                    .frame(width: w * 0.22, height: h * 0.3)
+                    .position(x: w * 0.5, y: h * 0.9)
+
+            case .full:
+                Ellipse()
+                    .fill(hairColor)
+                    .frame(width: w * 0.74, height: h * 0.48)
+                    .position(x: w * 0.5, y: h * 0.88)
             }
         }
     }
@@ -68,22 +114,18 @@ struct PlayerAvatarView: View {
                 EmptyView()
 
             case .short:
-                Path { path in
-                    path.addArc(center: CGPoint(x: w / 2, y: h * 0.4), radius: w * 0.54, startAngle: .degrees(180), endAngle: .degrees(360), clockwise: false)
-                    path.addLine(to: CGPoint(x: w, y: 0))
-                    path.addLine(to: CGPoint(x: 0, y: 0))
-                    path.closeSubpath()
-                }
-                .fill(hairColor)
+                // A rectangle spanning the top of the frame, rounded off by the
+                // circular clip applied where this view is used — reads as a cap.
+                Rectangle()
+                    .frame(width: w, height: h * 0.4)
+                    .position(x: w / 2, y: h * 0.2)
+                    .foregroundColor(hairColor)
 
             case .long:
                 ZStack {
-                    Path { path in
-                        path.addArc(center: CGPoint(x: w / 2, y: h * 0.34), radius: w * 0.56, startAngle: .degrees(180), endAngle: .degrees(360), clockwise: false)
-                        path.addLine(to: CGPoint(x: w, y: 0))
-                        path.addLine(to: CGPoint(x: 0, y: 0))
-                        path.closeSubpath()
-                    }
+                    Rectangle()
+                        .frame(width: w, height: h * 0.42)
+                        .position(x: w / 2, y: h * 0.21)
                     RoundedRectangle(cornerRadius: w * 0.12)
                         .frame(width: w * 0.22, height: h * 0.62)
                         .position(x: w * 0.1, y: h * 0.55)

@@ -65,6 +65,15 @@ struct PlayerFormView: View {
                     }
                 }
 
+                Section("Facial Hair") {
+                    Picker("Style", selection: $avatar.beardStyle) {
+                        ForEach(PlayerAvatar.BeardStyle.allCases) { style in
+                            Text(style.label).tag(style)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                }
+
                 Section("Details") {
                     Toggle("Wears Glasses", isOn: $avatar.wearsGlasses)
                 }
