@@ -12,21 +12,25 @@ struct ContentView: View {
         store.cards.sorted(by: { $0.updatedAt > $1.updatedAt })
     }
 
+    /// The next fixture on the calendar for whichever team Club Settings has
+    /// configured — shown in the hero card so the home screen means
+    /// something even before a single lineup's been built.
+    private var nextFixture: Fixture? {
+        let now = Date()
+        return LeagueData.fixtures(forTeamID: MyTeam.teamID).first { $0.date >= now }
+    }
+
     var body: some View {
         NavigationStack {
-            Group {
-                if store.cards.isEmpty {
-                    ContentUnavailableView {
-                        Label("No Lineups Yet", systemImage: "shield.lefthalf.filled")
-                    } description: {
-                        Text("Tap + to build your first Fortress XI.")
-                    } actions: {
-                        Button("New Lineup") { showFormationPicker = true }
-                            .modifier(ProminentGlassButtonModifier())
-                            .tint(Theme.fortressBlue)
-                    }
-                } else {
-                    ScrollView {
+            ScrollView {
+                VStack(spacing: 20) {
+                    heroCard
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+
+                    if store.cards.isEmpty {
+                        emptyState
+                    } else {
                         LazyVStack(spacing: 12) {
                             ForEach(sortedCards) { card in
                                 Button {
@@ -44,11 +48,12 @@ struct ContentView: View {
                                 }
                             }
                         }
-                        .padding(16)
+                        .padding(.horizontal, 16)
                     }
-                    .background(Color(.systemGroupedBackground))
                 }
+                .padding(.bottom, 24)
             }
+            .background(Color(.systemGroupedBackground))
             .navigationTitle("Fortress")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
@@ -111,6 +116,103 @@ struct ContentView: View {
             }
         }
     }
+
+    /// The club identity + next-fixture teaser — the one moment on this
+    /// screen worth real colour and depth, same hero-gradient language as
+    /// the pitch panel in the editor.
+    private var heroCard: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            HStack(spacing: 14) {
+                ClubCrestView(crest: PitchVenue.venue(id: MyTeam.pitchVenueID).crest, size: 40)
+                    .padding(8)
+                    .glassCircle()
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(MyTeam.name)
+                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                        .foregroundStyle(.white)
+                    Text(PitchVenue.venue(id: MyTeam.pitchVenueID).groundName)
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(.white.opacity(0.7))
+                }
+
+                Spacer()
+
+                Image(systemName: "shield.lefthalf.filled")
+                    .font(.system(size: 20))
+                    .foregroundStyle(Theme.fortressGold.opacity(0.5))
+            }
+
+            if let nextFixture {
+                Rectangle()
+                    .fill(Color.white.opacity(0.15))
+                    .frame(height: 1)
+
+                nextFixtureRow(nextFixture)
+            }
+        }
+        .padding(18)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: Theme.cornerRadiusLarge + 4, style: .continuous)
+                .fill(Theme.heroGradient)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: Theme.cornerRadiusLarge + 4, style: .continuous)
+                .stroke(Theme.fortressGold.opacity(0.3), lineWidth: 1)
+        )
+        .elevatedShadow()
+    }
+
+    private func nextFixtureRow(_ fixture: Fixture) -> some View {
+        let opponentName = LeagueData.team(id: fixture.opponentID(for: MyTeam.teamID))?.name ?? "TBC"
+        let isHome = fixture.isHome(for: MyTeam.teamID)
+
+        return VStack(alignment: .leading, spacing: 6) {
+            Text("NEXT UP")
+                .font(.system(size: 10, weight: .bold, design: .rounded))
+                .tracking(1.2)
+                .foregroundStyle(Theme.fortressGold)
+
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("vs \(opponentName)")
+                        .font(.system(size: 16, weight: .semibold, design: .rounded))
+                        .foregroundStyle(.white)
+                    Text("\(Self.heroDateFormatter.string(from: fixture.date)) · \(isHome ? "Home" : "Away")")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(.white.opacity(0.7))
+                }
+                Spacer()
+            }
+        }
+    }
+
+    private var emptyState: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "shield.lefthalf.filled")
+                .font(.system(size: 40))
+                .foregroundStyle(Theme.fortressBlue)
+            Text("No Lineups Yet")
+                .font(.system(size: 19, weight: .bold, design: .rounded))
+            Text("Tap + to build your first Fortress XI.")
+                .font(.system(size: 14))
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+            Button("New Lineup") { showFormationPicker = true }
+                .modifier(ProminentGlassButtonModifier())
+                .tint(Theme.fortressBlue)
+        }
+        .padding(.horizontal, 32)
+        .padding(.top, 40)
+        .frame(maxWidth: .infinity)
+    }
+
+    private static let heroDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE d MMM 'at' HH:mm"
+        return formatter
+    }()
 }
 
 private struct LineupRow: View {

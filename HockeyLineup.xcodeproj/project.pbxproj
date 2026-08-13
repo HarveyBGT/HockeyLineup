@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041EF0B140367EC82FD0FD6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1BEDDD4CC85319EC6792369 /* Assets.xcassets */; };
 		07FA2FAE00772E685DEFB7BC /* FortressWatchWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 14BC3F0134CD29BD61CEA16C /* FortressWatchWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1491A24D4D1068FC7AA7F81F /* NextFixtureIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017A9B878DA28B16B4293E2E /* NextFixtureIntent.swift */; };
 		16F684BC1056ABC2078B8F2C /* LeagueData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CEF310A0D230188BD8DB4DA /* LeagueData.swift */; };
@@ -25,7 +26,6 @@
 		5DFE5A5FE7A6827D5CF7C2A4 /* HockeyLineupApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B671813812B22F14A97AE /* HockeyLineupApp.swift */; };
 		5E030DE13C0F1E8823D30B50 /* LineupCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53087EA0843DBBF6EF9CC8F /* LineupCard.swift */; };
 		68942BBDC8004FA1D3DC6D78 /* ViewRendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBC900ECD8AC0182EEBAA96 /* ViewRendering.swift */; };
-		6D6E6DDF25DE2E00D16C07EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0F2C3CAD919189768C8F74A /* Assets.xcassets */; };
 		6F072F2639BBC75DDFF3A3C7 /* PlayerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19DB37D13DA8C5C79F05D57 /* PlayerPickerView.swift */; };
 		7208FA3BA0C6C76A6E8360F1 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28536282BB4EC9ABA33B50CD /* Color+Hex.swift */; };
 		72249002B85F9D2ED35B09E5 /* CalendarServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6FED1F283421E47F4B5EA2 /* CalendarServiceTests.swift */; };
@@ -204,12 +204,12 @@
 		D9B6549A71CCF4F294D05D49 /* MatchLiveActivityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchLiveActivityWidget.swift; sourceTree = "<group>"; };
 		DCA810A5B84BD41A42A5B0FD /* MatchDaySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDaySection.swift; sourceTree = "<group>"; };
 		DF9E3A8657E73C388E26DBB8 /* NextFixtureComplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextFixtureComplication.swift; sourceTree = "<group>"; };
+		E1BEDDD4CC85319EC6792369 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		E28D9F7FAA895B1E8F40AA69 /* LineupCardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineupCardTests.swift; sourceTree = "<group>"; };
 		E33D694D9E20528A5A2A5E86 /* HockeyLineupTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = HockeyLineupTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6500DEB7CDD402FD3BD7D0B /* SeasonRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonRecordView.swift; sourceTree = "<group>"; };
 		E7291142AA8F2F8CE6F03DA5 /* MatchActivityControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchActivityControllerTests.swift; sourceTree = "<group>"; };
 		F06D498F83AD372E92BCC11D /* CalendarService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarService.swift; sourceTree = "<group>"; };
-		F0F2C3CAD919189768C8F74A /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		F7282E30B7767B0B59A6C524 /* Formation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -240,7 +240,7 @@
 				903894DEAA6A945CDEA1DB63 /* Watch */,
 				0A7FF61315C4ACADAC9ABBCC /* Widgets */,
 				41387F83DB554187EE138F60 /* Products */,
-				F0F2C3CAD919189768C8F74A /* Assets.xcassets */,
+				E1BEDDD4CC85319EC6792369 /* Assets.xcassets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -450,7 +450,7 @@
 				978BDE4E4FB1E5BC09F27B81 /* Sources */,
 				BFCBA161142A7964A0828CDC /* Embed Foundation Extensions */,
 				689243DBA212EA01672B911A /* Embed Watch Content */,
-				89DC7B3841723A5EEDDC67E5 /* Resources */,
+				116AC0B2E1AA7A9E5B4F1B6B /* Resources */,
 			);
 			buildRules = (
 			);
@@ -531,11 +531,11 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		89DC7B3841723A5EEDDC67E5 /* Resources */ = {
+		116AC0B2E1AA7A9E5B4F1B6B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D6E6DDF25DE2E00D16C07EA /* Assets.xcassets in Resources */,
+				041EF0B140367EC82FD0FD6C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
