@@ -42,14 +42,20 @@ enum LineupAutoFiller {
     }
 
     /// The best-matching pool index for `role`: someone whose preferred
-    /// position matches, falling back to the goalkeeper flag for GK,
-    /// falling back to whoever's next in the pick order.
+    /// position matches, falling back to the goalkeeper flag for GK, falling
+    /// back to someone with no stated preference at all rather than bumping
+    /// a player into a role they've explicitly said isn't theirs (a striker
+    /// into goal, say), falling back to whoever's next in the pick order if
+    /// everyone left has some other explicit preference.
     static func bestCandidateIndex(in pool: [Player], for role: PositionRole?) -> Int {
         guard let role else { return 0 }
         if let index = pool.firstIndex(where: { $0.preferredRole == role }) {
             return index
         }
         if role == .goalkeeper, let index = pool.firstIndex(where: { $0.isGoalkeeper }) {
+            return index
+        }
+        if let index = pool.firstIndex(where: { $0.preferredRole == nil }) {
             return index
         }
         return 0

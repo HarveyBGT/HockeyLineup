@@ -70,4 +70,29 @@ struct LineupAutoFillerTests {
         let pool = [Player(firstName: "A"), Player(firstName: "B")]
         #expect(LineupAutoFiller.bestCandidateIndex(in: pool, for: nil) == 0)
     }
+
+    @Test func bestCandidateIndexPrefersNoPreferenceOverAConflictingExplicitPreference() {
+        let striker = player("Striker", preferredRole: .forward)
+        let utility = player("Utility")
+        let pool = [striker, utility]
+        // Nobody prefers or is flagged for goalkeeper — should pick the
+        // no-preference player rather than displacing the striker.
+        let index = LineupAutoFiller.bestCandidateIndex(in: pool, for: .goalkeeper)
+        #expect(pool[index].firstName == "Utility")
+    }
+
+    @Test func bestCandidateIndexFallsBackToPickOrderWhenEveryoneHasAConflictingPreference() {
+        let striker = player("Striker", preferredRole: .forward)
+        let defender = player("Defender", preferredRole: .defense)
+        let pool = [striker, defender]
+        #expect(LineupAutoFiller.bestCandidateIndex(in: pool, for: .goalkeeper) == 0)
+    }
+
+    @Test func fillAvoidsPuttingAPlayerWithADifferentExplicitPreferenceInGoal() {
+        var card = LineupCard(formation: Formation.preset(id: "5-3-2"))
+        let striker = player("Striker", preferredRole: .forward)
+        let utility = player("Utility")
+        LineupAutoFiller.fill(&card, from: [striker, utility])
+        #expect(card.playerIDs[0] == utility.id)
+    }
 }
