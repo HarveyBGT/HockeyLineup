@@ -20,12 +20,12 @@
 		782A2070838D3DB1EE001701 /* PitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17B1BD609B5B6E04D61C970 /* PitchView.swift */; };
 		799FF1A220A1D620883DA5EE /* LeagueDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487C6F39B43F2B54F0C5BFEB /* LeagueDataTests.swift */; };
 		7F93A5071F278428D91FBCCE /* PitchMarkingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13183BEE691B72C68DF0A6DB /* PitchMarkingsView.swift */; };
-		8723FB52DDDAD2FDF084F5C8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 550297D38E4ED8A3AECD5215 /* Assets.xcassets */; };
 		8974680F6290A9A3B790168C /* PlayerFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EAF831545C7C7E02817BF0 /* PlayerFormView.swift */; };
 		94F160615402EA5781C9FC8D /* LineupCardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28D9F7FAA895B1E8F40AA69 /* LineupCardTests.swift */; };
 		9819AA45FD96FDC948C236B2 /* PitchVenuePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032A4820AFBCBA260EE45CC /* PitchVenuePickerView.swift */; };
 		A2747DD4137A4900FBF2A8E9 /* PlayerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417339181E61AF783EE9D586 /* PlayerStore.swift */; };
 		A3B2B6B9958739F5200D176F /* ActivityShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A53C9764EF1C981518F0EE1 /* ActivityShareSheet.swift */; };
+		A4D180E09091DAEDA4B09BD7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 492808C365DA1A9666502721 /* Assets.xcassets */; };
 		A7E2A305B7CB89924838E942 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28536282BB4EC9ABA33B50CD /* Color+Hex.swift */; };
 		A8471E5D192BF20C8C9D8BCD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2F81519F1FED52D30DCAB /* ContentView.swift */; };
 		A8AFA545C56D91EDEDAFCD3C /* FormationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7343DB091FAE6384DBB58B2C /* FormationPickerView.swift */; };
@@ -66,9 +66,9 @@
 		3F0BC73AF9416895839E5849 /* ExportCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportCardView.swift; sourceTree = "<group>"; };
 		417339181E61AF783EE9D586 /* PlayerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStore.swift; sourceTree = "<group>"; };
 		487C6F39B43F2B54F0C5BFEB /* LeagueDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueDataTests.swift; sourceTree = "<group>"; };
+		492808C365DA1A9666502721 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		4AB51E88C49C760F1CCBD5FE /* PitchVenueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchVenueTests.swift; sourceTree = "<group>"; };
 		513433185E68892F455FC8CD /* FailableDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailableDecodable.swift; sourceTree = "<group>"; };
-		550297D38E4ED8A3AECD5215 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		55613E1E0B8C6347004C5F9C /* ClubCrestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubCrestView.swift; sourceTree = "<group>"; };
 		600B207EE597571E0ECD2F0F /* HockeyLineup.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HockeyLineup.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		64C0D653869A92EC827D58D6 /* FixturePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixturePickerView.swift; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 				A98D39C81218250261211749 /* Sources */,
 				BAFE38B3E25A316D47F2B325 /* Tests */,
 				41387F83DB554187EE138F60 /* Products */,
-				550297D38E4ED8A3AECD5215 /* Assets.xcassets */,
+				492808C365DA1A9666502721 /* Assets.xcassets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -204,7 +204,7 @@
 			buildConfigurationList = CE071C655BED44B5DFD512C1 /* Build configuration list for PBXNativeTarget "HockeyLineup" */;
 			buildPhases = (
 				978BDE4E4FB1E5BC09F27B81 /* Sources */,
-				C85BEFFBFF9F7D2230962195 /* Resources */,
+				2FAA8F0E67F4F5DAF1BCFD15 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -263,11 +263,11 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		C85BEFFBFF9F7D2230962195 /* Resources */ = {
+		2FAA8F0E67F4F5DAF1BCFD15 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8723FB52DDDAD2FDF084F5C8 /* Assets.xcassets in Resources */,
+				A4D180E09091DAEDA4B09BD7 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

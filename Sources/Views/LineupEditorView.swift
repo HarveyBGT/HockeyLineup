@@ -10,8 +10,6 @@ struct LineupEditorView: View {
     @State private var card: LineupCard = LineupCard(formation: Formation.presets[0])
     @State private var homeColor: Color = .init(hex: "#1C63A8")
     @State private var awayColor: Color = .init(hex: "#FFFFFF")
-    @State private var shareURL: URL?
-    @State private var showShareSheet = false
     @State private var showPitchPicker = false
     @State private var showFixturePicker = false
     @State private var editingBenchIndex: Int?
@@ -46,15 +44,29 @@ struct LineupEditorView: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
 
-                Button {
-                    showFixturePicker = true
-                } label: {
-                    Label("Use a Fixture", systemImage: "calendar.badge.checkmark")
-                        .font(.system(size: 15, weight: .semibold, design: .rounded))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
+                HStack(spacing: 10) {
+                    Button {
+                        showFixturePicker = true
+                    } label: {
+                        Label("Use a Fixture", systemImage: "calendar.badge.checkmark")
+                            .font(.system(size: 15, weight: .semibold, design: .rounded))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                    }
+                    .modifier(ProminentGlassButtonModifier())
+
+                    Button {
+                        autoFillSquad()
+                    } label: {
+                        Label("Auto-Fill", systemImage: "wand.and.stars")
+                            .font(.system(size: 15, weight: .semibold, design: .rounded))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                    }
+                    .modifier(ProminentGlassButtonModifier())
+                    .tint(Theme.fortressGold)
+                    .disabled(fullyUnassignedSquad.isEmpty)
                 }
-                .modifier(ProminentGlassButtonModifier())
                 .padding(.horizontal, 16)
 
                 VStack(spacing: 12) {
@@ -149,7 +161,7 @@ struct LineupEditorView: View {
                 .padding(.horizontal, 16)
 
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Bench")
+                    Text("Super Subs")
                         .font(.system(size: 15, weight: .medium))
 
                     HStack(spacing: 10) {
@@ -248,11 +260,6 @@ struct LineupEditorView: View {
         .onChange(of: awayColor) { _, newValue in
             card.awayColorHex = newValue.hexString
         }
-        .sheet(isPresented: $showShareSheet) {
-            if let shareURL {
-                ActivityShareSheet(items: [shareURL])
-            }
-        }
         .sheet(isPresented: $showPitchPicker) {
             PitchVenuePickerView(selectedID: card.pitchVenueID) { venue in
                 card.pitchVenueID = venue.id
@@ -286,6 +293,44 @@ struct LineupEditorView: View {
                     card.assign(selectedID, to: .bench(index))
                 }
             }
+        }
+    }
+
+    /// Squad members not currently placed anywhere in this lineup, in a
+    /// sensible pick order: numbered players first (by number), then
+    /// unnumbered players alphabetically.
+    private var fullyUnassignedSquad: [Player] {
+        playerStore.players
+            .filter { card.slot(of: $0.id) == nil }
+            .sorted {
+                switch ($0.squadNumber, $1.squadNumber) {
+                case let (a?, b?): return a < b
+                case (nil, nil): return $0.fullName < $1.fullName
+                case (nil, _): return false
+                case (_, nil): return true
+                }
+            }
+    }
+
+    /// Fills every empty pitch position, then every empty bench slot, from
+    /// the squad database — a quick starting point rather than tapping each
+    /// spot individually. Skips anyone already placed; stops gracefully if
+    /// the squad runs out before every spot is filled.
+    private func autoFillSquad() {
+        var pool = fullyUnassignedSquad
+
+        for index in card.playerIDs.indices where card.playerIDs[index] == nil {
+            guard !pool.isEmpty else { break }
+            let role = card.formation.positions.first(where: { $0.id == index })?.role
+            let pickIndex = (role == .goalkeeper) ? (pool.firstIndex(where: { $0.isGoalkeeper }) ?? 0) : 0
+            let player = pool.remove(at: pickIndex)
+            card.assign(player.id, to: .pitch(index))
+        }
+
+        for index in card.benchPlayerIDs.indices where card.benchPlayerIDs[index] == nil {
+            guard !pool.isEmpty else { break }
+            let player = pool.removeFirst()
+            card.assign(player.id, to: .bench(index))
         }
     }
 
@@ -337,8 +382,10 @@ struct LineupEditorView: View {
 
         do {
             try jpegData.write(to: tempURL, options: .atomic)
-            shareURL = tempURL
-            showShareSheet = true
+            // Presented directly via UIKit rather than a SwiftUI .sheet — the
+            // .sheet-wrapped form of UIActivityViewController is a well-known
+            // source of a blank/white share sheet on real devices.
+            ActivityShareSheet.present(items: [tempURL])
         } catch {
             // Nothing sensible to recover to here; sharing simply won't happen.
         }

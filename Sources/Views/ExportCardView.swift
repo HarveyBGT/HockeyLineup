@@ -28,11 +28,7 @@ struct ExportCardView: View {
 
     private var hasBenchOrOfficials: Bool { !benchPlayers.isEmpty || !officialsLines.isEmpty }
 
-    private var hasMatchDetails: Bool {
-        !card.matchDateText.isEmpty || !card.kickoffTimeText.isEmpty || !card.venueText.isEmpty
-    }
-
-    private func matchDetail(icon: String, text: String) -> some View {
+    private func matchDetail(icon: String, text: String, placeholder: Bool = false) -> some View {
         HStack(spacing: 4) {
             Image(systemName: icon)
                 .font(.system(size: 10, weight: .semibold))
@@ -40,7 +36,7 @@ struct ExportCardView: View {
                 .font(.system(size: 12, weight: .semibold))
                 .lineLimit(1)
         }
-        .foregroundColor(.white.opacity(0.85))
+        .foregroundColor(.white.opacity(placeholder ? 0.5 : 0.85))
     }
 
     private var kitDetail: some View {
@@ -83,24 +79,31 @@ struct ExportCardView: View {
                             .overlay(Capsule().stroke(.white.opacity(0.3), lineWidth: 1))
                     }
 
-                    if hasMatchDetails {
-                        VStack(alignment: .leading, spacing: 6) {
-                            HStack(spacing: 14) {
-                                if !card.matchDateText.isEmpty {
-                                    matchDetail(icon: "calendar", text: card.matchDateText)
-                                }
-                                if !card.kickoffTimeText.isEmpty {
-                                    matchDetail(icon: "clock.fill", text: card.kickoffTimeText)
-                                }
-                                matchDetail(icon: card.isHome ? "house.fill" : "figure.walk", text: card.isHome ? "Home" : "Away")
-                                kitDetail
-                            }
-                            if !card.venueText.isEmpty {
-                                matchDetail(icon: "mappin.and.ellipse", text: card.venueText)
-                            }
+                    // Always shown, with placeholders — so it's obvious this
+                    // information belongs here even before it's filled in,
+                    // rather than the whole row silently vanishing.
+                    VStack(alignment: .leading, spacing: 6) {
+                        HStack(spacing: 14) {
+                            matchDetail(
+                                icon: "calendar",
+                                text: card.matchDateText.isEmpty ? "Date TBC" : card.matchDateText,
+                                placeholder: card.matchDateText.isEmpty
+                            )
+                            matchDetail(
+                                icon: "clock.fill",
+                                text: card.kickoffTimeText.isEmpty ? "Time TBC" : card.kickoffTimeText,
+                                placeholder: card.kickoffTimeText.isEmpty
+                            )
+                            matchDetail(icon: card.isHome ? "house.fill" : "figure.walk", text: card.isHome ? "Home" : "Away")
+                            kitDetail
                         }
-                        .padding(.top, 2)
+                        matchDetail(
+                            icon: "mappin.and.ellipse",
+                            text: card.venueText.isEmpty ? "Venue TBC" : card.venueText,
+                            placeholder: card.venueText.isEmpty
+                        )
                     }
+                    .padding(.top, 2)
                 }
                 .padding(18)
                 .background(Theme.accentGradient(color))
@@ -118,39 +121,46 @@ struct ExportCardView: View {
             .shadow(color: .black.opacity(0.35), radius: 24, x: 0, y: 14)
 
             if hasBenchOrOfficials {
-                VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: 14) {
                     if !benchPlayers.isEmpty {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("BENCH")
-                                .font(.system(size: 11, weight: .bold, design: .rounded))
-                                .tracking(1.2)
-                                .foregroundColor(.white.opacity(0.5))
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text("SUPER SUBS")
+                                .font(.system(size: 12, weight: .bold, design: .rounded))
+                                .tracking(1.4)
+                                .foregroundColor(.white.opacity(0.65))
 
-                            HStack(spacing: 14) {
+                            HStack(spacing: 16) {
                                 ForEach(benchPlayers) { player in
-                                    VStack(spacing: 4) {
-                                        PlayerAvatarView(avatar: player.avatar, size: 28)
+                                    VStack(spacing: 5) {
+                                        PlayerAvatarView(avatar: player.avatar, size: 34)
                                         Text(player.lastName.isEmpty ? player.firstName : player.lastName)
-                                            .font(.system(size: 11, weight: .medium))
-                                            .foregroundColor(.white.opacity(0.85))
+                                            .font(.system(size: 12, weight: .semibold))
+                                            .foregroundColor(.white.opacity(0.9))
                                             .lineLimit(1)
                                     }
                                 }
+                                Spacer(minLength: 0)
                             }
                         }
                     }
 
                     if !officialsLines.isEmpty {
-                        VStack(alignment: .leading, spacing: 3) {
+                        VStack(alignment: .leading, spacing: 4) {
                             ForEach(officialsLines, id: \.self) { line in
                                 Text(line)
-                                    .font(.system(size: 12, weight: .medium))
-                                    .foregroundColor(.white.opacity(0.7))
+                                    .font(.system(size: 13, weight: .medium))
+                                    .foregroundColor(.white.opacity(0.8))
                             }
                         }
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(16)
+                .background(.white.opacity(0.06), in: RoundedRectangle(cornerRadius: Theme.cornerRadiusMedium, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: Theme.cornerRadiusMedium, style: .continuous)
+                        .stroke(.white.opacity(0.12), lineWidth: 1)
+                )
             }
 
             HStack(spacing: 5) {
