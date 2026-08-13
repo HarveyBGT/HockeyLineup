@@ -23,7 +23,7 @@ struct FixturePickerView: View {
                     )
                 } else {
                     List {
-                        Section(team?.divisionName ?? "") {
+                        Section {
                             ForEach(fixtures) { fixture in
                                 Button {
                                     onSelect(fixture)
@@ -33,6 +33,10 @@ struct FixturePickerView: View {
                                 }
                                 .buttonStyle(.plain)
                             }
+                        } header: {
+                            Text(team?.divisionName ?? "")
+                        } footer: {
+                            Text("This is a point-in-time snapshot of the published fixture list, not a live feed — if a match is postponed or rescheduled, pick it here as normal and then edit the date on the lineup itself.")
                         }
                     }
                 }

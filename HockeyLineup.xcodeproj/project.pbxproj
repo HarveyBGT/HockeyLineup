@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04E7C4EB53174EF56642A829 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D800A638C46CA9172DDACBD0 /* Assets.xcassets */; };
 		07FA2FAE00772E685DEFB7BC /* FortressWatchWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 14BC3F0134CD29BD61CEA16C /* FortressWatchWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1491A24D4D1068FC7AA7F81F /* NextFixtureIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017A9B878DA28B16B4293E2E /* NextFixtureIntent.swift */; };
 		16F684BC1056ABC2078B8F2C /* LeagueData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CEF310A0D230188BD8DB4DA /* LeagueData.swift */; };
@@ -36,7 +37,6 @@
 		799FF1A220A1D620883DA5EE /* LeagueDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487C6F39B43F2B54F0C5BFEB /* LeagueDataTests.swift */; };
 		7BD75623DAA13E12C6ACABD1 /* SuperSubsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A068BD0E75D69FD7A9722E00 /* SuperSubsSection.swift */; };
 		7F93A5071F278428D91FBCCE /* PitchMarkingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13183BEE691B72C68DF0A6DB /* PitchMarkingsView.swift */; };
-		83B661BA5BD89F76D62FC6B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F61D4F7B47F22D47B267A824 /* Assets.xcassets */; };
 		85BDC0DC1B07E89235D842D2 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDDD1132AC91F85D4D897FA /* Theme.swift */; };
 		860B21947AD469CDEBFCD7D9 /* PitchVenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CE3FA1C04A261DACD560AE /* PitchVenue.swift */; };
 		886743C55781EBEDE71AEA19 /* MatchActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A96E0169F97A3FB59CAC64 /* MatchActivityAttributes.swift */; };
@@ -70,6 +70,7 @@
 		C9FC23578B6F881A23A642E3 /* MatchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80966925E61F554767EBED9 /* MatchResult.swift */; };
 		D0E4E6DE2122AED22D47166F /* FormationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BCBE64EB37D44883D495A7 /* FormationTests.swift */; };
 		D16FBB1A9B0C7A69BEE76492 /* MatchDaySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA810A5B84BD41A42A5B0FD /* MatchDaySection.swift */; };
+		D3619941D8173210D55D7A20 /* ClubSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB763A848937E93E6B91C86 /* ClubSettingsView.swift */; };
 		E183164DB4F749EDED9831AB /* PlayerAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCC0A6C36B827FD76D7F361 /* PlayerAvatarView.swift */; };
 		EEBD2955EDF1AC0D65A31C55 /* PlayerDatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F57511A7F869E8DF9CD612 /* PlayerDatabaseView.swift */; };
 		F1487FF75CF0452BA3ECCF40 /* PlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF74ACB214F32AB105244A63 /* PlayerTests.swift */; };
@@ -165,6 +166,7 @@
 		3032A4820AFBCBA260EE45CC /* PitchVenuePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchVenuePickerView.swift; sourceTree = "<group>"; };
 		33B9CB0594F00CF9BBDFE283 /* FortressWidgetExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = FortressWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		35BAC318FC2AC3551049FA55 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		3AB763A848937E93E6B91C86 /* ClubSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubSettingsView.swift; sourceTree = "<group>"; };
 		3EDDD1132AC91F85D4D897FA /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		3F0BC73AF9416895839E5849 /* ExportCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportCardView.swift; sourceTree = "<group>"; };
 		417339181E61AF783EE9D586 /* PlayerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStore.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 		C377D6339B9C0A238D757191 /* LineupEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineupEditorView.swift; sourceTree = "<group>"; };
 		C6683A0796B0693558640503 /* LineupAutoFillerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineupAutoFillerTests.swift; sourceTree = "<group>"; };
 		CF74ACB214F32AB105244A63 /* PlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTests.swift; sourceTree = "<group>"; };
+		D800A638C46CA9172DDACBD0 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		D9B6549A71CCF4F294D05D49 /* MatchLiveActivityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchLiveActivityWidget.swift; sourceTree = "<group>"; };
 		DCA810A5B84BD41A42A5B0FD /* MatchDaySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDaySection.swift; sourceTree = "<group>"; };
 		DF9E3A8657E73C388E26DBB8 /* NextFixtureComplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextFixtureComplication.swift; sourceTree = "<group>"; };
@@ -207,7 +210,6 @@
 		E6500DEB7CDD402FD3BD7D0B /* SeasonRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonRecordView.swift; sourceTree = "<group>"; };
 		E7291142AA8F2F8CE6F03DA5 /* MatchActivityControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchActivityControllerTests.swift; sourceTree = "<group>"; };
 		F06D498F83AD372E92BCC11D /* CalendarService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarService.swift; sourceTree = "<group>"; };
-		F61D4F7B47F22D47B267A824 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		F7282E30B7767B0B59A6C524 /* Formation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -238,7 +240,7 @@
 				903894DEAA6A945CDEA1DB63 /* Watch */,
 				0A7FF61315C4ACADAC9ABBCC /* Widgets */,
 				41387F83DB554187EE138F60 /* Products */,
-				F61D4F7B47F22D47B267A824 /* Assets.xcassets */,
+				D800A638C46CA9172DDACBD0 /* Assets.xcassets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -320,6 +322,7 @@
 			children = (
 				0A53C9764EF1C981518F0EE1 /* ActivityShareSheet.swift */,
 				55613E1E0B8C6347004C5F9C /* ClubCrestView.swift */,
+				3AB763A848937E93E6B91C86 /* ClubSettingsView.swift */,
 				9AC2F81519F1FED52D30DCAB /* ContentView.swift */,
 				3F0BC73AF9416895839E5849 /* ExportCardView.swift */,
 				64C0D653869A92EC827D58D6 /* FixturePickerView.swift */,
@@ -447,7 +450,7 @@
 				978BDE4E4FB1E5BC09F27B81 /* Sources */,
 				BFCBA161142A7964A0828CDC /* Embed Foundation Extensions */,
 				689243DBA212EA01672B911A /* Embed Watch Content */,
-				A44409B6440F07E6C94B0A6B /* Resources */,
+				6A1FD57AECD106EC22D020AC /* Resources */,
 			);
 			buildRules = (
 			);
@@ -528,11 +531,11 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		A44409B6440F07E6C94B0A6B /* Resources */ = {
+		6A1FD57AECD106EC22D020AC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83B661BA5BD89F76D62FC6B0 /* Assets.xcassets in Resources */,
+				04E7C4EB53174EF56642A829 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,6 +589,7 @@
 				95CF61A8AD516B3CD0E0F8B4 /* CalendarService.swift in Sources */,
 				29D6851D1CFD334DB7CD81FC /* CloudKitSyncService.swift in Sources */,
 				C985C33D398C132A2CC0D3AC /* ClubCrestView.swift in Sources */,
+				D3619941D8173210D55D7A20 /* ClubSettingsView.swift in Sources */,
 				A7E2A305B7CB89924838E942 /* Color+Hex.swift in Sources */,
 				A8471E5D192BF20C8C9D8BCD /* ContentView.swift in Sources */,
 				2FFBE1DF9F8EE2D2EF00A015 /* ExportCardView.swift in Sources */,

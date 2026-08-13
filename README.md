@@ -48,6 +48,8 @@ Named after Dukes Meadow, Barnes Hockey Club's home pitch — known to players a
 - **Calendar sync**: one tap adds a fixture to your calendar with the venue and a kickoff reminder.
 - **Live Activities**: track the score live on the Lock Screen and in the Dynamic Island during a
   match.
+- **Club Settings**: point the app at any team already in the division catalogue instead of
+  Barnes — see below.
 
 ## Getting started
 
@@ -191,6 +193,19 @@ a running score (ours vs the opposition) and a status ("1st Half", "Half Time"..
 Lock Screen and, on supported devices, the Dynamic Island. +/- counters push a live update as the
 score changes; ending it writes the final score back onto the lineup's own Result section. If the
 app is relaunched mid-match, it reattaches to the running activity rather than losing track of it.
+
+## Club Settings
+
+The gear icon on the main screen opens **Club Settings**, which picks `MyTeam.teamID` and
+`MyTeam.pitchVenueID` (backed by `UserDefaults`, see `Sources/Models/LeagueData.swift`) from any
+team already in `LeagueData.teams` / `PitchVenue.catalog`. This reconfigures the main app's crest,
+kit defaults, fixtures, and venue — existing saved lineups keep whatever details they were built
+with.
+
+This does **not** reconfigure the widget or Watch app: they read their own sandboxed
+`UserDefaults` and need an App Group to see a Club Settings change, the same one-time manual setup
+already required for iCloud sync. It also doesn't cover a club outside the existing catalogue, or
+custom branding (app name, uploaded crest) — that's a bigger, not-yet-built feature.
 
 ## Known limitations
 

@@ -67,6 +67,15 @@ struct MatchDaySection: View {
         }
         .groupedCard()
         .padding(.horizontal, 16)
+        .alert(
+            "Live Activity",
+            isPresented: Binding(get: { activity.lastError != nil }, set: { if !$0 { activity.lastError = nil } }),
+            presenting: activity.lastError
+        ) { _ in
+            Button("OK", role: .cancel) {}
+        } message: { message in
+            Text(message)
+        }
     }
 
     private func startLiveActivity() {

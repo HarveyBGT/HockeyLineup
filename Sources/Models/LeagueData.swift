@@ -257,11 +257,29 @@ enum LeagueData {
     }
 }
 
-/// The one team this app currently builds lineups for. Hardcoded for now —
-/// generalize this (e.g. a settings screen to pick "my team" from
-/// `LeagueData.teams`) once more of the league is pulled in.
+/// The one team this app currently builds lineups for. Backed by
+/// `UserDefaults` (via `ClubSettingsView`) rather than hardcoded, so any team
+/// already in `LeagueData.teams` can be picked as "my team" without a
+/// rebuild — defaults to Barnes M3 / Dukes Meadow if never changed.
+///
+/// Note: this only reconfigures the main app (lineup building, export,
+/// Season Record). The widget and Watch targets read their own sandboxed
+/// `UserDefaults` and can't see this change without an App Group — the same
+/// class of one-time manual setup already required for iCloud sync (see
+/// README). They'll keep showing whatever team they were last built with.
 enum MyTeam {
-    static let teamID = "barnes-m3"
-    static let pitchVenueID = "barnes"
+    private static let teamIDDefaultsKey = "MyTeam.teamID"
+    private static let pitchVenueIDDefaultsKey = "MyTeam.pitchVenueID"
+
+    static var teamID: String {
+        get { UserDefaults.standard.string(forKey: teamIDDefaultsKey) ?? "barnes-m3" }
+        set { UserDefaults.standard.set(newValue, forKey: teamIDDefaultsKey) }
+    }
+
+    static var pitchVenueID: String? {
+        get { UserDefaults.standard.string(forKey: pitchVenueIDDefaultsKey) ?? "barnes" }
+        set { UserDefaults.standard.set(newValue, forKey: pitchVenueIDDefaultsKey) }
+    }
+
     static var name: String { LeagueData.team(id: teamID)?.name ?? "My Team" }
 }

@@ -5,6 +5,7 @@ struct ContentView: View {
     @State private var showFormationPicker = false
     @State private var showPlayerDatabase = false
     @State private var showSeasonRecord = false
+    @State private var showClubSettings = false
     @State private var selectedCardID: UUID?
 
     private var sortedCards: [LineupCard] {
@@ -71,6 +72,15 @@ struct ContentView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
+                        showClubSettings = true
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                            .font(.system(size: 18))
+                            .symbolRenderingMode(.hierarchical)
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
                         showFormationPicker = true
                     } label: {
                         Image(systemName: "plus.circle.fill")
@@ -84,6 +94,9 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showSeasonRecord) {
                 SeasonRecordView()
+            }
+            .sheet(isPresented: $showClubSettings) {
+                ClubSettingsView()
             }
             .sheet(isPresented: $showFormationPicker) {
                 FormationPickerView { formation in

@@ -11,6 +11,10 @@ final class MatchActivityController: ObservableObject {
     @Published private(set) var ourScore = 0
     @Published private(set) var opponentScore = 0
     @Published private(set) var status = "Kickoff"
+    /// Set when `start()` fails to actually start a Live Activity, so the
+    /// view can tell the user why instead of the button silently doing
+    /// nothing — the previous behaviour when this was only a `catch {}`.
+    @Published var lastError: String?
 
     nonisolated static let statusOptions = ["Kickoff", "1st Half", "Half Time", "2nd Half", "Full Time"]
 
@@ -28,6 +32,12 @@ final class MatchActivityController: ObservableObject {
 
     func start(opponentName: String, isHome: Bool, venueText: String, initialOurScore: Int, initialOpponentScore: Int) {
         guard currentActivity == nil else { return }
+
+        guard ActivityAuthorizationInfo().areActivitiesEnabled else {
+            lastError = "Live Activities are turned off for this app. Enable them in Settings → Fortress → Live Activities to use this."
+            return
+        }
+
         ourScore = Self.clamped(initialOurScore)
         opponentScore = Self.clamped(initialOpponentScore)
         status = "Kickoff"
@@ -37,8 +47,7 @@ final class MatchActivityController: ObservableObject {
         do {
             currentActivity = try Activity.request(attributes: attributes, content: .init(state: state, staleDate: nil))
         } catch {
-            // Live Activities can be disabled system-wide by the user; nothing
-            // else to do here — the score fields above still work as normal.
+            lastError = "Couldn't start the Live Activity: \(error.localizedDescription)"
         }
     }
 
