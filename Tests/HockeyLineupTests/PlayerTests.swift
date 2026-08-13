@@ -60,6 +60,19 @@ struct PlayerTests {
         #expect(player.avatar.beardStyle == .none)
     }
 
+    @Test func newPlayerHasNoPreferredRoleByDefault() {
+        #expect(Player().preferredRole == nil)
+    }
+
+    /// A player saved before `preferredRole` existed must still decode.
+    @Test func decodesPlayerJSONMissingPreferredRole() throws {
+        let oldShapeJSON = """
+        {"id": "\(UUID().uuidString)", "firstName": "Ben", "lastName": "Hughes"}
+        """.data(using: .utf8)!
+        let player = try JSONDecoder().decode(Player.self, from: oldShapeJSON)
+        #expect(player.preferredRole == nil)
+    }
+
     @Test func resilientArrayDecodeSkipsOnlyTheMalformedEntry() throws {
         let json = """
         [

@@ -4,6 +4,7 @@ struct ContentView: View {
     @EnvironmentObject private var store: LineupStore
     @State private var showFormationPicker = false
     @State private var showPlayerDatabase = false
+    @State private var showSeasonRecord = false
     @State private var selectedCardID: UUID?
 
     private var sortedCards: [LineupCard] {
@@ -59,6 +60,15 @@ struct ContentView: View {
                             .symbolRenderingMode(.hierarchical)
                     }
                 }
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        showSeasonRecord = true
+                    } label: {
+                        Image(systemName: "chart.bar.fill")
+                            .font(.system(size: 18))
+                            .symbolRenderingMode(.hierarchical)
+                    }
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         showFormationPicker = true
@@ -71,6 +81,9 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showPlayerDatabase) {
                 PlayerDatabaseView()
+            }
+            .sheet(isPresented: $showSeasonRecord) {
+                SeasonRecordView()
             }
             .sheet(isPresented: $showFormationPicker) {
                 FormationPickerView { formation in
@@ -116,6 +129,21 @@ private struct LineupRow: View {
                 }
             }
             Spacer()
+
+            if let result = card.result, let scoreText = card.scoreText {
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text(result.label.uppercased())
+                        .font(.system(size: 10, weight: .bold, design: .rounded))
+                        .tracking(0.5)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 2)
+                        .background(Theme.resultColor(result), in: Capsule())
+                    Text(scoreText)
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(.secondary)
+                }
+            }
 
             Image(systemName: "chevron.right")
                 .font(.system(size: 13, weight: .semibold))

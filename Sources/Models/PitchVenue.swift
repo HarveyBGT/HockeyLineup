@@ -27,11 +27,7 @@ struct ClubCrest: Hashable {
     /// contains it, otherwise deterministically synthesizes a colour +
     /// monogram so every opponent still gets a consistent-looking crest.
     static func forTeamName(_ name: String) -> ClubCrest {
-        let lowered = name.lowercased()
-        if let match = PitchVenue.catalog.first(where: {
-            $0.id != PitchVenue.classicGreen.id &&
-            lowered.contains($0.clubName.replacingOccurrences(of: " HC", with: "").lowercased())
-        }) {
+        if let match = PitchVenue.matchingCuratedVenue(forTeamName: name) {
             return match.crest
         }
 
@@ -90,6 +86,15 @@ struct PitchVenue: Identifiable, Codable, Hashable {
         PitchVenue(id: "reading", clubName: "Reading HC", groundName: "Home Ground", location: "Reading, Berkshire", colorHex: hockeyBlue, crestColorHex: "#1E429F"),
         PitchVenue(id: "romford", clubName: "Romford HC", groundName: "Home Ground", location: "Romford, Essex", colorHex: hockeyBlue, crestColorHex: "#1F2A44"),
         PitchVenue(id: "oxted", clubName: "Oxted HC", groundName: "Home Ground", location: "Oxted, Surrey", colorHex: hockeyBlue, crestColorHex: "#146B5C"),
+        // Barnes M3's own division opponents — added so away fixtures can
+        // show a real venue instead of the generic name-only fallback.
+        PitchVenue(id: "old-tonbridgians", clubName: "Old Tonbridgians HC", groundName: "Tonbridge School (Foundation Astro)", location: "Tonbridge, Kent", colorHex: hockeyBlue, crestColorHex: "#7A2E2E"),
+        PitchVenue(id: "london-gamblers", clubName: "London Gamblers HC", groundName: "Crystal Palace National Sports Centre", location: "London, SE19", colorHex: hockeyBlue, crestColorHex: "#B8860B"),
+        PitchVenue(id: "cheam", clubName: "Cheam HC", groundName: "Cheam Sports Club", location: "Sutton, SM2 7BJ", colorHex: hockeyBlue, crestColorHex: "#1F3A5C"),
+        PitchVenue(id: "purley-walcountians", clubName: "Purley Walcountians HC", groundName: "Clockhouse Ground", location: "Woodmansterne, Banstead, SM7 3HU", colorHex: hockeyBlue, crestColorHex: "#A0522D"),
+        PitchVenue(id: "tulse-hill-dulwich", clubName: "Tulse Hill & Dulwich HC", groundName: "Dulwich Sports Club", location: "Dulwich, SE24 9HB", colorHex: hockeyBlue, crestColorHex: "#2F4F4F"),
+        PitchVenue(id: "wanderers", clubName: "Wanderers HC", groundName: "Battersea Park", location: "Battersea, SW11 4NJ", colorHex: hockeyBlue, crestColorHex: "#33356B"),
+        PitchVenue(id: "london-wayfarers", clubName: "London Wayfarers HC", groundName: "Battersea Park", location: "Battersea, SW11 4NJ", colorHex: hockeyBlue, crestColorHex: "#5C1F1F"),
     ]
 
     static var `default`: PitchVenue { classicGreen }
@@ -97,6 +102,18 @@ struct PitchVenue: Identifiable, Codable, Hashable {
     static func venue(id: String?) -> PitchVenue {
         guard let id else { return .default }
         return catalog.first(where: { $0.id == id }) ?? .default
+    }
+
+    /// Finds a curated club whose name appears within `teamName` (e.g. "Old
+    /// Tonbridgians M1" matches "Old Tonbridgians HC") — shared by crest
+    /// synthesis and away-fixture venue lookup so both use the same club.
+    static func matchingCuratedVenue(forTeamName teamName: String) -> PitchVenue? {
+        guard !teamName.isEmpty else { return nil }
+        let lowered = teamName.lowercased()
+        return catalog.first {
+            $0.id != classicGreen.id &&
+            lowered.contains($0.clubName.replacingOccurrences(of: " HC", with: "").lowercased())
+        }
     }
 
     /// Short crest initials derived from the club name (e.g. "Barnes HC" → "BA").

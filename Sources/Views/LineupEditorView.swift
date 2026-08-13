@@ -26,6 +26,41 @@ struct LineupEditorView: View {
         )
     }
 
+    private var homeScoreBinding: Binding<String> {
+        Binding(
+            get: { card.homeScore.map(String.init) ?? "" },
+            set: { card.homeScore = Int($0) }
+        )
+    }
+
+    private var awayScoreBinding: Binding<String> {
+        Binding(
+            get: { card.awayScore.map(String.init) ?? "" },
+            set: { card.awayScore = Int($0) }
+        )
+    }
+
+    private var homeScoreFieldLabel: String {
+        card.isHome ? MyTeam.name : (card.opposition.isEmpty ? "Home" : card.opposition)
+    }
+
+    private var awayScoreFieldLabel: String {
+        card.isHome ? (card.opposition.isEmpty ? "Away" : card.opposition) : MyTeam.name
+    }
+
+    private func scoreField(title: String, text: Binding<String>) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.system(size: 11, weight: .medium))
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+            TextField("–", text: text)
+                .keyboardType(.numberPad)
+                .font(.system(size: 20, weight: .bold, design: .rounded))
+                .frame(width: 44)
+        }
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 18) {
@@ -86,6 +121,34 @@ struct LineupEditorView: View {
                             .font(.system(size: 15, weight: .medium))
                         Spacer()
                         homeAwayToggle
+                    }
+                }
+                .groupedCard()
+                .padding(.horizontal, 16)
+
+                VStack(spacing: 12) {
+                    HStack {
+                        Text("Result")
+                            .font(.system(size: 15, weight: .medium))
+                        Spacer()
+                        if let result = card.result {
+                            Text(result.label.uppercased())
+                                .font(.system(size: 11, weight: .bold, design: .rounded))
+                                .tracking(0.5)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 4)
+                                .background(Theme.resultColor(result), in: Capsule())
+                        }
+                    }
+
+                    HStack(spacing: 14) {
+                        scoreField(title: homeScoreFieldLabel, text: homeScoreBinding)
+                        Text("–")
+                            .font(.system(size: 20, weight: .bold, design: .rounded))
+                            .foregroundStyle(.secondary)
+                        scoreField(title: awayScoreFieldLabel, text: awayScoreBinding)
+                        Spacer()
                     }
                 }
                 .groupedCard()
@@ -322,7 +385,7 @@ struct LineupEditorView: View {
         for index in card.playerIDs.indices where card.playerIDs[index] == nil {
             guard !pool.isEmpty else { break }
             let role = card.formation.positions.first(where: { $0.id == index })?.role
-            let pickIndex = (role == .goalkeeper) ? (pool.firstIndex(where: { $0.isGoalkeeper }) ?? 0) : 0
+            let pickIndex = bestCandidateIndex(in: pool, for: role)
             let player = pool.remove(at: pickIndex)
             card.assign(player.id, to: .pitch(index))
         }
@@ -332,6 +395,20 @@ struct LineupEditorView: View {
             let player = pool.removeFirst()
             card.assign(player.id, to: .bench(index))
         }
+    }
+
+    /// The best-matching pool index for `role`: someone whose preferred
+    /// position matches, falling back to the goalkeeper flag for GK,
+    /// falling back to whoever's next in the pick order.
+    private func bestCandidateIndex(in pool: [Player], for role: PositionRole?) -> Int {
+        guard let role else { return 0 }
+        if let index = pool.firstIndex(where: { $0.preferredRole == role }) {
+            return index
+        }
+        if role == .goalkeeper, let index = pool.firstIndex(where: { $0.isGoalkeeper }) {
+            return index
+        }
+        return 0
     }
 
     /// Short label for where `playerID` is currently placed, unless that's

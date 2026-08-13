@@ -26,6 +26,18 @@ enum PlayerSlot: Equatable {
     }
 }
 
+enum MatchResult: String, Codable {
+    case win, draw, loss
+
+    var label: String {
+        switch self {
+        case .win: return "Win"
+        case .draw: return "Draw"
+        case .loss: return "Loss"
+        }
+    }
+}
+
 struct LineupCard: Identifiable, Codable, Equatable {
     var id: UUID = UUID()
     var clubName: String = MyTeam.name
@@ -42,6 +54,8 @@ struct LineupCard: Identifiable, Codable, Equatable {
     var coachName: String = ""
     var umpireOneName: String = ""
     var umpireTwoName: String = ""
+    var homeScore: Int? = nil
+    var awayScore: Int? = nil
     var createdAt: Date = Date()
     var updatedAt: Date = Date()
 
@@ -99,17 +113,37 @@ struct LineupCard: Identifiable, Codable, Equatable {
     }
 
     /// Where the match is being played — ground name and location for home
-    /// fixtures (we know Barnes' own grounds); a plain fallback naming the
-    /// opposition for away fixtures, since most opponents' grounds aren't in
-    /// the curated pitch catalog yet. Empty if there's nothing to say.
+    /// fixtures (we know Barnes' own grounds), or the opposition's real
+    /// ground for away fixtures if they're a curated club; falls back to
+    /// just naming the opposition when we don't have their venue. Empty if
+    /// there's nothing to say.
     var venueText: String {
         if isHome {
             let venue = pitchVenue
             guard venue.id != PitchVenue.classicGreen.id else { return "" }
             return "\(venue.groundName), \(venue.location)"
+        } else if let venue = PitchVenue.matchingCuratedVenue(forTeamName: opposition) {
+            return "\(venue.groundName), \(venue.location)"
         } else {
             return opposition.isEmpty ? "" : "\(opposition)'s ground"
         }
+    }
+
+    /// "3 - 1" in home-away order. Nil until both scores are recorded.
+    var scoreText: String? {
+        guard let homeScore, let awayScore else { return nil }
+        return "\(homeScore) - \(awayScore)"
+    }
+
+    /// Result from *our* side regardless of home/away. Nil until both
+    /// scores are recorded.
+    var result: MatchResult? {
+        guard let homeScore, let awayScore else { return nil }
+        let ourScore = isHome ? homeScore : awayScore
+        let theirScore = isHome ? awayScore : homeScore
+        if ourScore > theirScore { return .win }
+        if ourScore < theirScore { return .loss }
+        return .draw
     }
 
     init(formation: Formation) {
@@ -139,6 +173,8 @@ struct LineupCard: Identifiable, Codable, Equatable {
         coachName = try container.decodeIfPresent(String.self, forKey: .coachName) ?? ""
         umpireOneName = try container.decodeIfPresent(String.self, forKey: .umpireOneName) ?? ""
         umpireTwoName = try container.decodeIfPresent(String.self, forKey: .umpireTwoName) ?? ""
+        homeScore = try container.decodeIfPresent(Int.self, forKey: .homeScore)
+        awayScore = try container.decodeIfPresent(Int.self, forKey: .awayScore)
         createdAt = try container.decodeIfPresent(Date.self, forKey: .createdAt) ?? Date()
         updatedAt = try container.decodeIfPresent(Date.self, forKey: .updatedAt) ?? Date()
     }

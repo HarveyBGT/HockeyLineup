@@ -31,6 +31,14 @@ enum Theme {
             endPoint: .bottomTrailing
         )
     }
+
+    static func resultColor(_ result: MatchResult) -> Color {
+        switch result {
+        case .win: return .green
+        case .draw: return .orange
+        case .loss: return .red
+        }
+    }
 }
 
 extension Color {

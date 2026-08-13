@@ -38,4 +38,22 @@ struct PitchVenueTests {
         let second = ClubCrest.forTeamName("Repeatable Rangers")
         #expect(first == second)
     }
+
+    @Test func allBarnesM3DivisionOpponentsAreCurated() {
+        // Every opponent in LeagueData's division should now resolve to a
+        // real venue, not just Barnes' own club, so away fixtures always
+        // show a real ground.
+        let opponents = LeagueData.teams.map(\.name).filter { $0 != MyTeam.name }
+        for opponent in opponents {
+            #expect(PitchVenue.matchingCuratedVenue(forTeamName: opponent) != nil, "\(opponent) should have a curated venue")
+        }
+    }
+
+    @Test func matchingCuratedVenueReturnsNilForUnknownClub() {
+        #expect(PitchVenue.matchingCuratedVenue(forTeamName: "Some Made Up Club") == nil)
+    }
+
+    @Test func matchingCuratedVenueReturnsNilForEmptyName() {
+        #expect(PitchVenue.matchingCuratedVenue(forTeamName: "") == nil)
+    }
 }

@@ -1,10 +1,21 @@
 import Foundation
 
-enum PositionRole: String, Codable {
+enum PositionRole: String, Codable, CaseIterable, Identifiable {
     case goalkeeper = "GK"
     case defense = "DEF"
     case midfield = "MID"
     case forward = "FWD"
+
+    var id: String { rawValue }
+
+    var label: String {
+        switch self {
+        case .goalkeeper: return "Goalkeeper"
+        case .defense: return "Defender"
+        case .midfield: return "Midfielder"
+        case .forward: return "Forward"
+        }
+    }
 }
 
 /// A single spot on the pitch, normalized to 0...1 in both axes.

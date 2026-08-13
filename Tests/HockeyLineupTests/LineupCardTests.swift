@@ -78,12 +78,19 @@ struct LineupCardTests {
         #expect(card.venueText.isEmpty)
     }
 
-    @Test func venueTextFallsBackToOpponentNameWhenAway() {
+    @Test func venueTextUsesRealGroundForACuratedAwayOpponent() {
         var card = LineupCard(formation: Formation.presets[0])
         card.isHome = false
         card.opposition = "Cheam M1"
         card.pitchVenueID = "barnes" // stale value from a previous home game
-        #expect(card.venueText == "Cheam M1's ground")
+        #expect(card.venueText == "Cheam Sports Club, Sutton, SM2 7BJ")
+    }
+
+    @Test func venueTextFallsBackToOpponentNameWhenAwayAndUncurated() {
+        var card = LineupCard(formation: Formation.presets[0])
+        card.isHome = false
+        card.opposition = "Some Made Up Club M1"
+        #expect(card.venueText == "Some Made Up Club M1's ground")
     }
 
     @Test func venueTextIsEmptyWhenAwayWithNoOpponentSet() {
@@ -260,5 +267,60 @@ struct LineupCardTests {
         #expect(PlayerSlot(dragPayload: PlayerSlot.bench(2).dragPayload) == .bench(2))
         #expect(PlayerSlot(dragPayload: "garbage") == nil)
         #expect(PlayerSlot(dragPayload: "pitch:notanumber") == nil)
+    }
+
+    // MARK: - Match result
+
+    @Test func resultAndScoreTextAreNilUntilBothScoresAreSet() {
+        var card = LineupCard(formation: Formation.presets[0])
+        #expect(card.result == nil)
+        #expect(card.scoreText == nil)
+
+        card.homeScore = 3
+        #expect(card.result == nil, "one-sided score shouldn't produce a result")
+
+        card.awayScore = 1
+        #expect(card.result != nil)
+    }
+
+    @Test func resultIsFromOurPerspectiveWhenHome() {
+        var card = LineupCard(formation: Formation.presets[0])
+        card.isHome = true
+        card.homeScore = 3
+        card.awayScore = 1
+        #expect(card.result == .win)
+        #expect(card.scoreText == "3 - 1")
+
+        card.homeScore = 1
+        card.awayScore = 3
+        #expect(card.result == .loss)
+
+        card.homeScore = 2
+        card.awayScore = 2
+        #expect(card.result == .draw)
+    }
+
+    @Test func resultIsFromOurPerspectiveWhenAway() {
+        var card = LineupCard(formation: Formation.presets[0])
+        card.isHome = false
+        card.homeScore = 1
+        card.awayScore = 3
+        // We're the away team, so 3-1 in our favour is a win despite the
+        // higher number sitting in "homeScore".
+        #expect(card.result == .win)
+
+        card.homeScore = 3
+        card.awayScore = 1
+        #expect(card.result == .loss)
+    }
+
+    @Test func decodesLineupCardJSONMissingScores() throws {
+        let data = "{}".data(using: .utf8)!
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        let card = try decoder.decode(LineupCard.self, from: data)
+        #expect(card.homeScore == nil)
+        #expect(card.awayScore == nil)
+        #expect(card.result == nil)
     }
 }

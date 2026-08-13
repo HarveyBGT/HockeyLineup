@@ -15,6 +15,7 @@ struct PlayerFormView: View {
     @State private var isGoalkeeper: Bool
     @State private var captaincy: Player.Captaincy
     @State private var avatar: PlayerAvatar
+    @State private var preferredRole: PositionRole?
     @State private var showDeleteConfirm = false
 
     init(existingPlayer: Player? = nil, onSave: @escaping (Player) -> Void, onDelete: (() -> Void)? = nil) {
@@ -27,6 +28,7 @@ struct PlayerFormView: View {
         _isGoalkeeper = State(initialValue: existingPlayer?.isGoalkeeper ?? false)
         _captaincy = State(initialValue: existingPlayer?.captaincy ?? .none)
         _avatar = State(initialValue: existingPlayer?.avatar ?? PlayerAvatar())
+        _preferredRole = State(initialValue: existingPlayer?.preferredRole)
     }
 
     var body: some View {
@@ -87,6 +89,12 @@ struct PlayerFormView: View {
                         Text("Captain").tag(Player.Captaincy.captain)
                         Text("Vice-Captain").tag(Player.Captaincy.viceCaptain)
                     }
+                    Picker("Usually Plays", selection: $preferredRole) {
+                        Text("Not set").tag(PositionRole?.none)
+                        ForEach(PositionRole.allCases) { role in
+                            Text(role.label).tag(PositionRole?.some(role))
+                        }
+                    }
                 }
 
                 if onDelete != nil {
@@ -127,6 +135,7 @@ struct PlayerFormView: View {
         player.isGoalkeeper = isGoalkeeper
         player.captaincy = captaincy
         player.avatar = avatar
+        player.preferredRole = preferredRole
         onSave(player)
         dismiss()
     }
