@@ -9,6 +9,8 @@ final class PlayerStore: ObservableObject {
         return documents.appendingPathComponent("players.json")
     }()
 
+    private var saveTask: Task<Void, Never>?
+
     init() {
         load()
         Task { await mergeFromCloud() }
@@ -27,12 +29,20 @@ final class PlayerStore: ObservableObject {
         } else {
             players.append(player)
         }
-        save()
+        scheduleSave()
     }
 
     func delete(id: UUID) {
         players.removeAll { $0.id == id }
-        save()
+        scheduleSave()
+    }
+
+    /// Writes out immediately, skipping the debounce — call when the app is
+    /// about to background so the most recent edit is never lost waiting
+    /// out the quiet period.
+    func flush() {
+        saveTask?.cancel()
+        persistNow()
     }
 
     private func load() {
@@ -42,10 +52,33 @@ final class PlayerStore: ObservableObject {
         }
     }
 
-    private func save() {
+    /// Debounces rapid edits (typing, avatar tweaking) into a single disk
+    /// write and CloudKit push instead of doing both on every keystroke —
+    /// with a full squad roster, re-encoding and rewriting the whole file on
+    /// every character typed is real, avoidable main-thread work.
+    private func scheduleSave() {
+        saveTask?.cancel()
+        saveTask = Task {
+            try? await Task.sleep(for: .milliseconds(400))
+            guard !Task.isCancelled else { return }
+            persistNow()
+        }
+    }
+
+    private func persistNow() {
+        let snapshot = players
+        Task {
+            await Self.write(snapshot, to: fileURL)
+            await CloudKitSyncService.pushPlayers(snapshot)
+        }
+    }
+
+    /// `nonisolated` so this runs off the main actor — encoding and writing
+    /// a large squad roster should never be able to block scrolling or
+    /// typing.
+    private nonisolated static func write(_ players: [Player], to fileURL: URL) async {
         guard let data = try? JSONEncoder().encode(players) else { return }
         try? data.write(to: fileURL, options: .atomic)
-        Task { await CloudKitSyncService.pushPlayers(players) }
     }
 
     /// Best-effort iCloud sync: pulls whatever's in the private database and
@@ -67,6 +100,6 @@ final class PlayerStore: ObservableObject {
                 changed = true
             }
         }
-        if changed { save() }
+        if changed { scheduleSave() }
     }
 }
