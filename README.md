@@ -10,7 +10,9 @@ Named after Dukes Meadow, Barnes Hockey Club's home pitch — known to players a
 ## What's here
 
 - SwiftUI, iOS 17+, no backend, no accounts, no third-party dependencies.
-- Adopts iOS 26's Liquid Glass design system where available (badges, prominent buttons), with
+- Leans into iOS 26's Liquid Glass throughout — real `.glassEffect()` on every card, the lineup
+  list rows tinted with each lineup's own kit colour, a `GlassEffectContainer`-grouped action row,
+  and a hero gradient panel behind the pitch for the glass to actually refract against — all with
   graceful fallbacks so it still looks right back to iOS 17.
 - Lineups and the player squad are saved locally on-device as JSON
   (`Documents/lineups.json`, `Documents/players.json`), decoded field-by-field with defaults so

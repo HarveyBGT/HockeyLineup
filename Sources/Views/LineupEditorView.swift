@@ -22,48 +22,77 @@ struct LineupEditorView: View {
     /// The kit colour actually in effect right now, given home/away.
     private var color: Color { card.isHome ? homeColor : awayColor }
 
+    /// The pitch and its two primary actions, framed in a hero panel — the
+    /// one place in the screen worth giving real colour and depth to, since
+    /// Liquid Glass needs something richer than flat system grey to
+    /// actually refract and throw specular highlights.
+    private var heroPanel: some View {
+        VStack(spacing: 14) {
+            PitchView(
+                formation: card.formation,
+                playerIDs: $card.playerIDs,
+                playerStore: playerStore,
+                accentColor: color,
+                pitchColor: Color(hex: card.pitchVenue.colorHex),
+                slotLabel: { index, playerID in card.placementLabel(for: playerID, excluding: .pitch(index)) },
+                onAssign: { index, newID in card.assign(newID, to: .pitch(index)) },
+                onSwap: { source, destination in card.swapOrMove(from: source, to: destination) }
+            )
+                .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadiusLarge, style: .continuous))
+                .elevatedShadow()
+
+            actionButtonsRow
+        }
+        .padding(14)
+        .background(
+            RoundedRectangle(cornerRadius: Theme.cornerRadiusLarge + 8, style: .continuous)
+                .fill(Theme.heroGradient)
+        )
+        .padding(.horizontal, 16)
+        .padding(.top, 8)
+    }
+
+    @ViewBuilder
+    private var actionButtonsRow: some View {
+        if #available(iOS 26.0, *) {
+            GlassEffectContainer(spacing: 10) {
+                actionButtons
+            }
+        } else {
+            actionButtons
+        }
+    }
+
+    private var actionButtons: some View {
+        HStack(spacing: 10) {
+            Button {
+                showFixturePicker = true
+            } label: {
+                Label("Use a Fixture", systemImage: "calendar.badge.checkmark")
+                    .font(.system(size: 15, weight: .semibold, design: .rounded))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+            }
+            .modifier(ProminentGlassButtonModifier())
+
+            Button {
+                LineupAutoFiller.fill(&card, from: playerStore.players)
+            } label: {
+                Label("Auto-Fill", systemImage: "wand.and.stars")
+                    .font(.system(size: 15, weight: .semibold, design: .rounded))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+            }
+            .modifier(ProminentGlassButtonModifier())
+            .tint(Theme.fortressGold)
+            .disabled(LineupAutoFiller.unassignedSquad(playerStore.players, notIn: card).isEmpty)
+        }
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 18) {
-                PitchView(
-                    formation: card.formation,
-                    playerIDs: $card.playerIDs,
-                    playerStore: playerStore,
-                    accentColor: color,
-                    pitchColor: Color(hex: card.pitchVenue.colorHex),
-                    slotLabel: { index, playerID in card.placementLabel(for: playerID, excluding: .pitch(index)) },
-                    onAssign: { index, newID in card.assign(newID, to: .pitch(index)) },
-                    onSwap: { source, destination in card.swapOrMove(from: source, to: destination) }
-                )
-                    .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadiusLarge, style: .continuous))
-                    .elevatedShadow()
-                    .padding(.horizontal, 16)
-                    .padding(.top, 8)
-
-                HStack(spacing: 10) {
-                    Button {
-                        showFixturePicker = true
-                    } label: {
-                        Label("Use a Fixture", systemImage: "calendar.badge.checkmark")
-                            .font(.system(size: 15, weight: .semibold, design: .rounded))
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 10)
-                    }
-                    .modifier(ProminentGlassButtonModifier())
-
-                    Button {
-                        LineupAutoFiller.fill(&card, from: playerStore.players)
-                    } label: {
-                        Label("Auto-Fill", systemImage: "wand.and.stars")
-                            .font(.system(size: 15, weight: .semibold, design: .rounded))
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 10)
-                    }
-                    .modifier(ProminentGlassButtonModifier())
-                    .tint(Theme.fortressGold)
-                    .disabled(LineupAutoFiller.unassignedSquad(playerStore.players, notIn: card).isEmpty)
-                }
-                .padding(.horizontal, 16)
+                heroPanel
 
                 MatchDetailsSection(card: $card, accentColor: color, onAddToCalendar: addToCalendar)
                 ResultSection(card: $card)

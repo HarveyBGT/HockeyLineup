@@ -39,6 +39,20 @@ enum Theme {
         case .loss: return .red
         }
     }
+
+    /// A contained band of rich brand colour to sit behind the pitch and
+    /// primary actions — Liquid Glass reads as a subtle grey smear over a
+    /// flat system background, but genuinely refracts and throws specular
+    /// highlights over something with actual colour and depth in it.
+    /// Concrete `LinearGradient`, not `some View` — needs to work as a
+    /// `ShapeStyle` for `.fill(...)`.
+    static var heroGradient: LinearGradient {
+        LinearGradient(
+            colors: [stoneDark, fortressBlue.mix(with: .black, amount: 0.1), stoneDark.mix(with: fortressGold, amount: 0.08)],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
 }
 
 extension Color {
@@ -71,15 +85,42 @@ struct PressableCardStyle: ButtonStyle {
     }
 }
 
-/// A grouped-style card background matching iOS 17's inset-grouped forms.
+/// A grouped-style card background: real Liquid Glass on iOS 26 (dynamic
+/// refraction, specular highlights, morphs smoothly on tap), an inset-grouped
+/// forms fill below that.
 struct GroupedCardBackground: ViewModifier {
     func body(content: Content) -> some View {
-        content
-            .padding(16)
-            .background(
-                RoundedRectangle(cornerRadius: Theme.cornerRadiusMedium, style: .continuous)
+        if #available(iOS 26.0, *) {
+            content
+                .padding(16)
+                .glassEffect(.regular, in: RoundedRectangle(cornerRadius: Theme.cornerRadiusMedium, style: .continuous))
+        } else {
+            content
+                .padding(16)
+                .background(
+                    RoundedRectangle(cornerRadius: Theme.cornerRadiusMedium, style: .continuous)
+                        .fill(Color(.secondarySystemGroupedBackground))
+                )
+        }
+    }
+}
+
+/// A glassy variant of `GroupedCardBackground` tinted with the club's active
+/// colour — for surfaces that should read as "part of the brand" rather than
+/// neutral chrome (lineup rows, the pitch card frame).
+struct TintedGlassCardBackground: ViewModifier {
+    var tint: Color
+    var cornerRadius: CGFloat = Theme.cornerRadiusMedium
+
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content.glassEffect(.regular.tint(tint.opacity(0.5)), in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+        } else {
+            content.background(
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                     .fill(Color(.secondarySystemGroupedBackground))
             )
+        }
     }
 }
 
@@ -88,8 +129,30 @@ extension View {
         modifier(GroupedCardBackground())
     }
 
+    func tintedGlassCard(tint: Color, cornerRadius: CGFloat = Theme.cornerRadiusMedium) -> some View {
+        modifier(TintedGlassCardBackground(tint: tint, cornerRadius: cornerRadius))
+    }
+
     func elevatedShadow() -> some View {
         shadow(color: .black.opacity(0.18), radius: 14, x: 0, y: 8)
+    }
+}
+
+/// A small circular glass affordance — empty player slots, icon badges —
+/// real glass on iOS 26, `.ultraThinMaterial` below that.
+struct GlassCircleBackground: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content.glassEffect(.regular, in: .circle)
+        } else {
+            content.background(.ultraThinMaterial, in: .circle)
+        }
+    }
+}
+
+extension View {
+    func glassCircle() -> some View {
+        modifier(GlassCircleBackground())
     }
 }
 

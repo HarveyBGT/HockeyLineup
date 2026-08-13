@@ -163,10 +163,7 @@ private struct LineupRow: View {
                 .foregroundStyle(.tertiary)
         }
         .padding(14)
-        .background(
-            RoundedRectangle(cornerRadius: Theme.cornerRadiusMedium, style: .continuous)
-                .fill(Color(.secondarySystemGroupedBackground))
-        )
+        .tintedGlassCard(tint: color)
         .elevatedShadow()
         .contentShape(RoundedRectangle(cornerRadius: Theme.cornerRadiusMedium, style: .continuous))
     }

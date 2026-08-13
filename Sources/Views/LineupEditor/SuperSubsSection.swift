@@ -82,18 +82,8 @@ private struct BenchSlotView: View {
 
     var body: some View {
         VStack(spacing: 4) {
-            Circle()
-                .fill(player == nil ? AnyShapeStyle(.ultraThinMaterial) : AnyShapeStyle(Theme.accentGradient(accentColor)))
+            slotCircle
                 .frame(width: 40, height: 40)
-                .overlay {
-                    if let player {
-                        PlayerAvatarView(avatar: player.avatar, size: 32)
-                    } else {
-                        Image(systemName: "plus")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(.secondary)
-                    }
-                }
                 .overlay(Circle().stroke(Color(.separator), lineWidth: 1))
                 .overlay(
                     Circle()
@@ -110,5 +100,23 @@ private struct BenchSlotView: View {
                 .lineLimit(1)
         }
         .frame(maxWidth: .infinity)
+    }
+
+    @ViewBuilder
+    private var slotCircle: some View {
+        if let player {
+            Circle()
+                .fill(Theme.accentGradient(accentColor))
+                .overlay { PlayerAvatarView(avatar: player.avatar, size: 32) }
+        } else {
+            Circle()
+                .fill(.clear)
+                .glassCircle()
+                .overlay {
+                    Image(systemName: "plus")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(.secondary)
+                }
+        }
     }
 }
