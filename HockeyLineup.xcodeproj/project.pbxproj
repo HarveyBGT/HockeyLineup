@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07FA2FAE00772E685DEFB7BC /* FortressWatchWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 14BC3F0134CD29BD61CEA16C /* FortressWatchWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1491A24D4D1068FC7AA7F81F /* NextFixtureIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017A9B878DA28B16B4293E2E /* NextFixtureIntent.swift */; };
+		16F684BC1056ABC2078B8F2C /* LeagueData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CEF310A0D230188BD8DB4DA /* LeagueData.swift */; };
 		29D6851D1CFD334DB7CD81FC /* CloudKitSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484D44AD5C5B2CC0E9F5D0CF /* CloudKitSyncService.swift */; };
 		2FFBE1DF9F8EE2D2EF00A015 /* ExportCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BC73AF9416895839E5849 /* ExportCardView.swift */; };
 		3B2EB1EE622189438D3D6298 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BAC318FC2AC3551049FA55 /* Player.swift */; };
@@ -22,20 +24,26 @@
 		7208FA3BA0C6C76A6E8360F1 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28536282BB4EC9ABA33B50CD /* Color+Hex.swift */; };
 		757AC9785652DACA26035FF1 /* MatchLiveActivityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B6549A71CCF4F294D05D49 /* MatchLiveActivityWidget.swift */; };
 		776DD742C5A664333430C294 /* LineupStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8815ABBD13D128087DC4BA95 /* LineupStore.swift */; };
+		77E441D81FA1438DE2BE33EF /* PitchVenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CE3FA1C04A261DACD560AE /* PitchVenue.swift */; };
 		782A2070838D3DB1EE001701 /* PitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17B1BD609B5B6E04D61C970 /* PitchView.swift */; };
 		799FF1A220A1D620883DA5EE /* LeagueDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487C6F39B43F2B54F0C5BFEB /* LeagueDataTests.swift */; };
 		7F93A5071F278428D91FBCCE /* PitchMarkingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13183BEE691B72C68DF0A6DB /* PitchMarkingsView.swift */; };
 		85BDC0DC1B07E89235D842D2 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDDD1132AC91F85D4D897FA /* Theme.swift */; };
+		860B21947AD469CDEBFCD7D9 /* PitchVenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CE3FA1C04A261DACD560AE /* PitchVenue.swift */; };
 		886743C55781EBEDE71AEA19 /* MatchActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A96E0169F97A3FB59CAC64 /* MatchActivityAttributes.swift */; };
 		8974680F6290A9A3B790168C /* PlayerFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EAF831545C7C7E02817BF0 /* PlayerFormView.swift */; };
+		90895D1F0C568F39A258F612 /* FortressWatchApp.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 2B9E6D02F7D4B22349F81964 /* FortressWatchApp.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9480F70EB8D576369D83C88F /* FortressWatchWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE728B336097EE99FE1BE2A /* FortressWatchWidgetBundle.swift */; };
 		94F160615402EA5781C9FC8D /* LineupCardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28D9F7FAA895B1E8F40AA69 /* LineupCardTests.swift */; };
 		95CF61A8AD516B3CD0E0F8B4 /* CalendarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06D498F83AD372E92BCC11D /* CalendarService.swift */; };
 		97A96C0F074411F52154A2B3 /* NextFixtureWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5128EF47B4A70846AF63C767 /* NextFixtureWidget.swift */; };
 		9819AA45FD96FDC948C236B2 /* PitchVenuePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032A4820AFBCBA260EE45CC /* PitchVenuePickerView.swift */; };
 		99140DE8C7A08157B3F10DE2 /* MatchActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A96E0169F97A3FB59CAC64 /* MatchActivityAttributes.swift */; };
+		9F1057CBE3781D7568238969 /* FortressWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0201E154A3C8468B5BD10D82 /* FortressWatchApp.swift */; };
 		A2747DD4137A4900FBF2A8E9 /* PlayerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417339181E61AF783EE9D586 /* PlayerStore.swift */; };
 		A2CB26A185CD8A0DBC773BC8 /* MatchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80966925E61F554767EBED9 /* MatchResult.swift */; };
 		A3B2B6B9958739F5200D176F /* ActivityShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A53C9764EF1C981518F0EE1 /* ActivityShareSheet.swift */; };
+		A5326E2494E2ABEC1C95946C /* NextFixtureComplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9E3A8657E73C388E26DBB8 /* NextFixtureComplication.swift */; };
 		A7E2A305B7CB89924838E942 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28536282BB4EC9ABA33B50CD /* Color+Hex.swift */; };
 		A8471E5D192BF20C8C9D8BCD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2F81519F1FED52D30DCAB /* ContentView.swift */; };
 		A8AFA545C56D91EDEDAFCD3C /* FormationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7343DB091FAE6384DBB58B2C /* FormationPickerView.swift */; };
@@ -43,18 +51,22 @@
 		B45FC7D0ECF7B158DF209EB0 /* Formation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7282E30B7767B0B59A6C524 /* Formation.swift */; };
 		B48C05B927D7147369791CF8 /* PitchVenueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB51E88C49C760F1CCBD5FE /* PitchVenueTests.swift */; };
 		B4FA5526C7F4B530F3FA98C2 /* FailableDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513433185E68892F455FC8CD /* FailableDecodable.swift */; };
+		BA34EB53226B5EE43D686F28 /* MatchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80966925E61F554767EBED9 /* MatchResult.swift */; };
 		C27D08BAAA05D6E0DAFDE2C7 /* FortressWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 33B9CB0594F00CF9BBDFE283 /* FortressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C465866A3B066356CCE00FB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5742DC35EBD000D3950F178E /* Assets.xcassets */; };
+		C4C58D21AA07578711D7E458 /* MatchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80966925E61F554767EBED9 /* MatchResult.swift */; };
 		C6166FC55201B299DAB4237B /* FortressWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0719089039E76104EF10CD6 /* FortressWidgetBundle.swift */; };
+		C7BE3D72E9AC10940C4573C3 /* NextFixtureWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559D3C0D93B820689CF31928 /* NextFixtureWatchView.swift */; };
 		C985C33D398C132A2CC0D3AC /* ClubCrestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55613E1E0B8C6347004C5F9C /* ClubCrestView.swift */; };
 		C9C5B291664F78109F871D8B /* PitchVenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CE3FA1C04A261DACD560AE /* PitchVenue.swift */; };
 		C9FC23578B6F881A23A642E3 /* MatchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80966925E61F554767EBED9 /* MatchResult.swift */; };
 		D0E4E6DE2122AED22D47166F /* FormationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BCBE64EB37D44883D495A7 /* FormationTests.swift */; };
 		E183164DB4F749EDED9831AB /* PlayerAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCC0A6C36B827FD76D7F361 /* PlayerAvatarView.swift */; };
+		E9E25CE7DF964BAC7FBDB46B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE9627F92ECCA77D82467F3E /* Assets.xcassets */; };
 		EEBD2955EDF1AC0D65A31C55 /* PlayerDatabaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F57511A7F869E8DF9CD612 /* PlayerDatabaseView.swift */; };
 		F1487FF75CF0452BA3ECCF40 /* PlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF74ACB214F32AB105244A63 /* PlayerTests.swift */; };
 		F3FC4ED9AF6A2B8DE5D577CD /* LineupEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C377D6339B9C0A238D757191 /* LineupEditorView.swift */; };
 		F57A17554C6004625277AA89 /* LeagueData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CEF310A0D230188BD8DB4DA /* LeagueData.swift */; };
+		F5A058A1589F072B94F1C888 /* LeagueData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CEF310A0D230188BD8DB4DA /* LeagueData.swift */; };
 		F86889B40DB3EF937A222227 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDDD1132AC91F85D4D897FA /* Theme.swift */; };
 /* End PBXBuildFile section */
 
@@ -73,9 +85,45 @@
 			remoteGlobalIDString = 5177D47D3959E8AD61F7BE4A;
 			remoteInfo = FortressWidgetExtension;
 		};
+		B6AF85B6D556C80E35CAABAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98017EC5AD234934AC26C948 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DBF9BC30C6EF44E8A90EB1B5;
+			remoteInfo = FortressWatchApp;
+		};
+		F88335025FCD34ADACC9AECA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98017EC5AD234934AC26C948 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3AEAC7FBF38136237E462681;
+			remoteInfo = FortressWatchWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		689243DBA212EA01672B911A /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				90895D1F0C568F39A258F612 /* FortressWatchApp.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7602548CEE351203BB229FAA /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				07FA2FAE00772E685DEFB7BC /* FortressWatchWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BFCBA161142A7964A0828CDC /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -91,13 +139,16 @@
 
 /* Begin PBXFileReference section */
 		017A9B878DA28B16B4293E2E /* NextFixtureIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextFixtureIntent.swift; sourceTree = "<group>"; };
+		0201E154A3C8468B5BD10D82 /* FortressWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FortressWatchApp.swift; sourceTree = "<group>"; };
 		08A96E0169F97A3FB59CAC64 /* MatchActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchActivityAttributes.swift; sourceTree = "<group>"; };
 		0A53C9764EF1C981518F0EE1 /* ActivityShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityShareSheet.swift; sourceTree = "<group>"; };
 		10BCBE64EB37D44883D495A7 /* FormationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormationTests.swift; sourceTree = "<group>"; };
 		13183BEE691B72C68DF0A6DB /* PitchMarkingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchMarkingsView.swift; sourceTree = "<group>"; };
+		14BC3F0134CD29BD61CEA16C /* FortressWatchWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FortressWatchWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E533BDB5FA112CA6ED16252 /* PlayerAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerAvatar.swift; sourceTree = "<group>"; };
 		28536282BB4EC9ABA33B50CD /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
 		28F57511A7F869E8DF9CD612 /* PlayerDatabaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDatabaseView.swift; sourceTree = "<group>"; };
+		2B9E6D02F7D4B22349F81964 /* FortressWatchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FortressWatchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BCC0A6C36B827FD76D7F361 /* PlayerAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerAvatarView.swift; sourceTree = "<group>"; };
 		3032A4820AFBCBA260EE45CC /* PitchVenuePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchVenuePickerView.swift; sourceTree = "<group>"; };
 		33B9CB0594F00CF9BBDFE283 /* FortressWidgetExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = FortressWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,7 +162,7 @@
 		5128EF47B4A70846AF63C767 /* NextFixtureWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextFixtureWidget.swift; sourceTree = "<group>"; };
 		513433185E68892F455FC8CD /* FailableDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailableDecodable.swift; sourceTree = "<group>"; };
 		55613E1E0B8C6347004C5F9C /* ClubCrestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubCrestView.swift; sourceTree = "<group>"; };
-		5742DC35EBD000D3950F178E /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
+		559D3C0D93B820689CF31928 /* NextFixtureWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextFixtureWatchView.swift; sourceTree = "<group>"; };
 		600B207EE597571E0ECD2F0F /* HockeyLineup.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HockeyLineup.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		64C0D653869A92EC827D58D6 /* FixturePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixturePickerView.swift; sourceTree = "<group>"; };
 		7343DB091FAE6384DBB58B2C /* FormationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormationPickerView.swift; sourceTree = "<group>"; };
@@ -122,6 +173,7 @@
 		93EAF831545C7C7E02817BF0 /* PlayerFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerFormView.swift; sourceTree = "<group>"; };
 		9AC2F81519F1FED52D30DCAB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9EBC900ECD8AC0182EEBAA96 /* ViewRendering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRendering.swift; sourceTree = "<group>"; };
+		ACE728B336097EE99FE1BE2A /* FortressWatchWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FortressWatchWidgetBundle.swift; sourceTree = "<group>"; };
 		B53087EA0843DBBF6EF9CC8F /* LineupCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineupCard.swift; sourceTree = "<group>"; };
 		B80966925E61F554767EBED9 /* MatchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchResult.swift; sourceTree = "<group>"; };
 		C0719089039E76104EF10CD6 /* FortressWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FortressWidgetBundle.swift; sourceTree = "<group>"; };
@@ -130,9 +182,11 @@
 		C377D6339B9C0A238D757191 /* LineupEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineupEditorView.swift; sourceTree = "<group>"; };
 		CF74ACB214F32AB105244A63 /* PlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTests.swift; sourceTree = "<group>"; };
 		D9B6549A71CCF4F294D05D49 /* MatchLiveActivityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchLiveActivityWidget.swift; sourceTree = "<group>"; };
+		DF9E3A8657E73C388E26DBB8 /* NextFixtureComplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextFixtureComplication.swift; sourceTree = "<group>"; };
 		E28D9F7FAA895B1E8F40AA69 /* LineupCardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineupCardTests.swift; sourceTree = "<group>"; };
 		E33D694D9E20528A5A2A5E86 /* HockeyLineupTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = HockeyLineupTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6500DEB7CDD402FD3BD7D0B /* SeasonRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonRecordView.swift; sourceTree = "<group>"; };
+		EE9627F92ECCA77D82467F3E /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		F06D498F83AD372E92BCC11D /* CalendarService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarService.swift; sourceTree = "<group>"; };
 		F7282E30B7767B0B59A6C524 /* Formation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -161,9 +215,10 @@
 			children = (
 				A98D39C81218250261211749 /* Sources */,
 				BAFE38B3E25A316D47F2B325 /* Tests */,
+				903894DEAA6A945CDEA1DB63 /* Watch */,
 				0A7FF61315C4ACADAC9ABBCC /* Widgets */,
 				41387F83DB554187EE138F60 /* Products */,
-				5742DC35EBD000D3950F178E /* Assets.xcassets */,
+				EE9627F92ECCA77D82467F3E /* Assets.xcassets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -182,6 +237,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		31D6B19D3B8223BA0A2F929C /* FortressWatchWidget */ = {
+			isa = PBXGroup;
+			children = (
+				ACE728B336097EE99FE1BE2A /* FortressWatchWidgetBundle.swift */,
+				DF9E3A8657E73C388E26DBB8 /* NextFixtureComplication.swift */,
+			);
+			path = FortressWatchWidget;
+			sourceTree = "<group>";
+		};
 		3DA3E327EE5EADF533BDEA22 /* HockeyLineupTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -197,6 +261,8 @@
 		41387F83DB554187EE138F60 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				2B9E6D02F7D4B22349F81964 /* FortressWatchApp.app */,
+				14BC3F0134CD29BD61CEA16C /* FortressWatchWidgetExtension.appex */,
 				33B9CB0594F00CF9BBDFE283 /* FortressWidgetExtension.appex */,
 				600B207EE597571E0ECD2F0F /* HockeyLineup.app */,
 				E33D694D9E20528A5A2A5E86 /* HockeyLineupTests.xctest */,
@@ -213,6 +279,15 @@
 				417339181E61AF783EE9D586 /* PlayerStore.swift */,
 			);
 			path = Persistence;
+			sourceTree = "<group>";
+		};
+		430BAC4BA47451BF5CE4DAFB /* FortressWatchApp */ = {
+			isa = PBXGroup;
+			children = (
+				0201E154A3C8468B5BD10D82 /* FortressWatchApp.swift */,
+				559D3C0D93B820689CF31928 /* NextFixtureWatchView.swift */,
+			);
+			path = FortressWatchApp;
 			sourceTree = "<group>";
 		};
 		43722B42B94983499699EF93 /* Views */ = {
@@ -243,6 +318,15 @@
 				F06D498F83AD372E92BCC11D /* CalendarService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		903894DEAA6A945CDEA1DB63 /* Watch */ = {
+			isa = PBXGroup;
+			children = (
+				430BAC4BA47451BF5CE4DAFB /* FortressWatchApp */,
+				31D6B19D3B8223BA0A2F929C /* FortressWatchWidget */,
+			);
+			path = Watch;
 			sourceTree = "<group>";
 		};
 		933673039FB9ECE78E8D6814 /* FortressWidget */ = {
@@ -288,6 +372,21 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3AEAC7FBF38136237E462681 /* FortressWatchWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ED35EEE40FA24F8EFC615955 /* Build configuration list for PBXNativeTarget "FortressWatchWidgetExtension" */;
+			buildPhases = (
+				0BFE5953D10D9460DE66DB63 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FortressWatchWidgetExtension;
+			productName = FortressWatchWidgetExtension;
+			productReference = 14BC3F0134CD29BD61CEA16C /* FortressWatchWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		5177D47D3959E8AD61F7BE4A /* FortressWidgetExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1E29668A1DC4CA3BA79A7107 /* Build configuration list for PBXNativeTarget "FortressWidgetExtension" */;
@@ -309,12 +408,14 @@
 			buildPhases = (
 				978BDE4E4FB1E5BC09F27B81 /* Sources */,
 				BFCBA161142A7964A0828CDC /* Embed Foundation Extensions */,
-				70D5E0C50C34E3B10365C147 /* Resources */,
+				689243DBA212EA01672B911A /* Embed Watch Content */,
+				595A75E275C2E56B307BA743 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				8FC1A5B48990611550B62A55 /* PBXTargetDependency */,
+				6DFEDE5484BF847402AB31B9 /* PBXTargetDependency */,
 			);
 			name = HockeyLineup;
 			productName = HockeyLineup;
@@ -336,6 +437,23 @@
 			productName = HockeyLineupTests;
 			productReference = E33D694D9E20528A5A2A5E86 /* HockeyLineupTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		DBF9BC30C6EF44E8A90EB1B5 /* FortressWatchApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4542D2AC42C35A9D698C8C0 /* Build configuration list for PBXNativeTarget "FortressWatchApp" */;
+			buildPhases = (
+				7EC49CA2B7AD8908DD8FED70 /* Sources */,
+				7602548CEE351203BB229FAA /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1DED5A65D42567D5501C8449 /* PBXTargetDependency */,
+			);
+			name = FortressWatchApp;
+			productName = FortressWatchApp;
+			productReference = 2B9E6D02F7D4B22349F81964 /* FortressWatchApp.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -363,6 +481,8 @@
 			projectRoot = "";
 			targets = (
 				86973469F5BE15502AFF79DD /* HockeyLineup */,
+				DBF9BC30C6EF44E8A90EB1B5 /* FortressWatchApp */,
+				3AEAC7FBF38136237E462681 /* FortressWatchWidgetExtension */,
 				5177D47D3959E8AD61F7BE4A /* FortressWidgetExtension */,
 				9A3A401EEADAF634F1EA12CE /* HockeyLineupTests */,
 			);
@@ -370,17 +490,29 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		70D5E0C50C34E3B10365C147 /* Resources */ = {
+		595A75E275C2E56B307BA743 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C465866A3B066356CCE00FB1 /* Assets.xcassets in Resources */,
+				E9E25CE7DF964BAC7FBDB46B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0BFE5953D10D9460DE66DB63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9480F70EB8D576369D83C88F /* FortressWatchWidgetBundle.swift in Sources */,
+				16F684BC1056ABC2078B8F2C /* LeagueData.swift in Sources */,
+				C4C58D21AA07578711D7E458 /* MatchResult.swift in Sources */,
+				A5326E2494E2ABEC1C95946C /* NextFixtureComplication.swift in Sources */,
+				860B21947AD469CDEBFCD7D9 /* PitchVenue.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		329603F31BC734F3B38B7DF6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -390,6 +522,18 @@
 				94F160615402EA5781C9FC8D /* LineupCardTests.swift in Sources */,
 				B48C05B927D7147369791CF8 /* PitchVenueTests.swift in Sources */,
 				F1487FF75CF0452BA3ECCF40 /* PlayerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EC49CA2B7AD8908DD8FED70 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F1057CBE3781D7568238969 /* FortressWatchApp.swift in Sources */,
+				F5A058A1589F072B94F1C888 /* LeagueData.swift in Sources */,
+				BA34EB53226B5EE43D686F28 /* MatchResult.swift in Sources */,
+				C7BE3D72E9AC10940C4573C3 /* NextFixtureWatchView.swift in Sources */,
+				77E441D81FA1438DE2BE33EF /* PitchVenue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,10 +596,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1DED5A65D42567D5501C8449 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3AEAC7FBF38136237E462681 /* FortressWatchWidgetExtension */;
+			targetProxy = F88335025FCD34ADACC9AECA /* PBXContainerItemProxy */;
+		};
 		42407112F9BDA87F73507BC3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 86973469F5BE15502AFF79DD /* HockeyLineup */;
 			targetProxy = 946E2338D6A93BC1F0EAB8DE /* PBXContainerItemProxy */;
+		};
+		6DFEDE5484BF847402AB31B9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DBF9BC30C6EF44E8A90EB1B5 /* FortressWatchApp */;
+			targetProxy = B6AF85B6D556C80E35CAABAB /* PBXContainerItemProxy */;
 		};
 		8FC1A5B48990611550B62A55 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -484,6 +638,27 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
+		};
+		4ECD8C071365440475EE76DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Generated/FortressWatchWidgetExtension-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.hockeylineup.watchkitapp.FortressWatchWidget;
+				PRODUCT_NAME = FortressWatchWidget;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Release;
 		};
 		4F6ECA05223EE00D9E570616 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -544,11 +719,27 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		6BD83D6908CB553F42C1D22E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Generated/FortressWatchApp-Info.plist";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.hockeylineup.watchkitapp;
+				PRODUCT_NAME = FortressWatchApp;
+				SDKROOT = watchos;
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 4;
 			};
 			name = Debug;
 		};
@@ -568,6 +759,43 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HockeyLineup.app/HockeyLineup";
 			};
 			name = Release;
+		};
+		8552EFCD670A5A98016D35D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Generated/FortressWatchApp-Info.plist";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.hockeylineup.watchkitapp;
+				PRODUCT_NAME = FortressWatchApp;
+				SDKROOT = watchos;
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Release;
+		};
+		8B619456ABF60E684BB9A3FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Generated/FortressWatchWidgetExtension-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.hockeylineup.watchkitapp.FortressWatchWidget;
+				PRODUCT_NAME = FortressWatchWidget;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Debug;
 		};
 		A3CE6848505385442676A768 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -678,11 +906,11 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
 		};
@@ -727,11 +955,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		C4542D2AC42C35A9D698C8C0 /* Build configuration list for PBXNativeTarget "FortressWatchApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6BD83D6908CB553F42C1D22E /* Debug */,
+				8552EFCD670A5A98016D35D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		CE071C655BED44B5DFD512C1 /* Build configuration list for PBXNativeTarget "HockeyLineup" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				005E717C19FAB1811656321F /* Debug */,
 				C076056D9E699113CB5859E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		ED35EEE40FA24F8EFC615955 /* Build configuration list for PBXNativeTarget "FortressWatchWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B619456ABF60E684BB9A3FD /* Debug */,
+				4ECD8C071365440475EE76DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

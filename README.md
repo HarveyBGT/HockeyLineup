@@ -40,7 +40,14 @@ Named after Dukes Meadow, Barnes Hockey Club's home pitch — known to players a
   (Barnes HC's Dukes Meadow, Surbiton, Southgate, and more) or a generic classic-green pitch, each
   with a stylised flat crest and its own pitch background colour.
 - Drag players between positions, tap an empty slot to assign someone.
-- **Home screen widget**: shows the next upcoming fixture at a glance (see below).
+- **Home screen widget & Apple Watch complication**: shows the next upcoming fixture at a glance
+  (see below).
+- **Season Record**: overall W/D/L, a form chart, and per-player appearance stats, all as native
+  Swift Charts.
+- **Siri & Shortcuts**: ask "What's the next Fortress fixture" without opening the app.
+- **Calendar sync**: one tap adds a fixture to your calendar with the venue and a kickoff reminder.
+- **Live Activities**: track the score live on the Lock Screen and in the Dynamic Island during a
+  match.
 
 ## Getting started
 
@@ -98,6 +105,19 @@ formations, lineup card logic, the resilient JSON decoding, the fixture database
 structure, and crest resolution. Run it with `xcodebuild test -scheme HockeyLineup` or ⌘U in
 Xcode.
 
+**Don't pass `-sdk` to a whole-scheme build or test invocation.** The `HockeyLineup` scheme now
+embeds a watchOS app (see below), and forcing `-sdk iphonesimulator` on the whole scheme also
+forces the watchOS target to compile against the iOS SDK — it still builds, but produces a watch
+app tagged for the wrong device family, which fails to install. Use `-destination` alone (Xcode
+itself never has this problem — it's an `xcodebuild` CLI quirk):
+
+```bash
+xcodebuild -project HockeyLineup.xcodeproj -scheme HockeyLineup -destination 'platform=iOS Simulator,name=iPhone 17' test
+```
+
+Building a single target directly (e.g. `-target FortressWatchApp -sdk watchsimulator`) is fine —
+the pitfall is only when `-sdk` is combined with the whole `HockeyLineup` scheme.
+
 ## iCloud sync
 
 Lineups and the squad sync across your devices via CloudKit (private database, best-effort —
@@ -128,6 +148,43 @@ no iCloud/App Group setup required.
 **To add it to a home screen**: build and run the app once on a device or simulator (this installs
 the widget extension alongside it), then long-press the home screen → **+** → search "Fortress" →
 add the Next Fixture widget.
+
+## Apple Watch companion
+
+`Watch/FortressWatchApp` is a standalone watchOS app (`FortressWatchApp` target) showing the next
+fixture, embedded in the iOS app as watch content. It carries its own widget extension,
+`Watch/FortressWatchWidget` (`FortressWatchWidgetExtension` target), which provides a complication
+in circular, rectangular, and inline styles for watch faces.
+
+Both watch targets are deliberately self-contained: they read only the static `LeagueData`/
+`PitchVenue` seed models (Foundation only) and don't use `Theme`/`Color+Hex`, since those pull in
+`UIColor`, which doesn't exist on watchOS. No App Group or shared container is needed for the
+watch app to work.
+
+**To try it**: build and run the `HockeyLineup` scheme once (installs the watch app alongside the
+phone app), then on a paired Watch Simulator, open the Fortress watch app, or long-press a watch
+face → Edit → add the "Next Fixture" complication to a face.
+
+## Siri & Shortcuts
+
+`Sources/AppIntents/NextFixtureIntent.swift` registers an `AppShortcut` — "What's the next
+Fortress fixture" (and variants) — that answers with the next fixture's opponent, date, and venue
+via Siri or the Shortcuts app, without opening the app. Read-only: it can't touch saved lineups.
+
+## Calendar sync
+
+The "Add to Calendar" button on a lineup (`Sources/Services/CalendarService.swift`) creates an
+`EKEvent` for the fixture — title, kickoff time, venue as the location, and a reminder alarm an
+hour before — in your default calendar. Requires calendar access, requested the first time it's
+used.
+
+## Live Activities
+
+The "Match Day" section on a lineup can start an ActivityKit Live Activity for the match:
+a running score (ours vs the opposition) and a status ("1st Half", "Half Time"...) shown on the
+Lock Screen and, on supported devices, the Dynamic Island. +/- counters push a live update as the
+score changes; ending it writes the final score back onto the lineup's own Result section. If the
+app is relaunched mid-match, it reattaches to the running activity rather than losing track of it.
 
 ## Known limitations
 
