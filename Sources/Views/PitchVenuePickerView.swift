@@ -41,6 +41,7 @@ struct PitchVenuePickerView: View {
                     .padding(.vertical, 2)
                 }
                 .buttonStyle(.plain)
+                .listRowBackground(venue.id == selectedID ? Theme.fortressGold.opacity(0.1) : Color.clear)
             }
             .navigationTitle("Choose a Pitch")
             .navigationBarTitleDisplayMode(.inline)

@@ -232,6 +232,27 @@ after you've built anything:
   list does (Auto-Fill has nothing to pick from), so `ContentView` nudges to Add Squad first if
   `PlayerStore` is empty, and to New Lineup only once there's a squad to build from.
 
+## Design consistency pass
+
+The rest of the picker/management screens got the same treatment as the home screen and editor,
+rather than being left on plain system chrome:
+
+- `FormationPickerView`'s formation thumbnails and `PlayerDatabaseView`'s squad-count header both
+  use the same `.groupedCard()` glass modifier as everywhere else, instead of a one-off
+  `secondarySystemGroupedBackground` fill.
+- `PlayerDatabaseView` shows a live squad summary (`SquadSummary` — total / goalkeepers /
+  positions set) above the list, and its rows use small colour-coded badges (GK, C/VC) instead of
+  plain comma-separated text.
+- `ClubSettingsView` shows a live crest/name/venue preview as you pick, before saving — the same
+  visual language as the home screen hero, so you can see what you're about to commit to.
+- Ad-hoc colours (`.blue`, `.green`, `.orange`) in `PlayerPickerView` and `FixturePickerView` were
+  replaced with `Theme.fortressBlue` / `Theme.fortressGold`, so "selected," "suggested," and
+  "home/away" read consistently with the rest of the app rather than each screen inventing its own
+  palette.
+- `SeasonRecordView`'s player-appearance aggregation moved out into
+  `[LineupCard].playerAppearanceStats(playerLookup:)`, the same testable-extraction pattern as
+  `SeasonRecord` — it no longer needs a live `PlayerStore` to test, just a lookup closure.
+
 ## Known limitations
 
 - Portrait only.

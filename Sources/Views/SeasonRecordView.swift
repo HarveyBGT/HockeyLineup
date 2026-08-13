@@ -16,29 +16,10 @@ struct SeasonRecordView: View {
         playedCards.sorted { ($0.matchDate ?? $0.createdAt) < ($1.matchDate ?? $1.createdAt) }
     }
 
-    private var topAppearances: [PlayerStat] { Array(playerStats.prefix(8)) }
+    private var topAppearances: [PlayerAppearanceStats] { Array(playerStats.prefix(8)) }
 
-    private struct PlayerStat: Identifiable {
-        var id: UUID
-        var player: Player
-        var starts: Int
-        var benchAppearances: Int
-        var total: Int { starts + benchAppearances }
-    }
-
-    private var playerStats: [PlayerStat] {
-        var starts: [UUID: Int] = [:]
-        var benchApps: [UUID: Int] = [:]
-        for card in store.cards {
-            for id in card.playerIDs.compactMap({ $0 }) { starts[id, default: 0] += 1 }
-            for id in card.benchPlayerIDs.compactMap({ $0 }) { benchApps[id, default: 0] += 1 }
-        }
-        let allIDs = Set(starts.keys).union(benchApps.keys)
-        return allIDs.compactMap { id in
-            guard let player = playerStore.player(id: id) else { return nil }
-            return PlayerStat(id: id, player: player, starts: starts[id] ?? 0, benchAppearances: benchApps[id] ?? 0)
-        }
-        .sorted { $0.total == $1.total ? $0.player.fullName < $1.player.fullName : $0.total > $1.total }
+    private var playerStats: [PlayerAppearanceStats] {
+        store.cards.playerAppearanceStats { playerStore.player(id: $0) }
     }
 
     var body: some View {
@@ -50,7 +31,10 @@ struct SeasonRecordView: View {
                         recordStat(value: record.draws, label: "Drawn", color: Theme.resultColor(.draw))
                         recordStat(value: record.losses, label: "Lost", color: Theme.resultColor(.loss))
                     }
-                    .padding(.vertical, 8)
+                    .padding(.vertical, 12)
+                    .groupedCard()
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets())
 
                     if playedCards.isEmpty {
                         Text("No results recorded yet — add a score on any lineup to start building your record.")

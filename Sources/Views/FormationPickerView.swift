@@ -61,11 +61,7 @@ private struct FormationThumbnail: View {
                 .font(.system(size: 16, weight: .bold, design: .rounded))
                 .foregroundStyle(.primary)
         }
-        .padding(12)
-        .background(
-            RoundedRectangle(cornerRadius: Theme.cornerRadiusMedium, style: .continuous)
-                .fill(Color(.secondarySystemGroupedBackground))
-        )
+        .groupedCard()
         .elevatedShadow()
     }
 }

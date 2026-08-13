@@ -125,11 +125,11 @@ private struct PlayerRow: View {
             } else if suggested {
                 Text("Suggested")
                     .font(.system(size: 11, weight: .semibold))
-                    .foregroundStyle(.blue)
+                    .foregroundStyle(Theme.fortressGold)
             }
             if isSelected {
                 Image(systemName: "checkmark.circle.fill")
-                    .foregroundStyle(.blue)
+                    .foregroundStyle(Theme.fortressBlue)
             }
         }
         .padding(.vertical, 2)

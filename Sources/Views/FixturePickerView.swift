@@ -81,7 +81,7 @@ private struct FixtureRow: View {
             Spacer()
             Text(isHome ? "HOME" : "AWAY")
                 .font(.system(size: 11, weight: .bold))
-                .foregroundStyle(isHome ? .green : .orange)
+                .foregroundStyle(isHome ? Theme.fortressBlue : Theme.fortressGold)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 4)
                 .background(.thinMaterial, in: Capsule())
