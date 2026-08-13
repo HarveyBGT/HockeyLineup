@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		29D6851D1CFD334DB7CD81FC /* CloudKitSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484D44AD5C5B2CC0E9F5D0CF /* CloudKitSyncService.swift */; };
 		2FFBE1DF9F8EE2D2EF00A015 /* ExportCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BC73AF9416895839E5849 /* ExportCardView.swift */; };
 		3B2EB1EE622189438D3D6298 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BAC318FC2AC3551049FA55 /* Player.swift */; };
 		4C58EEA7A9F2BB7FF96A60C8 /* PlayerAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E533BDB5FA112CA6ED16252 /* PlayerAvatar.swift */; };
 		56C9147427DC7805C3423C3C /* SeasonRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6500DEB7CDD402FD3BD7D0B /* SeasonRecordView.swift */; };
 		594A81B2477C58F956590CE7 /* FixturePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C0D653869A92EC827D58D6 /* FixturePickerView.swift */; };
-		5BBFCD007A503FC196CC1236 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6353FB3EE3454DB1C463953 /* Assets.xcassets */; };
 		5CE4AD0F42814D93859E92C2 /* PitchVenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CE3FA1C04A261DACD560AE /* PitchVenue.swift */; };
 		5DFE5A5FE7A6827D5CF7C2A4 /* HockeyLineupApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B671813812B22F14A97AE /* HockeyLineupApp.swift */; };
 		5E030DE13C0F1E8823D30B50 /* LineupCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53087EA0843DBBF6EF9CC8F /* LineupCard.swift */; };
@@ -22,6 +22,7 @@
 		782A2070838D3DB1EE001701 /* PitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17B1BD609B5B6E04D61C970 /* PitchView.swift */; };
 		799FF1A220A1D620883DA5EE /* LeagueDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487C6F39B43F2B54F0C5BFEB /* LeagueDataTests.swift */; };
 		7F93A5071F278428D91FBCCE /* PitchMarkingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13183BEE691B72C68DF0A6DB /* PitchMarkingsView.swift */; };
+		893F314AD3546BBA1C13D4D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41D1BAB2B8DCAE2B54C30170 /* Assets.xcassets */; };
 		8974680F6290A9A3B790168C /* PlayerFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EAF831545C7C7E02817BF0 /* PlayerFormView.swift */; };
 		94F160615402EA5781C9FC8D /* LineupCardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28D9F7FAA895B1E8F40AA69 /* LineupCardTests.swift */; };
 		9819AA45FD96FDC948C236B2 /* PitchVenuePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032A4820AFBCBA260EE45CC /* PitchVenuePickerView.swift */; };
@@ -66,6 +67,8 @@
 		3EDDD1132AC91F85D4D897FA /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		3F0BC73AF9416895839E5849 /* ExportCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportCardView.swift; sourceTree = "<group>"; };
 		417339181E61AF783EE9D586 /* PlayerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStore.swift; sourceTree = "<group>"; };
+		41D1BAB2B8DCAE2B54C30170 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
+		484D44AD5C5B2CC0E9F5D0CF /* CloudKitSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitSyncService.swift; sourceTree = "<group>"; };
 		487C6F39B43F2B54F0C5BFEB /* LeagueDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueDataTests.swift; sourceTree = "<group>"; };
 		4AB51E88C49C760F1CCBD5FE /* PitchVenueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchVenueTests.swift; sourceTree = "<group>"; };
 		513433185E68892F455FC8CD /* FailableDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailableDecodable.swift; sourceTree = "<group>"; };
@@ -88,7 +91,6 @@
 		E28D9F7FAA895B1E8F40AA69 /* LineupCardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineupCardTests.swift; sourceTree = "<group>"; };
 		E33D694D9E20528A5A2A5E86 /* HockeyLineupTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = HockeyLineupTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6500DEB7CDD402FD3BD7D0B /* SeasonRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonRecordView.swift; sourceTree = "<group>"; };
-		F6353FB3EE3454DB1C463953 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		F7282E30B7767B0B59A6C524 /* Formation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,7 +111,7 @@
 				A98D39C81218250261211749 /* Sources */,
 				BAFE38B3E25A316D47F2B325 /* Tests */,
 				41387F83DB554187EE138F60 /* Products */,
-				F6353FB3EE3454DB1C463953 /* Assets.xcassets */,
+				41D1BAB2B8DCAE2B54C30170 /* Assets.xcassets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -150,6 +152,7 @@
 		429E3071DFD302395D7D5C75 /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
+				484D44AD5C5B2CC0E9F5D0CF /* CloudKitSyncService.swift */,
 				513433185E68892F455FC8CD /* FailableDecodable.swift */,
 				8815ABBD13D128087DC4BA95 /* LineupStore.swift */,
 				417339181E61AF783EE9D586 /* PlayerStore.swift */,
@@ -207,7 +210,7 @@
 			buildConfigurationList = CE071C655BED44B5DFD512C1 /* Build configuration list for PBXNativeTarget "HockeyLineup" */;
 			buildPhases = (
 				978BDE4E4FB1E5BC09F27B81 /* Sources */,
-				53B497BA8070460B27B0A609 /* Resources */,
+				99CECA532A4BD3764323386C /* Resources */,
 			);
 			buildRules = (
 			);
@@ -266,11 +269,11 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		53B497BA8070460B27B0A609 /* Resources */ = {
+		99CECA532A4BD3764323386C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BBFCD007A503FC196CC1236 /* Assets.xcassets in Resources */,
+				893F314AD3546BBA1C13D4D4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A3B2B6B9958739F5200D176F /* ActivityShareSheet.swift in Sources */,
+				29D6851D1CFD334DB7CD81FC /* CloudKitSyncService.swift in Sources */,
 				C985C33D398C132A2CC0D3AC /* ClubCrestView.swift in Sources */,
 				A7E2A305B7CB89924838E942 /* Color+Hex.swift in Sources */,
 				A8471E5D192BF20C8C9D8BCD /* ContentView.swift in Sources */,
@@ -339,6 +343,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Resources/HockeyLineup.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -442,6 +447,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Resources/HockeyLineup.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;

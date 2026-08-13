@@ -11,6 +11,7 @@ final class LineupStore: ObservableObject {
 
     init() {
         load()
+        Task { await mergeFromCloud() }
     }
 
     func card(id: UUID) -> LineupCard? {
@@ -47,5 +48,28 @@ final class LineupStore: ObservableObject {
         encoder.dateEncodingStrategy = .iso8601
         guard let data = try? encoder.encode(cards) else { return }
         try? data.write(to: fileURL, options: .atomic)
+        Task { await CloudKitSyncService.pushLineups(cards) }
+    }
+
+    /// Best-effort iCloud sync: pulls whatever's in the private database and
+    /// merges it in, newer `updatedAt` wins per lineup. A no-op if iCloud
+    /// isn't set up yet (see `CloudKitSyncService`).
+    private func mergeFromCloud() async {
+        let remote = await CloudKitSyncService.pullLineups()
+        guard !remote.isEmpty else { return }
+
+        var changed = false
+        for remoteCard in remote {
+            if let index = cards.firstIndex(where: { $0.id == remoteCard.id }) {
+                if remoteCard.updatedAt > cards[index].updatedAt {
+                    cards[index] = remoteCard
+                    changed = true
+                }
+            } else {
+                cards.append(remoteCard)
+                changed = true
+            }
+        }
+        if changed { save() }
     }
 }

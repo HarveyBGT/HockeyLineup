@@ -11,6 +11,7 @@ final class PlayerStore: ObservableObject {
 
     init() {
         load()
+        Task { await mergeFromCloud() }
     }
 
     func player(id: UUID?) -> Player? {
@@ -19,6 +20,8 @@ final class PlayerStore: ObservableObject {
     }
 
     func upsert(_ player: Player) {
+        var player = player
+        player.updatedAt = Date()
         if let index = players.firstIndex(where: { $0.id == player.id }) {
             players[index] = player
         } else {
@@ -42,5 +45,28 @@ final class PlayerStore: ObservableObject {
     private func save() {
         guard let data = try? JSONEncoder().encode(players) else { return }
         try? data.write(to: fileURL, options: .atomic)
+        Task { await CloudKitSyncService.pushPlayers(players) }
+    }
+
+    /// Best-effort iCloud sync: pulls whatever's in the private database and
+    /// merges it in, newer `updatedAt` wins per player. A no-op if iCloud
+    /// isn't set up yet (see `CloudKitSyncService`).
+    private func mergeFromCloud() async {
+        let remote = await CloudKitSyncService.pullPlayers()
+        guard !remote.isEmpty else { return }
+
+        var changed = false
+        for remotePlayer in remote {
+            if let index = players.firstIndex(where: { $0.id == remotePlayer.id }) {
+                if remotePlayer.updatedAt > players[index].updatedAt {
+                    players[index] = remotePlayer
+                    changed = true
+                }
+            } else {
+                players.append(remotePlayer)
+                changed = true
+            }
+        }
+        if changed { save() }
     }
 }

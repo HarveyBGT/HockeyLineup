@@ -73,6 +73,16 @@ struct PlayerTests {
         #expect(player.preferredRole == nil)
     }
 
+    @Test func decodesPlayerJSONMissingUpdatedAt() throws {
+        let oldShapeJSON = """
+        {"id": "\(UUID().uuidString)", "firstName": "Ben", "lastName": "Hughes"}
+        """.data(using: .utf8)!
+        let player = try JSONDecoder().decode(Player.self, from: oldShapeJSON)
+        // Just needs to decode without throwing and land on some default —
+        // the exact timestamp isn't meaningful here.
+        #expect(player.updatedAt.timeIntervalSinceNow < 5)
+    }
+
     @Test func resilientArrayDecodeSkipsOnlyTheMalformedEntry() throws {
         let json = """
         [

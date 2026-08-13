@@ -36,6 +36,7 @@ targets:
         MARKETING_VERSION: "1.0"
         CURRENT_PROJECT_VERSION: "1"
         GENERATE_INFOPLIST_FILE: true
+        CODE_SIGN_ENTITLEMENTS: Resources/HockeyLineup.entitlements
 
   HockeyLineupTests:
     type: bundle.unit-test

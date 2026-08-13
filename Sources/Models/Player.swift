@@ -15,6 +15,8 @@ struct Player: Identifiable, Codable, Equatable {
     /// Where this player normally plays, if known — used by Auto-Fill to
     /// place them sensibly instead of just filling the next empty slot.
     var preferredRole: PositionRole?
+    /// Used to resolve conflicts when syncing across devices — newer wins.
+    var updatedAt: Date = Date()
 
     var fullName: String {
         [firstName, lastName].filter { !$0.isEmpty }.joined(separator: " ")
@@ -36,7 +38,8 @@ struct Player: Identifiable, Codable, Equatable {
         isGoalkeeper: Bool = false,
         captaincy: Captaincy = .none,
         avatar: PlayerAvatar = PlayerAvatar(),
-        preferredRole: PositionRole? = nil
+        preferredRole: PositionRole? = nil,
+        updatedAt: Date = Date()
     ) {
         self.id = id
         self.firstName = firstName
@@ -46,6 +49,7 @@ struct Player: Identifiable, Codable, Equatable {
         self.captaincy = captaincy
         self.avatar = avatar
         self.preferredRole = preferredRole
+        self.updatedAt = updatedAt
     }
 
     // Manual Decodable, matching `PlayerAvatar`: any field added after this
@@ -61,5 +65,6 @@ struct Player: Identifiable, Codable, Equatable {
         captaincy = try container.decodeIfPresent(Captaincy.self, forKey: .captaincy) ?? .none
         avatar = try container.decodeIfPresent(PlayerAvatar.self, forKey: .avatar) ?? PlayerAvatar()
         preferredRole = try container.decodeIfPresent(PositionRole.self, forKey: .preferredRole)
+        updatedAt = try container.decodeIfPresent(Date.self, forKey: .updatedAt) ?? Date()
     }
 }

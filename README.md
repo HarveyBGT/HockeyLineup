@@ -97,9 +97,28 @@ formations, lineup card logic, the resilient JSON decoding, the fixture database
 structure, and crest resolution. Run it with `xcodebuild test -scheme HockeyLineup` or ⌘U in
 Xcode.
 
+## iCloud sync
+
+Lineups and the squad sync across your devices via CloudKit (private database, best-effort —
+local JSON stays the source of truth, sync just keeps other devices on the same iCloud account
+up to date). New/changed records push after every save; each store pulls and merges remote
+changes once at launch, newest `updatedAt` wins per record.
+
+**One-time setup required**: the iCloud container (`iCloud.com.example.hockeylineup`) needs to be
+provisioned for this app's App ID, which has to be done in Xcode by a signed-in Apple ID — not
+something that can be scripted. In Xcode: select the `HockeyLineup` target → **Signing &
+Capabilities** → **+ Capability** → add **iCloud**, check **CloudKit**, and let Xcode create the
+container. Until that's done, sync calls just fail silently (confirmed via `NoAccountExists`/
+container errors that are caught, not thrown) and the app behaves exactly as it did before sync
+existed — nothing breaks either way.
+
+Deleting a lineup or player locally doesn't yet propagate as a deletion to other devices (only
+creates/updates sync) — a deleted record with no further edits will keep reappearing until this
+gets addressed.
+
 ## Known limitations
 
-- No cloud sync — lineups and the squad live only on the device that created them.
 - Portrait only.
 - Pitch venue colours are a stylistic default (blue), since real clubs don't publish their actual
   turf colour — Barnes HC's Dukes Meadow is confirmed blue; the rest are a best guess.
+- Deletion isn't synced via iCloud yet (see above).
