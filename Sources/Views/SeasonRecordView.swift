@@ -1,4 +1,5 @@
 import SwiftUI
+import Charts
 
 /// Aggregate stats across every saved lineup: overall record, and each
 /// squad member's appearances (pitch starts vs bench).
@@ -11,6 +12,13 @@ struct SeasonRecordView: View {
     private var wins: Int { playedCards.filter { $0.result == .win }.count }
     private var draws: Int { playedCards.filter { $0.result == .draw }.count }
     private var losses: Int { playedCards.filter { $0.result == .loss }.count }
+
+    /// Played matches oldest-first, for the form chart.
+    private var formSequence: [LineupCard] {
+        playedCards.sorted { ($0.matchDate ?? $0.createdAt) < ($1.matchDate ?? $1.createdAt) }
+    }
+
+    private var topAppearances: [PlayerStat] { Array(playerStats.prefix(8)) }
 
     private struct PlayerStat: Identifiable {
         var id: UUID
@@ -53,8 +61,21 @@ struct SeasonRecordView: View {
                     }
                 }
 
+                if formSequence.count > 1 {
+                    Section("Form") {
+                        formChart
+                            .frame(height: 90)
+                            .padding(.vertical, 4)
+                    }
+                }
+
                 if !playerStats.isEmpty {
                     Section("Appearances") {
+                        if topAppearances.count > 1 {
+                            appearancesChart
+                                .frame(height: CGFloat(topAppearances.count) * 28 + 20)
+                                .padding(.vertical, 4)
+                        }
                         ForEach(playerStats) { stat in
                             HStack(spacing: 12) {
                                 PlayerAvatarView(avatar: stat.player.avatar, size: 32)
@@ -83,6 +104,40 @@ struct SeasonRecordView: View {
                 }
             }
         }
+    }
+
+    private var formChart: some View {
+        Chart(Array(formSequence.enumerated()), id: \.element.id) { index, card in
+            BarMark(
+                x: .value("Match", index),
+                y: .value("Result", 1)
+            )
+            .foregroundStyle(Theme.resultColor(card.result ?? .draw))
+            .cornerRadius(4)
+        }
+        .chartXAxis(.hidden)
+        .chartYAxis(.hidden)
+        .chartLegend(.hidden)
+    }
+
+    private var appearancesChart: some View {
+        Chart(topAppearances) { stat in
+            BarMark(
+                x: .value("Starts", stat.starts),
+                y: .value("Player", stat.player.fullName.isEmpty ? "Unnamed Player" : stat.player.fullName)
+            )
+            .foregroundStyle(by: .value("Type", "Starts"))
+            BarMark(
+                x: .value("Bench", stat.benchAppearances),
+                y: .value("Player", stat.player.fullName.isEmpty ? "Unnamed Player" : stat.player.fullName)
+            )
+            .foregroundStyle(by: .value("Type", "Bench"))
+        }
+        .chartForegroundStyleScale([
+            "Starts": Theme.fortressBlue,
+            "Bench": Theme.fortressGold,
+        ])
+        .chartLegend(position: .bottom, spacing: 8)
     }
 
     private func recordStat(value: Int, label: String, color: Color) -> some View {

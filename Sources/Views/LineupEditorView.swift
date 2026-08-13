@@ -1,3 +1,4 @@
+import ActivityKit
 import SwiftUI
 
 struct LineupEditorView: View {
@@ -15,6 +16,14 @@ struct LineupEditorView: View {
     @State private var editingBenchIndex: Int?
     @State private var benchDragTargetIndex: Int?
     @State private var loaded = false
+    @State private var calendarAlertMessage: String?
+    @State private var showCalendarAlert = false
+    @State private var currentActivity: Activity<MatchActivityAttributes>?
+    @State private var liveOurScore = 0
+    @State private var liveOpponentScore = 0
+    @State private var liveStatus = "Kickoff"
+
+    private static let liveStatusOptions = ["Kickoff", "1st Half", "Half Time", "2nd Half", "Full Time"]
 
     /// The kit colour actually in effect right now, given home/away.
     private var color: Color { card.isHome ? homeColor : awayColor }
@@ -46,6 +55,30 @@ struct LineupEditorView: View {
 
     private var awayScoreFieldLabel: String {
         card.isHome ? (card.opposition.isEmpty ? "Away" : card.opposition) : MyTeam.name
+    }
+
+    private func liveScoreCounter(title: String, value: Int, onChange: @escaping (Int) -> Void) -> some View {
+        VStack(spacing: 6) {
+            Text(title)
+                .font(.system(size: 11, weight: .medium))
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+            HStack(spacing: 10) {
+                Button { onChange(-1) } label: {
+                    Image(systemName: "minus.circle.fill")
+                }
+                Text("\(value)")
+                    .font(.system(size: 22, weight: .bold, design: .rounded))
+                    .frame(minWidth: 28)
+                Button { onChange(1) } label: {
+                    Image(systemName: "plus.circle.fill")
+                }
+            }
+            .font(.system(size: 20))
+            .foregroundStyle(Theme.fortressBlue)
+        }
+        .buttonStyle(.plain)
+        .frame(maxWidth: .infinity)
     }
 
     private func scoreField(title: String, text: Binding<String>) -> some View {
@@ -122,6 +155,18 @@ struct LineupEditorView: View {
                         Spacer()
                         homeAwayToggle
                     }
+
+                    Divider()
+
+                    Button {
+                        addToCalendar()
+                    } label: {
+                        Label("Add to Calendar", systemImage: "calendar.badge.plus")
+                            .font(.system(size: 15, weight: .medium))
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(card.matchDate == nil ? Color.secondary : Theme.fortressBlue)
+                    .disabled(card.matchDate == nil)
                 }
                 .groupedCard()
                 .padding(.horizontal, 16)
@@ -149,6 +194,66 @@ struct LineupEditorView: View {
                             .foregroundStyle(.secondary)
                         scoreField(title: awayScoreFieldLabel, text: awayScoreBinding)
                         Spacer()
+                    }
+                }
+                .groupedCard()
+                .padding(.horizontal, 16)
+
+                VStack(spacing: 12) {
+                    HStack {
+                        Label("Match Day", systemImage: "dot.radiowaves.left.and.right")
+                            .font(.system(size: 15, weight: .medium))
+                        Spacer()
+                        if currentActivity != nil {
+                            Text("LIVE")
+                                .font(.system(size: 10, weight: .bold, design: .rounded))
+                                .tracking(0.5)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 3)
+                                .background(.red, in: Capsule())
+                        }
+                    }
+
+                    if currentActivity == nil {
+                        Button {
+                            startLiveActivity()
+                        } label: {
+                            Label("Start Live Activity", systemImage: "play.circle.fill")
+                                .font(.system(size: 15, weight: .semibold, design: .rounded))
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 8)
+                        }
+                        .modifier(ProminentGlassButtonModifier())
+                        .disabled(card.opposition.isEmpty)
+
+                        if card.opposition.isEmpty {
+                            Text("Set an opposition to start a Live Activity.")
+                                .font(.system(size: 12))
+                                .foregroundStyle(.secondary)
+                        }
+                    } else {
+                        HStack(spacing: 16) {
+                            liveScoreCounter(title: MyTeam.name, value: liveOurScore, onChange: adjustOurScore)
+                            Text("–")
+                                .font(.system(size: 20, weight: .bold, design: .rounded))
+                                .foregroundStyle(.secondary)
+                            liveScoreCounter(title: card.opposition, value: liveOpponentScore, onChange: adjustOpponentScore)
+                        }
+
+                        Picker("Status", selection: Binding(get: { liveStatus }, set: { setLiveStatus($0) })) {
+                            ForEach(Self.liveStatusOptions, id: \.self) { Text($0) }
+                        }
+                        .pickerStyle(.menu)
+
+                        Button(role: .destructive) {
+                            endLiveActivity()
+                        } label: {
+                            Label("End Live Activity", systemImage: "stop.circle.fill")
+                                .font(.system(size: 15, weight: .semibold, design: .rounded))
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 8)
+                        }
                     }
                 }
                 .groupedCard()
@@ -313,6 +418,7 @@ struct LineupEditorView: View {
                 card.id = cardID
             }
             loaded = true
+            reattachLiveActivity()
         }
         .onChange(of: card) { _, newValue in
             store.upsert(newValue)
@@ -357,6 +463,83 @@ struct LineupEditorView: View {
                 }
             }
         }
+        .alert(calendarAlertMessage ?? "", isPresented: $showCalendarAlert) {
+            Button("OK", role: .cancel) {}
+        }
+    }
+
+    private func addToCalendar() {
+        Task {
+            do {
+                try await CalendarService.addFixtureToCalendar(for: card)
+                calendarAlertMessage = "Added to your calendar."
+            } catch {
+                calendarAlertMessage = error.localizedDescription
+            }
+            showCalendarAlert = true
+        }
+    }
+
+    /// Reattaches to an already-running Live Activity for this lineup (e.g.
+    /// the app was relaunched mid-match) rather than losing track of it.
+    private func reattachLiveActivity() {
+        guard let activity = Activity<MatchActivityAttributes>.activities.first(where: { $0.attributes.opponentName == card.opposition }) else { return }
+        currentActivity = activity
+        liveOurScore = activity.content.state.ourScore
+        liveOpponentScore = activity.content.state.opponentScore
+        liveStatus = activity.content.state.statusText
+    }
+
+    private func startLiveActivity() {
+        guard currentActivity == nil else { return }
+        liveOurScore = card.isHome ? (card.homeScore ?? 0) : (card.awayScore ?? 0)
+        liveOpponentScore = card.isHome ? (card.awayScore ?? 0) : (card.homeScore ?? 0)
+        liveStatus = "Kickoff"
+
+        let attributes = MatchActivityAttributes(opponentName: card.opposition, isHome: card.isHome, venueText: card.venueText)
+        let state = MatchActivityAttributes.ContentState(ourScore: liveOurScore, opponentScore: liveOpponentScore, statusText: liveStatus)
+        do {
+            currentActivity = try Activity.request(attributes: attributes, content: .init(state: state, staleDate: nil))
+        } catch {
+            // Live Activities can be disabled system-wide by the user; nothing
+            // else to do here — the score fields above still work as normal.
+        }
+    }
+
+    private func pushLiveActivityUpdate() {
+        guard let currentActivity else { return }
+        let state = MatchActivityAttributes.ContentState(ourScore: liveOurScore, opponentScore: liveOpponentScore, statusText: liveStatus)
+        Task { await currentActivity.update(.init(state: state, staleDate: nil)) }
+    }
+
+    private func adjustOurScore(by delta: Int) {
+        liveOurScore = max(0, liveOurScore + delta)
+        pushLiveActivityUpdate()
+    }
+
+    private func adjustOpponentScore(by delta: Int) {
+        liveOpponentScore = max(0, liveOpponentScore + delta)
+        pushLiveActivityUpdate()
+    }
+
+    private func setLiveStatus(_ status: String) {
+        liveStatus = status
+        pushLiveActivityUpdate()
+    }
+
+    private func endLiveActivity() {
+        guard let currentActivity else { return }
+        // Carry the final score back onto the saved lineup card.
+        if card.isHome {
+            card.homeScore = liveOurScore
+            card.awayScore = liveOpponentScore
+        } else {
+            card.homeScore = liveOpponentScore
+            card.awayScore = liveOurScore
+        }
+        let finalState = MatchActivityAttributes.ContentState(ourScore: liveOurScore, opponentScore: liveOpponentScore, statusText: "Full Time")
+        Task { await currentActivity.end(.init(state: finalState, staleDate: nil), dismissalPolicy: .default) }
+        self.currentActivity = nil
     }
 
     /// Squad members not currently placed anywhere in this lineup, in a

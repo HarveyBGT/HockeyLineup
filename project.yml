@@ -30,6 +30,8 @@ targets:
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
         CFBundleDisplayName: Fortress
+        NSCalendarsFullAccessUsageDescription: Add fixtures to your calendar with the match time, venue, and a kickoff reminder.
+        NSSupportsLiveActivities: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.hockeylineup
@@ -49,6 +51,7 @@ targets:
       - path: Sources/Models/LeagueData.swift
       - path: Sources/Models/PitchVenue.swift
       - path: Sources/Models/MatchResult.swift
+      - path: Sources/Models/MatchActivityAttributes.swift
       - path: Sources/Extensions/Theme.swift
       - path: Sources/Extensions/Color+Hex.swift
     info:

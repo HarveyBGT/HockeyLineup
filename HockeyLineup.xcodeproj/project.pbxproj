@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1458605F467479C6616754CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B1DC1CC405DC3E0D5C86984 /* Assets.xcassets */; };
+		1491A24D4D1068FC7AA7F81F /* NextFixtureIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017A9B878DA28B16B4293E2E /* NextFixtureIntent.swift */; };
 		29D6851D1CFD334DB7CD81FC /* CloudKitSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484D44AD5C5B2CC0E9F5D0CF /* CloudKitSyncService.swift */; };
 		2FFBE1DF9F8EE2D2EF00A015 /* ExportCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BC73AF9416895839E5849 /* ExportCardView.swift */; };
 		3B2EB1EE622189438D3D6298 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BAC318FC2AC3551049FA55 /* Player.swift */; };
@@ -20,15 +20,19 @@
 		68942BBDC8004FA1D3DC6D78 /* ViewRendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EBC900ECD8AC0182EEBAA96 /* ViewRendering.swift */; };
 		6F072F2639BBC75DDFF3A3C7 /* PlayerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19DB37D13DA8C5C79F05D57 /* PlayerPickerView.swift */; };
 		7208FA3BA0C6C76A6E8360F1 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28536282BB4EC9ABA33B50CD /* Color+Hex.swift */; };
+		757AC9785652DACA26035FF1 /* MatchLiveActivityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B6549A71CCF4F294D05D49 /* MatchLiveActivityWidget.swift */; };
 		776DD742C5A664333430C294 /* LineupStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8815ABBD13D128087DC4BA95 /* LineupStore.swift */; };
 		782A2070838D3DB1EE001701 /* PitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17B1BD609B5B6E04D61C970 /* PitchView.swift */; };
 		799FF1A220A1D620883DA5EE /* LeagueDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487C6F39B43F2B54F0C5BFEB /* LeagueDataTests.swift */; };
 		7F93A5071F278428D91FBCCE /* PitchMarkingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13183BEE691B72C68DF0A6DB /* PitchMarkingsView.swift */; };
 		85BDC0DC1B07E89235D842D2 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDDD1132AC91F85D4D897FA /* Theme.swift */; };
+		886743C55781EBEDE71AEA19 /* MatchActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A96E0169F97A3FB59CAC64 /* MatchActivityAttributes.swift */; };
 		8974680F6290A9A3B790168C /* PlayerFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EAF831545C7C7E02817BF0 /* PlayerFormView.swift */; };
 		94F160615402EA5781C9FC8D /* LineupCardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28D9F7FAA895B1E8F40AA69 /* LineupCardTests.swift */; };
+		95CF61A8AD516B3CD0E0F8B4 /* CalendarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06D498F83AD372E92BCC11D /* CalendarService.swift */; };
 		97A96C0F074411F52154A2B3 /* NextFixtureWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5128EF47B4A70846AF63C767 /* NextFixtureWidget.swift */; };
 		9819AA45FD96FDC948C236B2 /* PitchVenuePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032A4820AFBCBA260EE45CC /* PitchVenuePickerView.swift */; };
+		99140DE8C7A08157B3F10DE2 /* MatchActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A96E0169F97A3FB59CAC64 /* MatchActivityAttributes.swift */; };
 		A2747DD4137A4900FBF2A8E9 /* PlayerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417339181E61AF783EE9D586 /* PlayerStore.swift */; };
 		A2CB26A185CD8A0DBC773BC8 /* MatchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80966925E61F554767EBED9 /* MatchResult.swift */; };
 		A3B2B6B9958739F5200D176F /* ActivityShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A53C9764EF1C981518F0EE1 /* ActivityShareSheet.swift */; };
@@ -40,6 +44,7 @@
 		B48C05B927D7147369791CF8 /* PitchVenueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB51E88C49C760F1CCBD5FE /* PitchVenueTests.swift */; };
 		B4FA5526C7F4B530F3FA98C2 /* FailableDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513433185E68892F455FC8CD /* FailableDecodable.swift */; };
 		C27D08BAAA05D6E0DAFDE2C7 /* FortressWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 33B9CB0594F00CF9BBDFE283 /* FortressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C465866A3B066356CCE00FB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5742DC35EBD000D3950F178E /* Assets.xcassets */; };
 		C6166FC55201B299DAB4237B /* FortressWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0719089039E76104EF10CD6 /* FortressWidgetBundle.swift */; };
 		C985C33D398C132A2CC0D3AC /* ClubCrestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55613E1E0B8C6347004C5F9C /* ClubCrestView.swift */; };
 		C9C5B291664F78109F871D8B /* PitchVenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CE3FA1C04A261DACD560AE /* PitchVenue.swift */; };
@@ -85,6 +90,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		017A9B878DA28B16B4293E2E /* NextFixtureIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextFixtureIntent.swift; sourceTree = "<group>"; };
+		08A96E0169F97A3FB59CAC64 /* MatchActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchActivityAttributes.swift; sourceTree = "<group>"; };
 		0A53C9764EF1C981518F0EE1 /* ActivityShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityShareSheet.swift; sourceTree = "<group>"; };
 		10BCBE64EB37D44883D495A7 /* FormationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormationTests.swift; sourceTree = "<group>"; };
 		13183BEE691B72C68DF0A6DB /* PitchMarkingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchMarkingsView.swift; sourceTree = "<group>"; };
@@ -101,10 +108,10 @@
 		484D44AD5C5B2CC0E9F5D0CF /* CloudKitSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitSyncService.swift; sourceTree = "<group>"; };
 		487C6F39B43F2B54F0C5BFEB /* LeagueDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueDataTests.swift; sourceTree = "<group>"; };
 		4AB51E88C49C760F1CCBD5FE /* PitchVenueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchVenueTests.swift; sourceTree = "<group>"; };
-		4B1DC1CC405DC3E0D5C86984 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		5128EF47B4A70846AF63C767 /* NextFixtureWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextFixtureWidget.swift; sourceTree = "<group>"; };
 		513433185E68892F455FC8CD /* FailableDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailableDecodable.swift; sourceTree = "<group>"; };
 		55613E1E0B8C6347004C5F9C /* ClubCrestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubCrestView.swift; sourceTree = "<group>"; };
+		5742DC35EBD000D3950F178E /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		600B207EE597571E0ECD2F0F /* HockeyLineup.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HockeyLineup.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		64C0D653869A92EC827D58D6 /* FixturePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixturePickerView.swift; sourceTree = "<group>"; };
 		7343DB091FAE6384DBB58B2C /* FormationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormationPickerView.swift; sourceTree = "<group>"; };
@@ -122,9 +129,11 @@
 		C19DB37D13DA8C5C79F05D57 /* PlayerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerPickerView.swift; sourceTree = "<group>"; };
 		C377D6339B9C0A238D757191 /* LineupEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineupEditorView.swift; sourceTree = "<group>"; };
 		CF74ACB214F32AB105244A63 /* PlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTests.swift; sourceTree = "<group>"; };
+		D9B6549A71CCF4F294D05D49 /* MatchLiveActivityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchLiveActivityWidget.swift; sourceTree = "<group>"; };
 		E28D9F7FAA895B1E8F40AA69 /* LineupCardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineupCardTests.swift; sourceTree = "<group>"; };
 		E33D694D9E20528A5A2A5E86 /* HockeyLineupTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = HockeyLineupTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6500DEB7CDD402FD3BD7D0B /* SeasonRecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonRecordView.swift; sourceTree = "<group>"; };
+		F06D498F83AD372E92BCC11D /* CalendarService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarService.swift; sourceTree = "<group>"; };
 		F7282E30B7767B0B59A6C524 /* Formation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -154,7 +163,7 @@
 				BAFE38B3E25A316D47F2B325 /* Tests */,
 				0A7FF61315C4ACADAC9ABBCC /* Widgets */,
 				41387F83DB554187EE138F60 /* Products */,
-				4B1DC1CC405DC3E0D5C86984 /* Assets.xcassets */,
+				5742DC35EBD000D3950F178E /* Assets.xcassets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -164,6 +173,7 @@
 				F7282E30B7767B0B59A6C524 /* Formation.swift */,
 				8CEF310A0D230188BD8DB4DA /* LeagueData.swift */,
 				B53087EA0843DBBF6EF9CC8F /* LineupCard.swift */,
+				08A96E0169F97A3FB59CAC64 /* MatchActivityAttributes.swift */,
 				B80966925E61F554767EBED9 /* MatchResult.swift */,
 				81CE3FA1C04A261DACD560AE /* PitchVenue.swift */,
 				35BAC318FC2AC3551049FA55 /* Player.swift */,
@@ -227,10 +237,19 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		692CD3A3C9082DAFD15F94EE /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F06D498F83AD372E92BCC11D /* CalendarService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		933673039FB9ECE78E8D6814 /* FortressWidget */ = {
 			isa = PBXGroup;
 			children = (
 				C0719089039E76104EF10CD6 /* FortressWidgetBundle.swift */,
+				D9B6549A71CCF4F294D05D49 /* MatchLiveActivityWidget.swift */,
 				5128EF47B4A70846AF63C767 /* NextFixtureWidget.swift */,
 			);
 			path = FortressWidget;
@@ -240,9 +259,11 @@
 			isa = PBXGroup;
 			children = (
 				7C7B671813812B22F14A97AE /* HockeyLineupApp.swift */,
+				DE7B40E0EF2101B57870675D /* AppIntents */,
 				07B5C89FCDAF4D1F4A433768 /* Extensions */,
 				1FF30AE4DB155E2F363E0863 /* Models */,
 				429E3071DFD302395D7D5C75 /* Persistence */,
+				692CD3A3C9082DAFD15F94EE /* Services */,
 				43722B42B94983499699EF93 /* Views */,
 			);
 			path = Sources;
@@ -254,6 +275,14 @@
 				3DA3E327EE5EADF533BDEA22 /* HockeyLineupTests */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		DE7B40E0EF2101B57870675D /* AppIntents */ = {
+			isa = PBXGroup;
+			children = (
+				017A9B878DA28B16B4293E2E /* NextFixtureIntent.swift */,
+			);
+			path = AppIntents;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -280,7 +309,7 @@
 			buildPhases = (
 				978BDE4E4FB1E5BC09F27B81 /* Sources */,
 				BFCBA161142A7964A0828CDC /* Embed Foundation Extensions */,
-				CEA024160DFF8E363EC4147F /* Resources */,
+				70D5E0C50C34E3B10365C147 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -341,11 +370,11 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		CEA024160DFF8E363EC4147F /* Resources */ = {
+		70D5E0C50C34E3B10365C147 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1458605F467479C6616754CA /* Assets.xcassets in Resources */,
+				C465866A3B066356CCE00FB1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +398,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A3B2B6B9958739F5200D176F /* ActivityShareSheet.swift in Sources */,
+				95CF61A8AD516B3CD0E0F8B4 /* CalendarService.swift in Sources */,
 				29D6851D1CFD334DB7CD81FC /* CloudKitSyncService.swift in Sources */,
 				C985C33D398C132A2CC0D3AC /* ClubCrestView.swift in Sources */,
 				A7E2A305B7CB89924838E942 /* Color+Hex.swift in Sources */,
@@ -383,7 +413,9 @@
 				5E030DE13C0F1E8823D30B50 /* LineupCard.swift in Sources */,
 				F3FC4ED9AF6A2B8DE5D577CD /* LineupEditorView.swift in Sources */,
 				776DD742C5A664333430C294 /* LineupStore.swift in Sources */,
+				99140DE8C7A08157B3F10DE2 /* MatchActivityAttributes.swift in Sources */,
 				C9FC23578B6F881A23A642E3 /* MatchResult.swift in Sources */,
+				1491A24D4D1068FC7AA7F81F /* NextFixtureIntent.swift in Sources */,
 				7F93A5071F278428D91FBCCE /* PitchMarkingsView.swift in Sources */,
 				5CE4AD0F42814D93859E92C2 /* PitchVenue.swift in Sources */,
 				9819AA45FD96FDC948C236B2 /* PitchVenuePickerView.swift in Sources */,
@@ -408,6 +440,8 @@
 				7208FA3BA0C6C76A6E8360F1 /* Color+Hex.swift in Sources */,
 				C6166FC55201B299DAB4237B /* FortressWidgetBundle.swift in Sources */,
 				AD61EA3BB106BC4062FA0CFF /* LeagueData.swift in Sources */,
+				886743C55781EBEDE71AEA19 /* MatchActivityAttributes.swift in Sources */,
+				757AC9785652DACA26035FF1 /* MatchLiveActivityWidget.swift in Sources */,
 				A2CB26A185CD8A0DBC773BC8 /* MatchResult.swift in Sources */,
 				97A96C0F074411F52154A2B3 /* NextFixtureWidget.swift in Sources */,
 				C9C5B291664F78109F871D8B /* PitchVenue.swift in Sources */,

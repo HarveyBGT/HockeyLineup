@@ -5,5 +5,6 @@ import SwiftUI
 struct FortressWidgetBundle: WidgetBundle {
     var body: some Widget {
         NextFixtureWidget()
+        MatchLiveActivityWidget()
     }
 }
