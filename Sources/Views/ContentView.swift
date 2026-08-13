@@ -2,10 +2,12 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject private var store: LineupStore
+    @EnvironmentObject private var playerStore: PlayerStore
     @State private var showFormationPicker = false
     @State private var showPlayerDatabase = false
     @State private var showSeasonRecord = false
     @State private var showClubSettings = false
+    @State private var showWelcome = false
     @State private var selectedCardID: UUID?
 
     private var sortedCards: [LineupCard] {
@@ -20,6 +22,12 @@ struct ContentView: View {
         return LeagueData.fixtures(forTeamID: MyTeam.teamID).first { $0.date >= now }
     }
 
+    /// The most recently touched lineup that isn't fully staffed yet — a
+    /// one-tap way back into unfinished work instead of hunting the list.
+    private var resumeCard: LineupCard? {
+        sortedCards.first { !$0.isPitchComplete }
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -27,6 +35,11 @@ struct ContentView: View {
                     heroCard
                         .padding(.horizontal, 16)
                         .padding(.top, 8)
+
+                    if let resumeCard {
+                        resumeBanner(for: resumeCard)
+                            .padding(.horizontal, 16)
+                    }
 
                     if store.cards.isEmpty {
                         emptyState
@@ -114,6 +127,14 @@ struct ContentView: View {
             .navigationDestination(item: $selectedCardID) { id in
                 LineupEditorView(cardID: id)
             }
+            .fullScreenCover(isPresented: $showWelcome) {
+                WelcomeView { showWelcome = false }
+            }
+            .onAppear {
+                if !MyTeam.hasBeenConfigured {
+                    showWelcome = true
+                }
+            }
         }
     }
 
@@ -138,9 +159,7 @@ struct ContentView: View {
 
                 Spacer()
 
-                Image(systemName: "shield.lefthalf.filled")
-                    .font(.system(size: 20))
-                    .foregroundStyle(Theme.fortressGold.opacity(0.5))
+                heroBadge
             }
 
             if let nextFixture {
@@ -164,44 +183,129 @@ struct ContentView: View {
         .elevatedShadow()
     }
 
+    /// Season W/D/L once there's a result to show, falling back to a
+    /// decorative shield before the first result is ever recorded.
+    @ViewBuilder
+    private var heroBadge: some View {
+        let record = store.cards.seasonRecord
+        if record.played > 0 {
+            HStack(spacing: 5) {
+                recordChip(record.wins, color: Theme.resultColor(.win))
+                recordChip(record.draws, color: Theme.resultColor(.draw))
+                recordChip(record.losses, color: Theme.resultColor(.loss))
+            }
+        } else {
+            Image(systemName: "shield.lefthalf.filled")
+                .font(.system(size: 20))
+                .foregroundStyle(Theme.fortressGold.opacity(0.5))
+        }
+    }
+
+    private func recordChip(_ count: Int, color: Color) -> some View {
+        Text("\(count)")
+            .font(.system(size: 12, weight: .bold, design: .rounded))
+            .foregroundStyle(.white)
+            .frame(width: 20, height: 20)
+            .background(color, in: Circle())
+    }
+
     private func nextFixtureRow(_ fixture: Fixture) -> some View {
         let opponentName = LeagueData.team(id: fixture.opponentID(for: MyTeam.teamID))?.name ?? "TBC"
         let isHome = fixture.isHome(for: MyTeam.teamID)
 
         return VStack(alignment: .leading, spacing: 6) {
-            Text("NEXT UP")
-                .font(.system(size: 10, weight: .bold, design: .rounded))
-                .tracking(1.2)
-                .foregroundStyle(Theme.fortressGold)
-
             HStack {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("vs \(opponentName)")
-                        .font(.system(size: 16, weight: .semibold, design: .rounded))
-                        .foregroundStyle(.white)
-                    Text("\(Self.heroDateFormatter.string(from: fixture.date)) · \(isHome ? "Home" : "Away")")
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundStyle(.white.opacity(0.7))
-                }
+                Text("NEXT UP")
+                    .font(.system(size: 10, weight: .bold, design: .rounded))
+                    .tracking(1.2)
+                    .foregroundStyle(Theme.fortressGold)
+
                 Spacer()
+
+                Text(fixture.countdownLabel())
+                    .font(.system(size: 10, weight: .bold, design: .rounded))
+                    .tracking(0.5)
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(Theme.fortressGold.opacity(0.25), in: Capsule())
+                    .overlay(Capsule().stroke(Theme.fortressGold.opacity(0.5), lineWidth: 1))
+            }
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text("vs \(opponentName)")
+                    .font(.system(size: 16, weight: .semibold, design: .rounded))
+                    .foregroundStyle(.white)
+                Text("\(Self.heroDateFormatter.string(from: fixture.date)) · \(isHome ? "Home" : "Away")")
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(.white.opacity(0.7))
             }
         }
     }
 
+    /// A one-tap way back into the most recently touched, still-unfinished
+    /// lineup — the "you were in the middle of something" nudge.
+    private func resumeBanner(for card: LineupCard) -> some View {
+        Button {
+            selectedCardID = card.id
+        } label: {
+            HStack(spacing: 14) {
+                Image(systemName: "arrow.uturn.forward.circle.fill")
+                    .font(.system(size: 30))
+                    .foregroundStyle(Theme.fortressGold)
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(card.opposition.isEmpty ? "Continue Building" : "Continue vs \(card.opposition)")
+                        .font(.system(size: 15, weight: .semibold, design: .rounded))
+                        .foregroundStyle(.primary)
+
+                    ProgressView(value: Double(card.filledPitchCount), total: Double(card.totalPitchCount))
+                        .tint(Theme.fortressGold)
+
+                    Text("\(card.filledPitchCount) of \(card.totalPitchCount) players placed")
+                        .font(.system(size: 11))
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(.tertiary)
+            }
+            .groupedCard()
+        }
+        .buttonStyle(PressableCardStyle())
+    }
+
+    /// Sequenced for what's actually blocking a first-time user: an empty
+    /// squad makes lineup-building pointless (Auto-Fill has no one to pick
+    /// from), so that has to be step one, not "tap + and see 11 empty slots."
     private var emptyState: some View {
         VStack(spacing: 16) {
-            Image(systemName: "shield.lefthalf.filled")
+            Image(systemName: playerStore.players.isEmpty ? "person.3.fill" : "shield.lefthalf.filled")
                 .font(.system(size: 40))
                 .foregroundStyle(Theme.fortressBlue)
-            Text("No Lineups Yet")
+
+            Text(playerStore.players.isEmpty ? "Add Your Squad First" : "No Lineups Yet")
                 .font(.system(size: 19, weight: .bold, design: .rounded))
-            Text("Tap + to build your first Fortress XI.")
+
+            Text(playerStore.players.isEmpty
+                 ? "Auto-Fill and lineup building need players to pick from — add your squad, then build your first lineup."
+                 : "Tap + to build your first Fortress XI.")
                 .font(.system(size: 14))
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
-            Button("New Lineup") { showFormationPicker = true }
-                .modifier(ProminentGlassButtonModifier())
-                .tint(Theme.fortressBlue)
+
+            Button(playerStore.players.isEmpty ? "Add Squad" : "New Lineup") {
+                if playerStore.players.isEmpty {
+                    showPlayerDatabase = true
+                } else {
+                    showFormationPicker = true
+                }
+            }
+            .modifier(ProminentGlassButtonModifier())
+            .tint(Theme.fortressBlue)
         }
         .padding(.horizontal, 32)
         .padding(.top, 40)
@@ -274,4 +378,5 @@ private struct LineupRow: View {
 #Preview {
     ContentView()
         .environmentObject(LineupStore())
+        .environmentObject(PlayerStore())
 }

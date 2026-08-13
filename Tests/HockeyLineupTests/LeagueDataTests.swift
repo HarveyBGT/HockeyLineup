@@ -1,3 +1,4 @@
+import Foundation
 import Testing
 @testable import HockeyLineup
 
@@ -62,5 +63,26 @@ struct LeagueDataTests {
     @Test func unknownTeamIDLookupReturnsNil() {
         #expect(LeagueData.team(id: "not-a-real-team") == nil)
         #expect(LeagueData.team(id: nil) == nil)
+    }
+
+    // MARK: - Fixture.countdownLabel
+
+    @Test func countdownLabelIsTodayForTheSameDay() {
+        let fixture = LeagueData.fixtures[0]
+        #expect(fixture.countdownLabel(from: fixture.date) == "TODAY")
+        // Later the same calendar day still reads as TODAY, not a negative count.
+        #expect(fixture.countdownLabel(from: fixture.date.addingTimeInterval(6 * 3600)) == "TODAY")
+    }
+
+    @Test func countdownLabelIsTomorrowOneDayOut() {
+        let fixture = LeagueData.fixtures[0]
+        let reference = Calendar.current.date(byAdding: .day, value: -1, to: fixture.date)!
+        #expect(fixture.countdownLabel(from: reference) == "TOMORROW")
+    }
+
+    @Test func countdownLabelCountsDaysBeyondTomorrow() {
+        let fixture = LeagueData.fixtures[0]
+        let reference = Calendar.current.date(byAdding: .day, value: -4, to: fixture.date)!
+        #expect(fixture.countdownLabel(from: reference) == "IN 4 DAYS")
     }
 }

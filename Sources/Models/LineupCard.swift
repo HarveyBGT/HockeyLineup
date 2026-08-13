@@ -134,6 +134,15 @@ struct LineupCard: Identifiable, Codable, Equatable {
         return .draw
     }
 
+    /// How many pitch positions (not bench) currently have a player in
+    /// them, out of the total for this lineup's formation.
+    var filledPitchCount: Int { playerIDs.compactMap { $0 }.count }
+    var totalPitchCount: Int { playerIDs.count }
+
+    /// Whether every pitch position is filled — the bench and officials
+    /// don't count, since those are secondary to actually fielding a team.
+    var isPitchComplete: Bool { totalPitchCount > 0 && filledPitchCount == totalPitchCount }
+
     init(formation: Formation) {
         self.formationID = formation.id
         self.playerIDs = Array(repeating: nil, count: formation.positions.count)

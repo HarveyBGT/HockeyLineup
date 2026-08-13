@@ -9,9 +9,7 @@ struct SeasonRecordView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var playedCards: [LineupCard] { store.cards.filter { $0.result != nil } }
-    private var wins: Int { playedCards.filter { $0.result == .win }.count }
-    private var draws: Int { playedCards.filter { $0.result == .draw }.count }
-    private var losses: Int { playedCards.filter { $0.result == .loss }.count }
+    private var record: SeasonRecord { store.cards.seasonRecord }
 
     /// Played matches oldest-first, for the form chart.
     private var formSequence: [LineupCard] {
@@ -48,9 +46,9 @@ struct SeasonRecordView: View {
             List {
                 Section {
                     HStack(spacing: 0) {
-                        recordStat(value: wins, label: "Won", color: Theme.resultColor(.win))
-                        recordStat(value: draws, label: "Drawn", color: Theme.resultColor(.draw))
-                        recordStat(value: losses, label: "Lost", color: Theme.resultColor(.loss))
+                        recordStat(value: record.wins, label: "Won", color: Theme.resultColor(.win))
+                        recordStat(value: record.draws, label: "Drawn", color: Theme.resultColor(.draw))
+                        recordStat(value: record.losses, label: "Lost", color: Theme.resultColor(.loss))
                     }
                     .padding(.vertical, 8)
 

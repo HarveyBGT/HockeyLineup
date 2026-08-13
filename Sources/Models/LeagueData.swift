@@ -22,6 +22,19 @@ struct Fixture: Identifiable, Codable, Hashable {
     func isHome(for teamID: String) -> Bool {
         homeTeamID == teamID
     }
+
+    /// A short countdown label relative to `referenceDate` — "TODAY",
+    /// "TOMORROW", or "IN 4 DAYS" — for a fixture that hasn't happened yet.
+    func countdownLabel(from referenceDate: Date = Date(), calendar: Calendar = .current) -> String {
+        let startOfReference = calendar.startOfDay(for: referenceDate)
+        let startOfFixtureDay = calendar.startOfDay(for: date)
+        let days = calendar.dateComponents([.day], from: startOfReference, to: startOfFixtureDay).day ?? 0
+        switch days {
+        case ..<1: return "TODAY"
+        case 1: return "TOMORROW"
+        default: return "IN \(days) DAYS"
+        }
+    }
 }
 
 /// Seed data pulled live from london.englandhockey.co.uk (London Open -
@@ -282,4 +295,13 @@ enum MyTeam {
     }
 
     static var name: String { LeagueData.team(id: teamID)?.name ?? "My Team" }
+
+    /// Whether a team has ever actually been chosen, as opposed to `teamID`
+    /// just falling back to its Barnes default — drives whether `WelcomeView`
+    /// shows on first launch. Checked directly against `UserDefaults` rather
+    /// than through the defaulted getter above, which can't tell "never set"
+    /// from "explicitly set to Barnes."
+    static var hasBeenConfigured: Bool {
+        UserDefaults.standard.string(forKey: teamIDDefaultsKey) != nil
+    }
 }

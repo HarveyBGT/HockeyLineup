@@ -369,4 +369,32 @@ struct LineupCardTests {
         let card = LineupCard(formation: Formation.preset(id: "5-3-2"))
         #expect(card.placementLabel(for: UUID(), excluding: .pitch(0)) == nil)
     }
+
+    // MARK: - Pitch completeness
+
+    @Test func freshLineupIsNotPitchComplete() {
+        let card = LineupCard(formation: Formation.preset(id: "5-3-2"))
+        #expect(card.filledPitchCount == 0)
+        #expect(card.totalPitchCount == 11)
+        #expect(card.isPitchComplete == false)
+    }
+
+    @Test func lineupIsPitchCompleteOnlyWhenEveryPositionIsFilled() {
+        var card = LineupCard(formation: Formation.preset(id: "5-3-2"))
+        for index in card.playerIDs.indices {
+            card.assign(UUID(), to: .pitch(index))
+        }
+        #expect(card.filledPitchCount == 11)
+        #expect(card.isPitchComplete == true)
+
+        card.assign(nil, to: .pitch(0))
+        #expect(card.isPitchComplete == false)
+    }
+
+    @Test func benchAssignmentsDoNotCountTowardsPitchCompleteness() {
+        var card = LineupCard(formation: Formation.preset(id: "5-3-2"))
+        card.assign(UUID(), to: .bench(0))
+        #expect(card.filledPitchCount == 0)
+        #expect(card.isPitchComplete == false)
+    }
 }

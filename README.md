@@ -209,6 +209,29 @@ This does **not** reconfigure the widget or Watch app: they read their own sandb
 already required for iCloud sync. It also doesn't cover a club outside the existing catalogue, or
 custom branding (app name, uploaded crest) — that's a bigger, not-yet-built feature.
 
+**First launch**: `WelcomeView` shows once, before `MyTeam.hasBeenConfigured` is true, so a fresh
+install prompts you to pick a club instead of silently defaulting to Barnes. It wraps the same
+`ClubSettingsView` (via an `onSave` callback), so there's only one place team/venue picking is
+implemented.
+
+## Home screen
+
+Beyond the lineup list, the home screen (`ContentView`) does a few things to be useful before and
+after you've built anything:
+
+- **Hero card**: club crest, home ground, and a "Next Up" fixture teaser with a countdown
+  ("TODAY" / "TOMORROW" / "IN N DAYS", see `Fixture.countdownLabel`) — pulled live from
+  `LeagueData`, so it's meaningful even with zero saved lineups.
+- **Season record chips**: once at least one lineup has a recorded result, the hero's decorative
+  shield is replaced with W/D/L chips (`SeasonRecord`, shared with `SeasonRecordView` so the
+  counting logic only exists once).
+- **Resume banner**: the most recently touched lineup that isn't fully staffed yet
+  (`LineupCard.isPitchComplete`) gets a one-tap "Continue vs ..." card with a progress bar, above
+  the full list.
+- **Empty state is sequenced**: an empty squad blocks lineup-building more than an empty lineup
+  list does (Auto-Fill has nothing to pick from), so `ContentView` nudges to Add Squad first if
+  `PlayerStore` is empty, and to New Lineup only once there's a squad to build from.
+
 ## Known limitations
 
 - Portrait only.

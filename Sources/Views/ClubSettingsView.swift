@@ -9,6 +9,9 @@ struct ClubSettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var teamID: String = MyTeam.teamID
     @State private var pitchVenueID: String = MyTeam.pitchVenueID ?? PitchVenue.classicGreen.id
+    /// Called after a successful save — lets `WelcomeView` know first-run
+    /// setup is done, without this view needing to know about onboarding.
+    var onSave: (() -> Void)?
 
     var body: some View {
         NavigationStack {
@@ -44,6 +47,7 @@ struct ClubSettingsView: View {
                         MyTeam.teamID = teamID
                         MyTeam.pitchVenueID = pitchVenueID
                         dismiss()
+                        onSave?()
                     }
                 }
             }
