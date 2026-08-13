@@ -37,6 +37,33 @@ targets:
         CURRENT_PROJECT_VERSION: "1"
         GENERATE_INFOPLIST_FILE: true
         CODE_SIGN_ENTITLEMENTS: Resources/HockeyLineup.entitlements
+    dependencies:
+      - target: FortressWidgetExtension
+        embed: true
+
+  FortressWidgetExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: Widgets/FortressWidget
+      - path: Sources/Models/LeagueData.swift
+      - path: Sources/Models/PitchVenue.swift
+      - path: Sources/Models/MatchResult.swift
+      - path: Sources/Extensions/Theme.swift
+      - path: Sources/Extensions/Color+Hex.swift
+    info:
+      path: Generated/FortressWidgetExtension-Info.plist
+      properties:
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.hockeylineup.FortressWidget
+        PRODUCT_NAME: FortressWidget
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        GENERATE_INFOPLIST_FILE: true
+        SWIFT_EMIT_LOC_STRINGS: false
 
   HockeyLineupTests:
     type: bundle.unit-test

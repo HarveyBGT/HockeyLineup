@@ -40,6 +40,7 @@ Named after Dukes Meadow, Barnes Hockey Club's home pitch — known to players a
   (Barnes HC's Dukes Meadow, Surbiton, Southgate, and more) or a generic classic-green pitch, each
   with a stylised flat crest and its own pitch background colour.
 - Drag players between positions, tap an empty slot to assign someone.
+- **Home screen widget**: shows the next upcoming fixture at a glance (see below).
 
 ## Getting started
 
@@ -116,9 +117,22 @@ Deleting a lineup or player locally doesn't yet propagate as a deletion to other
 creates/updates sync) — a deleted record with no further edits will keep reappearing until this
 gets addressed.
 
+## Home screen widget
+
+A small/medium widget (`Widgets/FortressWidget`) shows Barnes M3's next upcoming fixture —
+opponent, date/time, home/away, and venue — refreshed once a day. It's a separate `app-extension`
+target (`FortressWidgetExtension`) embedded in the main app, and deliberately reads only the
+static `LeagueData`/`PitchVenue` seed data (not your saved lineups), so it works immediately with
+no iCloud/App Group setup required.
+
+**To add it to a home screen**: build and run the app once on a device or simulator (this installs
+the widget extension alongside it), then long-press the home screen → **+** → search "Fortress" →
+add the Next Fixture widget.
+
 ## Known limitations
 
 - Portrait only.
 - Pitch venue colours are a stylistic default (blue), since real clubs don't publish their actual
   turf colour — Barnes HC's Dukes Meadow is confirmed blue; the rest are a best guess.
 - Deletion isn't synced via iCloud yet (see above).
+- The widget doesn't reflect saved lineups (e.g. confirmed squad) — just the fixture schedule.

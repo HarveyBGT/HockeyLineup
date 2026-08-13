@@ -26,18 +26,6 @@ enum PlayerSlot: Equatable {
     }
 }
 
-enum MatchResult: String, Codable {
-    case win, draw, loss
-
-    var label: String {
-        switch self {
-        case .win: return "Win"
-        case .draw: return "Draw"
-        case .loss: return "Loss"
-        }
-    }
-}
-
 struct LineupCard: Identifiable, Codable, Equatable {
     var id: UUID = UUID()
     var clubName: String = MyTeam.name
