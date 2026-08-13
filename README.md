@@ -69,8 +69,15 @@ Named after Dukes Meadow, Barnes Hockey Club's home pitch — known to players a
 - **Signing team**: in Xcode → target → Signing & Capabilities, select your Apple Developer team.
   You'll need an Apple Developer Program membership ($99/yr) to submit to the App Store (a free
   personal-team signing is enough to run on your own device for testing).
-- **App icon**: `Resources/Assets.xcassets/AppIcon.appiconset/icon-1024.png` is a flat navy/gold
-  crenellated shield mark (the "Fortress" crest) — swap it for your own 1024×1024 design if you
+- **App icon**: `Resources/Assets.xcassets/AppIcon.appiconset/` — a bold gold crenellated shield
+  (the "Fortress" crest) on a navy gradient, rendered via a CoreGraphics script rather than drawn
+  by hand (see `git log` for `make_icon.swift` if you want to tweak and regenerate it). Ships all
+  three iOS 18+ appearance variants: `icon-1024.png` (Any/Light), `icon-1024-dark.png` (Dark, a
+  deeper near-black background so it doesn't clash with other dark-mode icons), and
+  `icon-1024-tinted.png` (Tinted — a grayscale rendition; the system applies the user's chosen
+  Home Screen tint colour over it). All three **must stay fully opaque with no alpha channel** —
+  an icon with an alpha channel silently falls back to a placeholder on the Home Screen instead of
+  failing loudly, which cost a round-trip finding out. Swap all three for your own design if you
   fork this for another club.
 - **App name / display name**: the home-screen name ("Fortress") is set via `CFBundleDisplayName`
   under `targets.HockeyLineup.info.properties` in `project.yml`; the Xcode project/scheme name and

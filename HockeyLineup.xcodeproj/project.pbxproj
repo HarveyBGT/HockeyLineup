@@ -52,8 +52,8 @@
 		97A96C0F074411F52154A2B3 /* NextFixtureWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5128EF47B4A70846AF63C767 /* NextFixtureWidget.swift */; };
 		9819AA45FD96FDC948C236B2 /* PitchVenuePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032A4820AFBCBA260EE45CC /* PitchVenuePickerView.swift */; };
 		99140DE8C7A08157B3F10DE2 /* MatchActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A96E0169F97A3FB59CAC64 /* MatchActivityAttributes.swift */; };
-		9B4C3CC940ED9EFA283C8321 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DFEA9874EFBE4B042E48B35 /* Assets.xcassets */; };
 		9F1057CBE3781D7568238969 /* FortressWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0201E154A3C8468B5BD10D82 /* FortressWatchApp.swift */; };
+		9F957AEE5EFF430BD3588D17 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A99A496E94C603BBD703CC7D /* Assets.xcassets */; };
 		A2747DD4137A4900FBF2A8E9 /* PlayerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417339181E61AF783EE9D586 /* PlayerStore.swift */; };
 		A2CB26A185CD8A0DBC773BC8 /* MatchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80966925E61F554767EBED9 /* MatchResult.swift */; };
 		A3B2B6B9958739F5200D176F /* ActivityShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A53C9764EF1C981518F0EE1 /* ActivityShareSheet.swift */; };
@@ -200,10 +200,10 @@
 		9828F73FEA48BA463C9B1BBD /* MatchDetailsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchDetailsSection.swift; sourceTree = "<group>"; };
 		9AC2F81519F1FED52D30DCAB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9DC4451148CC8FD396AAA464 /* PlayerAppearanceStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerAppearanceStats.swift; sourceTree = "<group>"; };
-		9DFEA9874EFBE4B042E48B35 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		9EBC900ECD8AC0182EEBAA96 /* ViewRendering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRendering.swift; sourceTree = "<group>"; };
 		A068BD0E75D69FD7A9722E00 /* SuperSubsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperSubsSection.swift; sourceTree = "<group>"; };
 		A0C0C475D2DA67BA4F3EF1B4 /* SeasonRecordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonRecordTests.swift; sourceTree = "<group>"; };
+		A99A496E94C603BBD703CC7D /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		ACE728B336097EE99FE1BE2A /* FortressWatchWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FortressWatchWidgetBundle.swift; sourceTree = "<group>"; };
 		AD6FED1F283421E47F4B5EA2 /* CalendarServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarServiceTests.swift; sourceTree = "<group>"; };
 		B53087EA0843DBBF6EF9CC8F /* LineupCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineupCard.swift; sourceTree = "<group>"; };
@@ -254,7 +254,7 @@
 				903894DEAA6A945CDEA1DB63 /* Watch */,
 				0A7FF61315C4ACADAC9ABBCC /* Widgets */,
 				41387F83DB554187EE138F60 /* Products */,
-				9DFEA9874EFBE4B042E48B35 /* Assets.xcassets */,
+				A99A496E94C603BBD703CC7D /* Assets.xcassets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -471,7 +471,7 @@
 				978BDE4E4FB1E5BC09F27B81 /* Sources */,
 				BFCBA161142A7964A0828CDC /* Embed Foundation Extensions */,
 				689243DBA212EA01672B911A /* Embed Watch Content */,
-				2BA0E53538130325F26E1C8D /* Resources */,
+				DA7AE25B3DC465EBD94FC2B4 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -552,11 +552,11 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		2BA0E53538130325F26E1C8D /* Resources */ = {
+		DA7AE25B3DC465EBD94FC2B4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B4C3CC940ED9EFA283C8321 /* Assets.xcassets in Resources */,
+				9F957AEE5EFF430BD3588D17 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
