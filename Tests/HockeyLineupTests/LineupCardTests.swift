@@ -323,4 +323,50 @@ struct LineupCardTests {
         #expect(card.awayScore == nil)
         #expect(card.result == nil)
     }
+
+    // MARK: - recordResult
+
+    @Test func recordResultMapsOurScoreToHomeScoreWhenHome() {
+        var card = LineupCard(formation: Formation.presets[0])
+        card.isHome = true
+        card.recordResult(ourScore: 4, opponentScore: 2)
+        #expect(card.homeScore == 4)
+        #expect(card.awayScore == 2)
+    }
+
+    @Test func recordResultMapsOurScoreToAwayScoreWhenAway() {
+        var card = LineupCard(formation: Formation.presets[0])
+        card.isHome = false
+        card.recordResult(ourScore: 4, opponentScore: 2)
+        #expect(card.homeScore == 2)
+        #expect(card.awayScore == 4)
+    }
+
+    // MARK: - placementLabel
+
+    @Test func placementLabelIsNilWhenPlayerIsInTheExcludedSlot() {
+        var card = LineupCard(formation: Formation.preset(id: "5-3-2"))
+        let playerID = UUID()
+        card.assign(playerID, to: .pitch(2))
+        #expect(card.placementLabel(for: playerID, excluding: .pitch(2)) == nil)
+    }
+
+    @Test func placementLabelDescribesAPitchPositionWithItsRole() {
+        var card = LineupCard(formation: Formation.preset(id: "5-3-2"))
+        let playerID = UUID()
+        card.assign(playerID, to: .pitch(0)) // goalkeeper slot
+        #expect(card.placementLabel(for: playerID, excluding: .bench(0)) == "On pitch — GK")
+    }
+
+    @Test func placementLabelDescribesTheBench() {
+        var card = LineupCard(formation: Formation.preset(id: "5-3-2"))
+        let playerID = UUID()
+        card.assign(playerID, to: .bench(1))
+        #expect(card.placementLabel(for: playerID, excluding: .pitch(0)) == "On bench")
+    }
+
+    @Test func placementLabelIsNilWhenPlayerIsNotPlacedAnywhere() {
+        let card = LineupCard(formation: Formation.preset(id: "5-3-2"))
+        #expect(card.placementLabel(for: UUID(), excluding: .pitch(0)) == nil)
+    }
 }

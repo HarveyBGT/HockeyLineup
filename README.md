@@ -96,7 +96,13 @@ Named after Dukes Meadow, Barnes Hockey Club's home pitch — known to players a
 - `Sources/Views/ExportCardView.swift` — a plain (non-interactive) styled version of the lineup,
   rendered off-screen to a JPEG via `ImageRenderer` when you tap Share.
 - `Sources/Views/ContentView.swift`, `FormationPickerView.swift`, `LineupEditorView.swift` — the
-  main screens: saved lineups list → pick a formation → edit & share.
+  main screens: saved lineups list → pick a formation → edit & share. `LineupEditorView` is an
+  orchestrator over `Sources/Views/LineupEditor/` — `MatchDetailsSection`, `ResultSection`,
+  `MatchDaySection`, `KitFormationSection`, `SuperSubsSection` — each a focused subview.
+- `Sources/Models/LineupAutoFiller.swift` — the Auto-Fill logic (squad picking order, role
+  matching), split out from the view so it's unit-testable on its own.
+- `Sources/Models/MatchActivityController.swift` — owns a lineup's Live Activity lifecycle
+  (start/update/end), separate from `MatchDaySection`'s view code.
 
 ## Testing
 

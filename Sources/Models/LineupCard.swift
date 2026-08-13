@@ -224,6 +224,31 @@ struct LineupCard: Identifiable, Codable, Equatable {
         place(sourcePlayer, at: destination)
     }
 
+    /// Records a final score from *our* perspective, mapping it onto the
+    /// home/away score fields correctly regardless of which side we're on.
+    mutating func recordResult(ourScore: Int, opponentScore: Int) {
+        if isHome {
+            homeScore = ourScore
+            awayScore = opponentScore
+        } else {
+            homeScore = opponentScore
+            awayScore = ourScore
+        }
+    }
+
+    /// Short label for where `playerID` is currently placed, unless that's
+    /// `slot` itself (nothing to report — that's the position being edited).
+    func placementLabel(for playerID: UUID, excluding slot: PlayerSlot) -> String? {
+        guard let currentSlot = self.slot(of: playerID), currentSlot != slot else { return nil }
+        switch currentSlot {
+        case .pitch(let index):
+            let role = formation.positions.first(where: { $0.id == index })?.role
+            return role.map { "On pitch — \($0.rawValue)" } ?? "On pitch"
+        case .bench:
+            return "On bench"
+        }
+    }
+
     private mutating func place(_ playerID: UUID?, at slot: PlayerSlot) {
         switch slot {
         case .pitch(let index):
