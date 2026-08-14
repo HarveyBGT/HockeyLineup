@@ -203,6 +203,17 @@ Lock Screen and, on supported devices, the Dynamic Island. +/- counters push a l
 score changes; ending it writes the final score back onto the lineup's own Result section. If the
 app is relaunched mid-match, it reattaches to the running activity rather than losing track of it.
 
+## Match reminders
+
+Every save (`LineupStore.upsert`) reschedules a local notification via `MatchReminderScheduler`:
+if a lineup still isn't fully staffed (`LineupCard.isPitchComplete`), it fires at 6pm the evening
+before kickoff ("3 spots still need a player for vs Old Tonbridgians M1 tomorrow"). Deleting a
+lineup cancels its reminder. Best-effort, like the rest of the system integrations — it silently
+does nothing if notifications aren't authorized or there's no match date to anchor to, and the
+in-app UI never depends on it firing. `LineupCard.reminderDate` and
+`MatchReminderScheduler.shouldSchedule` are pure and tested independently of
+`UNUserNotificationCenter` itself.
+
 ## Club Settings
 
 The gear icon on the main screen opens **Club Settings**, which picks `MyTeam.teamID` and

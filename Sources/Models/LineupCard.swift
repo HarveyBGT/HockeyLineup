@@ -143,6 +143,16 @@ struct LineupCard: Identifiable, Codable, Equatable {
     /// don't count, since those are secondary to actually fielding a team.
     var isPitchComplete: Bool { totalPitchCount > 0 && filledPitchCount == totalPitchCount }
 
+    /// 6pm the evening before kickoff — when a "lineup not finished yet"
+    /// reminder should fire if the lineup isn't fully staffed by then. Nil
+    /// if there's no match date to anchor to.
+    var reminderDate: Date? {
+        guard let matchDate else { return nil }
+        let calendar = Calendar.current
+        guard let dayBefore = calendar.date(byAdding: .day, value: -1, to: matchDate) else { return nil }
+        return calendar.date(bySettingHour: 18, minute: 0, second: 0, of: dayBefore)
+    }
+
     init(formation: Formation) {
         self.formationID = formation.id
         self.playerIDs = Array(repeating: nil, count: formation.positions.count)

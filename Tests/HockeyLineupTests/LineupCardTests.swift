@@ -397,4 +397,31 @@ struct LineupCardTests {
         #expect(card.filledPitchCount == 0)
         #expect(card.isPitchComplete == false)
     }
+
+    // MARK: - reminderDate
+
+    @Test func reminderDateIsSixPmTheDayBeforeKickoff() {
+        var card = LineupCard(formation: Formation.presets[0])
+        var components = DateComponents()
+        components.year = 2026
+        components.month = 9
+        components.day = 19
+        components.hour = 14
+        let kickoff = Calendar.current.date(from: components)!
+        card.matchDate = kickoff
+
+        let reminder = card.reminderDate
+        #expect(reminder != nil)
+        let reminderComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: reminder ?? kickoff)
+        #expect(reminderComponents.year == 2026)
+        #expect(reminderComponents.month == 9)
+        #expect(reminderComponents.day == 18)
+        #expect(reminderComponents.hour == 18)
+        #expect(reminderComponents.minute == 0)
+    }
+
+    @Test func reminderDateIsNilWithoutAMatchDate() {
+        let card = LineupCard(formation: Formation.presets[0])
+        #expect(card.reminderDate == nil)
+    }
 }

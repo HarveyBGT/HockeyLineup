@@ -16,6 +16,10 @@ device pairing don't have a code-level fix, so they're staged instead.
   date set, tap "Add to Calendar" once, and allow access. Doing this live
   means a system permission dialog interrupts your flow at the exact moment
   you're trying to show off the feature.
+- [ ] **Pre-grant Notifications access.** Save any incomplete lineup with a
+  match date set once beforehand — that's what triggers the permission
+  prompt for match reminders. Same reasoning as Calendar: better as a
+  pre-demo step than a mid-flow interruption.
 - [ ] **Confirm Live Activities are enabled**: Settings → Fortress → Live
   Activities → on. The app now tells you if this is off instead of the
   button silently doing nothing (see below), but it's still better to walk

@@ -29,11 +29,13 @@ final class LineupStore: ObservableObject {
             cards.append(card)
         }
         scheduleSave()
+        MatchReminderScheduler.reschedule(for: card)
     }
 
     func delete(id: UUID) {
         cards.removeAll { $0.id == id }
         scheduleSave()
+        MatchReminderScheduler.cancelReminder(for: id)
     }
 
     /// Writes out immediately, skipping the debounce — call when the app is
